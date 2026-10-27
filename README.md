@@ -1,5 +1,7 @@
 # Small Shop Sales Prediction System
 
+ <!-- python -m uvicorn main:app --reload -->
+
 Initial project setup only. Requirements are in [plan.md](plan.md).
 
 ```text
