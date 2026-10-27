@@ -54,6 +54,20 @@ class SaleInput(Input):
         return self
 
 
+class SaleUpdate(Input):
+    product_id: UUID | None = None
+    sale_date: date | None = None
+    quantity: Annotated[StrictInt, Field(gt=0, le=1_000_000)] | None = None
+    unit_price: Money | None = None
+
+    @model_validator(mode="after")
+    def provided_values_not_null(self):
+        for name in self.model_fields_set:
+            if getattr(self, name) is None:
+                raise ValueError(f"{name} cannot be null")
+        return self
+
+
 class TrainInput(Input):
     missing_policy: Literal["reject", "zero"] = "reject"
     confirm_complete: bool = False

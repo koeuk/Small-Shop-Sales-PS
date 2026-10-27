@@ -28,7 +28,7 @@ closing the tab or signing out clears the browser session. Expired tokens requir
 sign-in again. Sign-out does not revoke a copied token before its expiry.
 
 MySQL uses a dedicated account limited to the application and test schemas. MySQL
-has no PostgreSQL-style RLS in this implementation; access is enforced in the API.
+uses API ownership checks to restrict access to shop records.
 Database credentials and signing secrets never enter the frontend bundle.
 
 ## 2. Products and sales

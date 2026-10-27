@@ -80,6 +80,9 @@ def test_product_sales_and_historical_prices(auth):
     updated = auth.patch(f"/api/sales/{created.json()['id']}", json=payload)
     assert updated.status_code == 200
     assert Decimal(str(updated.json()["total_amount"])) == Decimal("10.00")
+    partial = auth.patch(f"/api/sales/{created.json()['id']}", json={"quantity": 2})
+    assert partial.status_code == 200, partial.text
+    assert Decimal(str(partial.json()["total_amount"])) == Decimal("5.00")
     assert auth.delete(f"/api/products/{item['id']}").json()["action"] == "archived"
     assert auth.get("/api/products").json()["total"] == 0
     assert auth.get("/api/products?include_archived=true").json()["total"] == 1

@@ -18,8 +18,9 @@ SCREENSHOTS.mkdir(parents=True, exist_ok=True)
 
 
 def capture(page, filename):
-    for button in page.get_by_role("button", name="Dismiss notification").all():
-        button.click()
+    notifications = page.get_by_role("button", name="Dismiss notification")
+    while notifications.count():
+        notifications.first.click()
     page.evaluate("document.fonts.ready")
     page.screenshot(path=str(SCREENSHOTS / filename), full_page=True)
 

@@ -12,6 +12,7 @@ from uuid import UUID, uuid4
 from fastapi import Depends, FastAPI, File, Form, HTTPException, Query, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, Response
+from pydantic import ValidationError
 from sqlalchemy import func, inspect, select
 from sqlalchemy.exc import IntegrityError, OperationalError
 
@@ -30,7 +31,7 @@ from .ml import (
 )
 from .models import DataImport, MLModel, Prediction, Product, Sale, utcnow
 from .product_names import normalize_name
-from .schemas import ForecastInput, ProductInput, ProductUpdate, SaleInput, TrainInput
+from .schemas import ForecastInput, ProductInput, ProductUpdate, SaleInput, SaleUpdate, TrainInput
 from .seed import seed_demo
 
 logger = logging.getLogger(__name__)
@@ -282,10 +283,19 @@ def create_sale(payload: SaleInput, owner_id: str = Depends(current_user)):
 
 
 @app.patch("/api/sales/{record_id}")
-def update_sale(record_id: UUID, payload: SaleInput, owner_id: str = Depends(current_user)):
+def update_sale(record_id: UUID, payload: SaleUpdate, owner_id: str = Depends(current_user)):
     with session_scope(owner_id) as session:
         record = owned(session, Sale, record_id, owner_id)
-        return assign_sale(session, owner_id, payload, record)
+        values = {
+            key: getattr(record, key)
+            for key in ("product_id", "sale_date", "quantity", "unit_price")
+        }
+        values.update(payload.model_dump(exclude_unset=True))
+        try:
+            validated = SaleInput.model_validate(values)
+        except ValidationError as exc:
+            raise HTTPException(422, "; ".join(error["msg"] for error in exc.errors()))
+        return assign_sale(session, owner_id, validated, record)
 
 
 @app.delete("/api/sales/{record_id}", status_code=204)
