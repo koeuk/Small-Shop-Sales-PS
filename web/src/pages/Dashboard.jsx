@@ -47,7 +47,7 @@ function Stat({ title, value, icon: Icon, children, highlight = false }) {
 
 export default function Dashboard() {
   const { data, loading, error, reload } = useResource("/dashboard");
-  const { config } = useAuth();
+  const { config, user } = useAuth();
   const notify = useToast();
   const [seeding, setSeeding] = useState(false);
   const [period, setPeriod] = useState(30);
@@ -100,7 +100,7 @@ export default function Dashboard() {
               </p>
             </div>
           </div>
-          <Button busy={seeding} onClick={seed}>
+          <Button busy={seeding} disabled={user.role !== "administrator"} onClick={seed}>
             Load sample data
             <ArrowUpRight size={17} />
           </Button>

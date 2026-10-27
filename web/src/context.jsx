@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { AuthContext, ToastContext } from "./contexts";
-import { api, clearSession, getSession, saveSession } from "./api";
+import { api, clearSession, getSession, saveSession, updateSessionUser } from "./api";
 import { CheckCircle2, X, AlertCircle } from "lucide-react";
 
 export function AuthProvider({ children }) {
@@ -30,6 +30,9 @@ export function AuthProvider({ children }) {
     let active = true;
     if (getSession())
       api("/auth/me")
+        .then((profile) => {
+          if (active) { setUser(profile); updateSessionUser(profile); }
+        })
         .catch(() => {
           if (active) {
             clearSession();
@@ -65,6 +68,11 @@ export function AuthProvider({ children }) {
     clearSession();
     setUser(null);
   };
+  const refreshUser = async () => {
+    const profile = await api("/auth/me");
+    setUser(profile);
+    updateSessionUser(profile);
+  };
   return (
     <AuthContext.Provider
       value={{
@@ -75,6 +83,7 @@ export function AuthProvider({ children }) {
         expired,
         login,
         logout,
+        refreshUser,
         retryConfig: () => setAttempt((value) => value + 1),
       }}
     >

@@ -42,7 +42,9 @@ class User(Base):
     token_version: Mapped[int] = mapped_column(Integer, default=1)
     created_at: Mapped[datetime] = mapped_column(UTC_DATETIME, default=utcnow)
     updated_at: Mapped[datetime] = mapped_column(UTC_DATETIME, default=utcnow, onupdate=utcnow)
-    __table_args__ = (CheckConstraint("role IN ('administrator', 'operator')", name="users_role_valid"),)
+    __table_args__ = (
+        CheckConstraint("role IN ('administrator', 'operator')", name="users_role_valid"),
+    )
 
 
 class Record:

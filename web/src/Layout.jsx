@@ -12,6 +12,7 @@ import {
   Sprout,
   Store,
   Upload,
+  UsersRound,
   X,
 } from "lucide-react";
 import { NavLink, Navigate, Outlet, useLocation } from "react-router-dom";
@@ -26,6 +27,7 @@ const navigation = [
   ["/imports", "Import data", Upload],
   ["/training", "Model training", FlaskConical],
   ["/predictions", "Forecasts", BarChart3],
+  ["/users", "Users", UsersRound],
 ];
 
 export default function Layout() {
@@ -78,7 +80,7 @@ export default function Layout() {
         </div>
         <p className="nav-label">WORKSPACE</p>
         <nav aria-label="Main navigation">
-          {navigation.map(([path, label, Icon], index) => (
+          {navigation.filter(([path]) => path !== "/users" || user.role === "administrator").map(([path, label, Icon], index) => (
             <NavLink
               to={path}
               onClick={() => setOpen(false)}
@@ -112,7 +114,7 @@ export default function Layout() {
           <button className="account" onClick={logout}>
             <span className="user-avatar">A</span>
             <span>
-              <strong>Shop administrator</strong>
+              <strong>{user.name || "Shop administrator"}</strong>
               <small>Sign out of workspace</small>
             </span>
             <LogOut size={17} />

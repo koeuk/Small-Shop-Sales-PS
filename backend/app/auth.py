@@ -38,12 +38,22 @@ def bootstrap_administrator():
             return
         email = settings.admin_email.strip().casefold()
         if session.scalar(select(User.id).where(User.email == email)):
-            raise RuntimeError("Administrator email already belongs to another ID; check ADMIN_USER_ID")
+            raise RuntimeError(
+                "Administrator email already belongs to another ID; check ADMIN_USER_ID"
+            )
         if settings.mode == "production" and (
             len(settings.admin_password) < 12 or settings.admin_password == "shopdemo2026"
         ):
-            raise RuntimeError("Creating the initial production user requires a custom ADMIN_PASSWORD of at least 12 characters")
-        session.add(User(id=settings.admin_id, email=email, password_hash=hash_password(settings.admin_password)))
+            raise RuntimeError(
+                "Creating the initial production user requires a custom ADMIN_PASSWORD of at least 12 characters"
+            )
+        session.add(
+            User(
+                id=settings.admin_id,
+                email=email,
+                password_hash=hash_password(settings.admin_password),
+            )
+        )
         session.commit()
 
 
@@ -58,7 +68,9 @@ def demo_account_config():
         user = session.get(User, settings.admin_id)
         return {
             "demo_email": user.email if user else None,
-            "default_demo_password": bool(user and user.is_active and verify_password("shopdemo2026", user.password_hash)),
+            "default_demo_password": bool(
+                user and user.is_active and verify_password("shopdemo2026", user.password_hash)
+            ),
         }
 
 
@@ -71,7 +83,12 @@ def sign_in(login: Login):
     with Session(engine, expire_on_commit=False) as session:
         user = session.scalar(select(User).where(User.email == login.email.strip().casefold()))
         password_valid = verify_password(login.password, user.password_hash if user else dummy_hash)
-        if not password_valid or not user or not user.is_active or user.role not in {"administrator", "operator"}:
+        if (
+            not password_valid
+            or not user
+            or not user.is_active
+            or user.role not in {"administrator", "operator"}
+        ):
             raise HTTPException(401, "Email or password is incorrect")
         if password_hasher.check_needs_rehash(user.password_hash):
             user.password_hash = hash_password(login.password)
@@ -112,8 +129,17 @@ def current_identity(credentials: HTTPAuthorizationCredentials | None = Depends(
         owner_id = str(UUID(claims["sub"]))
         with Session(engine, expire_on_commit=False) as session:
             user = session.get(User, owner_id)
-            if not user or not user.is_active or user.role not in {"administrator", "operator"} or claims.get("ver") != user.token_version:
-                raise HTTPException(401, "Account or session is no longer active; please sign in again", headers={"WWW-Authenticate": "Bearer"})
+            if (
+                not user
+                or not user.is_active
+                or user.role not in {"administrator", "operator"}
+                or claims.get("ver") != user.token_version
+            ):
+                raise HTTPException(
+                    401,
+                    "Account or session is no longer active; please sign in again",
+                    headers={"WWW-Authenticate": "Bearer"},
+                )
         return user
     except (jwt.PyJWTError, ValueError, KeyError):
         raise HTTPException(

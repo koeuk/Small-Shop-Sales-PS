@@ -23,6 +23,11 @@ export function clearSession() {
   sessionStorage.removeItem(KEY);
 }
 
+export function updateSessionUser(user) {
+  const session = getSession();
+  if (session) sessionStorage.setItem(KEY, JSON.stringify({ ...session, user }));
+}
+
 export async function api(
   path,
   { method = "GET", body, signal, raw = false, publicRequest = false } = {},

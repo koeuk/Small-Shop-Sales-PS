@@ -1,10 +1,18 @@
-from datetime import date, datetime
 import re
+from datetime import date, datetime
 from decimal import Decimal
 from typing import Annotated, Literal
 from uuid import UUID
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StringConstraints, field_validator, model_validator
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    StrictInt,
+    StringConstraints,
+    field_validator,
+    model_validator,
+)
 
 from .config import settings
 
@@ -87,7 +95,9 @@ class ForecastInput(Input):
 class UserInput(Input):
     name: str = Field(min_length=1, max_length=100)
     email: str = Field(min_length=3, max_length=255)
-    password: Annotated[str, StringConstraints(strip_whitespace=False, min_length=12, max_length=256)]
+    password: Annotated[
+        str, StringConstraints(strip_whitespace=False, min_length=12, max_length=256)
+    ]
     role: Literal["administrator", "operator"] = "operator"
 
     @field_validator("email")
@@ -96,6 +106,7 @@ class UserInput(Input):
         if not re.fullmatch(r"[^\s@]+@[^\s@]+\.[^\s@]+", value):
             raise ValueError("Enter a valid email address")
         return value.casefold()
+
 
 class UserUpdate(Input):
     name: str | None = Field(default=None, min_length=1, max_length=100)

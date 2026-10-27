@@ -14,6 +14,7 @@ import Predictions from "./pages/Predictions";
 import Products from "./pages/Products";
 import Sales from "./pages/Sales";
 import Training from "./pages/Training";
+import Users from "./pages/Users";
 import { Empty } from "./components";
 import "./App.css";
 
@@ -31,6 +32,7 @@ export default function App() {
               <Route path="/imports" element={<Imports />} />
               <Route path="/training" element={<Training />} />
               <Route path="/predictions" element={<Predictions />} />
+              <Route path="/users" element={<Users />} />
               <Route
                 path="*"
                 element={

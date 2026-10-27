@@ -44,9 +44,7 @@ class Settings:
         UUID(self.admin_id)
         if self.mode == "production":
             if len(self.jwt_secret) < 32:
-                raise RuntimeError(
-                    "Production requires JWT_SECRET (32+ characters)"
-                )
+                raise RuntimeError("Production requires JWT_SECRET (32+ characters)")
             if not self.database_url.startswith("mysql+pymysql://"):
                 raise RuntimeError("Production requires a MySQL database")
 

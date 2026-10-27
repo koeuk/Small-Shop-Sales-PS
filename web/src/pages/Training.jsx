@@ -20,11 +20,13 @@ import {
   PageHeading,
   RevenueChart,
 } from "../components";
-import { useToast } from "../hooks";
+import { useAuth, useToast } from "../hooks";
 import { useResource } from "../hooks";
 import { day, money, number, timestamp } from "../utils";
 
 export default function Training() {
+  const { user } = useAuth();
+  const isAdministrator = user.role === "administrator";
   const dataset = useResource("/ml/dataset");
   const models = useResource("/ml/models");
   const [busy, setBusy] = useState(false);
@@ -90,7 +92,7 @@ export default function Training() {
       >
         <Button
           busy={busy}
-          disabled={!enough || (quality.missing_days > 0 && !confirmZero)}
+          disabled={!isAdministrator || !enough || (quality.missing_days > 0 && !confirmZero)}
           onClick={train}
         >
           <Play size={16} />

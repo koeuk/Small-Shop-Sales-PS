@@ -16,10 +16,20 @@ from pydantic import ValidationError
 from sqlalchemy import func, inspect, select
 from sqlalchemy.exc import IntegrityError, OperationalError
 
-from .auth import Login, bootstrap_administrator, current_identity, current_user, demo_account_config, public_user, require_administrator, sign_in
+from .auth import (
+    Login,
+    bootstrap_administrator,
+    current_identity,
+    current_user,
+    demo_account_config,
+    public_user,
+    require_administrator,
+    sign_in,
+)
 from .config import settings
 from .database import Base, engine, session_scope
 from .imports import MAX_FILE_BYTES, commit_import, prepare_import
+from .migrations import migrate_user_ownership
 from .ml import (
     TRAINING_LOCK,
     daily_history,
@@ -30,7 +40,6 @@ from .ml import (
     train_models,
 )
 from .models import DataImport, MLModel, Prediction, Product, Sale, User, utcnow
-from .migrations import migrate_user_ownership
 from .product_names import normalize_name
 from .schemas import ForecastInput, ProductInput, ProductUpdate, SaleInput, SaleUpdate, TrainInput
 from .seed import seed_demo

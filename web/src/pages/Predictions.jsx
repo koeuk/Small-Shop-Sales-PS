@@ -18,11 +18,13 @@ import {
   PageHeading,
   RevenueChart,
 } from "../components";
-import { useToast } from "../hooks";
+import { useAuth, useToast } from "../hooks";
 import { useResource } from "../hooks";
 import { day, money, timestamp } from "../utils";
 
 export default function Predictions() {
+  const { user } = useAuth();
+  const isAdministrator = user.role === "administrator";
   const models = useResource("/ml/models");
   const history = useResource("/predictions");
   const [modelId, setModelId] = useState("");
@@ -120,7 +122,7 @@ export default function Predictions() {
             ))}
           </select>
         </div>
-        <Button busy={busy} disabled={!model || model.stale} onClick={generate}>
+        <Button busy={busy} disabled={!isAdministrator || !model || model.stale} onClick={generate}>
           <Sparkles size={17} />
           Generate 7-day forecast
         </Button>
