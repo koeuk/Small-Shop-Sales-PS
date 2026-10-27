@@ -1,10 +1,10 @@
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
-import "@fontsource/dm-sans/400.css";
-import "@fontsource/dm-sans/500.css";
-import "@fontsource/dm-sans/600.css";
-import "@fontsource/dm-sans/700.css";
-import "@fontsource/newsreader/400.css";
-import "@fontsource/newsreader/400-italic.css";
+import "@fontsource/dm-sans/latin-400.css";
+import "@fontsource/dm-sans/latin-500.css";
+import "@fontsource/dm-sans/latin-600.css";
+import "@fontsource/dm-sans/latin-700.css";
+import "@fontsource/newsreader/latin-400.css";
+import "@fontsource/newsreader/latin-400-italic.css";
 import { AuthProvider, ToastProvider } from "./context";
 import Layout from "./Layout";
 import Dashboard from "./pages/Dashboard";

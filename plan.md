@@ -4,13 +4,13 @@ Small Shop Sales Prediction System
 
 Machine Learning–Focused University Project
 
-Prepared for: Software Project Management | Prepared by: Kos Koeuk | Version: 1.0 | Date: 27 October 2026
+Prepared for: Software Project Management | Prepared by: Kos Koeuk | Version: 1.1 | Date: 27 October 2026
 
 Status: Proposed requirements — subject to supervisor approval
 
 1. Executive Summary
 
-This project is a small-shop revenue forecasting application. Users import or enter historical sales, review data quality, train and evaluate regression models, generate seven-day daily revenue forecasts, and view actual-versus-predicted charts. React.js provides the interface; FastAPI handles business logic and model execution; PostgreSQL (Supabase) stores transactional records and metadata. The core educational objective is a reproducible machine-learning pipeline, not a full POS system.
+This project is a small-shop revenue forecasting application. Users import or enter historical sales, review data quality, train and evaluate regression models, generate seven-day daily revenue forecasts, and view actual-versus-predicted charts. React.js provides the interface; FastAPI handles business logic and model execution; MySQL 8.4 stores transactional records and metadata. The core educational objective is a reproducible machine-learning pipeline, not a full POS system.
 
 2. Objectives and Success Measures
 
@@ -50,7 +50,7 @@ Unauthenticated visitor
 
 No access to protected data or model endpoints.
 
-Use Supabase Auth for sign-in; a separate application users table is not required for this prototype. Backend authorization and database row-level security must protect records.
+Use FastAPI administrator sign-in with signed, expiring JWTs. Administrator credentials are configured on the server; a separate application users table is not required for this single-administrator prototype. Backend authorization and ownership checks must protect records. MySQL is private to the backend and uses a dedicated database account.
 
 5. Functional Requirements
 
@@ -152,7 +152,7 @@ Allow downloading forecast results as CSV (optional enhancement).
 
 6. Data Dictionary — Five Tables
 
-Use PostgreSQL UUID primary keys (gen_random_uuid()), numeric monetary values, UTC timestamps, and appropriate foreign keys. Currency is fixed to USD for the prototype; do not mix currencies.
+Use application-generated UUID primary keys (stored as CHAR(32) by SQLAlchemy and returned as standard UUID strings), DECIMAL monetary values, UTC DATETIME timestamps, and appropriate foreign keys. Every table includes owner_id for backend ownership checks. Currency is fixed to USD for the prototype; do not mix currencies.
 
 6.x products
 
@@ -188,13 +188,13 @@ Current list price, >= 0
 
 created_at
 
-TIMESTAMPTZ
+DATETIME (UTC)
 
 Default now()
 
 updated_at
 
-TIMESTAMPTZ
+DATETIME (UTC)
 
 Updated on edit
 
@@ -250,7 +250,7 @@ Optional reference to data_imports.id
 
 created_at
 
-TIMESTAMPTZ
+DATETIME (UTC)
 
 Default now()
 
@@ -300,7 +300,7 @@ Validation and import errors
 
 created_at
 
-TIMESTAMPTZ
+DATETIME (UTC)
 
 Default now()
 
@@ -362,7 +362,7 @@ Trusted model artifact location
 
 trained_at
 
-TIMESTAMPTZ
+DATETIME (UTC)
 
 Default now()
 
@@ -400,7 +400,7 @@ Forecast daily revenue, >= 0
 
 created_at
 
-TIMESTAMPTZ
+DATETIME (UTC)
 
 Default now()
 
@@ -560,7 +560,7 @@ GET
 
 Daily sales summaries and chart data
 
-Protected endpoints require a verified Supabase access token. Return JSON with meaningful HTTP status codes (400 invalid input, 401 unauthenticated, 403 forbidden, 404 missing resource, 422 validation error, 500 unexpected failure). Long-running training may use background jobs; a synchronous endpoint is acceptable for a small dataset.
+Protected endpoints require a verified backend-issued administrator access token. Return JSON with meaningful HTTP status codes (400 invalid input, 401 unauthenticated, 403 forbidden, 404 missing resource, 422 validation error, 500 unexpected failure). Long-running training may use background jobs; a synchronous endpoint is acceptable for a small dataset.
 
 11. Non-Functional Requirements
 
@@ -568,7 +568,7 @@ Usability: responsive React interface for desktop and mobile; readable labels, l
 
 Performance target: ordinary CRUD and dashboard API responses under ~2 seconds for a classroom dataset of up to 10,000 sale rows on a suitable development machine; training may take longer.
 
-Security: verify JWTs server-side; enable RLS; keep Supabase service credentials and model storage secrets out of the browser; validate uploads and restrict file size (e.g., 5 MB).
+Security: verify JWTs server-side; enforce ownership in backend queries; keep MySQL credentials, JWT signing secrets, and model storage out of the browser; validate uploads and restrict file size (e.g., 5 MB).
 
 Reliability: database transactions for imports, clear error reporting, and repeatable training runs with fixed random seed where applicable.
 
@@ -708,7 +708,7 @@ Assumptions: single shop, one currency (USD), daily sales recorded consistently,
 
 React frontend and FastAPI backend source code.
 
-Supabase database schema and sample/synthetic dataset.
+MySQL database schema and sample/synthetic dataset.
 
 Trained ML model artifacts and evaluation metrics.
 
@@ -716,6 +716,8 @@ Working seven-day sales forecast and dashboard.
 
 Test results, screenshots, installation guide, and final project demonstration.
 
-End of Software Requirements Specification — Version 1.0
+End of Software Requirements Specification — Version 1.1
 
-Small Shop Sales Prediction System  |  SRS v1.0
+Small Shop Sales Prediction System  |  SRS v1.1
+
+Revision 1.1: Per project owner request, MySQL replaces the original database provider and FastAPI handles administrator authentication. Local demo mode still uses MySQL; synthetic data remains explicitly labeled.

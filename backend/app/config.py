@@ -1,6 +1,6 @@
 import os
 import secrets
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from urllib.parse import quote_plus
 from uuid import UUID
@@ -31,7 +31,7 @@ class Settings:
     admin_password: str = os.getenv("ADMIN_PASSWORD", os.getenv("DEMO_PASSWORD", "shopdemo2026"))
     admin_id: str = os.getenv("ADMIN_USER_ID", DEMO_USER_ID)
     jwt_secret: str = os.getenv("JWT_SECRET", "")
-    timezone: ZoneInfo = ZoneInfo(os.getenv("SHOP_TIMEZONE", "Asia/Phnom_Penh"))
+    timezone: ZoneInfo = field(default_factory=lambda: ZoneInfo(os.getenv("SHOP_TIMEZONE", "Asia/Phnom_Penh")))
     origins: tuple = tuple(
         os.getenv("CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173").split(",")
     )

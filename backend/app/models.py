@@ -115,3 +115,9 @@ class Prediction(Record, Base):
         UniqueConstraint("run_id", "prediction_date", name="predictions_run_date"),
         Index("predictions_model_date", "model_id", "prediction_date"),
     )
+
+
+for table in Base.metadata.tables.values():
+    table.dialect_options["mysql"].update(
+        engine="InnoDB", charset="utf8mb4", collate="utf8mb4_bin"
+    )
