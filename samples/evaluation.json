@@ -1,0 +1,771 @@
+{
+  "synthetic": true,
+  "description": "Classroom demonstration; measured accuracy is not a guarantee.",
+  "sales_rows": 900,
+  "models": [
+    {
+      "id": "55343628-0ccb-4445-89a6-f0f8735eb4dc",
+      "model_name": "Random forest",
+      "algorithm": "random_forest",
+      "training_start_date": "2026-04-30",
+      "training_end_date": "2026-10-26",
+      "mae": 18.417412223065018,
+      "rmse": 23.421253349441397,
+      "trained_at": "2026-10-27 12:39:21.078658",
+      "metadata": {
+        "splits": {
+          "test": [
+            "2026-09-30",
+            "2026-10-26"
+          ],
+          "train": [
+            "2026-04-30",
+            "2026-09-01"
+          ],
+          "validation": [
+            "2026-09-02",
+            "2026-09-29"
+          ]
+        },
+        "batch_id": "beeb20e4-21e5-4d98-982c-6920c78c1cc3",
+        "features": [
+          "weekday_sin",
+          "weekday_cos",
+          "month_sin",
+          "month_cos",
+          "weekend",
+          "lag_1",
+          "lag_7",
+          "lag_14",
+          "trailing_7_mean",
+          "day_index"
+        ],
+        "strategy": "Recursive seven-day forecast; negative outputs are clamped to zero.",
+        "synthetic": true,
+        "test_wape": 6.599470869578705,
+        "evaluation": "Rolling origins in seven-day recursive blocks; no actual values inside a forecast block.",
+        "filled_days": 0,
+        "fingerprint": "17f937e3254b4fd073ae4c447a88c382b89d5c25091bf6daf6cdaa37cb202b5c",
+        "random_seed": 42,
+        "recommended": false,
+        "test_points": [
+          {
+            "date": "2026-09-30",
+            "actual": 265.0,
+            "predicted": 244.8
+          },
+          {
+            "date": "2026-10-01",
+            "actual": 257.5,
+            "predicted": 248.03
+          },
+          {
+            "date": "2026-10-02",
+            "actual": 273.5,
+            "predicted": 248.68
+          },
+          {
+            "date": "2026-10-03",
+            "actual": 286.5,
+            "predicted": 306.25
+          },
+          {
+            "date": "2026-10-04",
+            "actual": 312.0,
+            "predicted": 308.5
+          },
+          {
+            "date": "2026-10-05",
+            "actual": 258.0,
+            "predicted": 257.65
+          },
+          {
+            "date": "2026-10-06",
+            "actual": 242.5,
+            "predicted": 252.44
+          },
+          {
+            "date": "2026-10-07",
+            "actual": 222.5,
+            "predicted": 251.91
+          },
+          {
+            "date": "2026-10-08",
+            "actual": 241.0,
+            "predicted": 247.36
+          },
+          {
+            "date": "2026-10-09",
+            "actual": 269.5,
+            "predicted": 252.61
+          },
+          {
+            "date": "2026-10-10",
+            "actual": 300.0,
+            "predicted": 301.62
+          },
+          {
+            "date": "2026-10-11",
+            "actual": 291.0,
+            "predicted": 310.8
+          },
+          {
+            "date": "2026-10-12",
+            "actual": 261.0,
+            "predicted": 254.69
+          },
+          {
+            "date": "2026-10-13",
+            "actual": 251.5,
+            "predicted": 254.39
+          },
+          {
+            "date": "2026-10-14",
+            "actual": 241.0,
+            "predicted": 247.96
+          },
+          {
+            "date": "2026-10-15",
+            "actual": 265.0,
+            "predicted": 249.34
+          },
+          {
+            "date": "2026-10-16",
+            "actual": 252.5,
+            "predicted": 252.76
+          },
+          {
+            "date": "2026-10-17",
+            "actual": 344.0,
+            "predicted": 302.65
+          },
+          {
+            "date": "2026-10-18",
+            "actual": 319.0,
+            "predicted": 304.16
+          },
+          {
+            "date": "2026-10-19",
+            "actual": 259.0,
+            "predicted": 254.51
+          },
+          {
+            "date": "2026-10-20",
+            "actual": 292.0,
+            "predicted": 252.02
+          },
+          {
+            "date": "2026-10-21",
+            "actual": 272.5,
+            "predicted": 254.4
+          },
+          {
+            "date": "2026-10-22",
+            "actual": 302.0,
+            "predicted": 257.44
+          },
+          {
+            "date": "2026-10-23",
+            "actual": 305.5,
+            "predicted": 253.03
+          },
+          {
+            "date": "2026-10-24",
+            "actual": 341.5,
+            "predicted": 304.65
+          },
+          {
+            "date": "2026-10-25",
+            "actual": 334.0,
+            "predicted": 305.35
+          },
+          {
+            "date": "2026-10-26",
+            "actual": 275.5,
+            "predicted": 253.71
+          }
+        ],
+        "calendar_days": 180,
+        "observed_days": 180,
+        "missing_policy": "reject",
+        "validation_mae": 17.505647080597946,
+        "sklearn_version": "1.9.1",
+        "validation_rmse": 20.902835348033165
+      },
+      "stale": false
+    },
+    {
+      "id": "caaf6a16-0350-4efa-9392-2e7e0be6efd2",
+      "model_name": "Linear regression",
+      "algorithm": "linear_regression",
+      "training_start_date": "2026-04-30",
+      "training_end_date": "2026-10-26",
+      "mae": 14.156946534881227,
+      "rmse": 18.21657923929337,
+      "trained_at": "2026-10-27 12:39:21.078657",
+      "metadata": {
+        "splits": {
+          "test": [
+            "2026-09-30",
+            "2026-10-26"
+          ],
+          "train": [
+            "2026-04-30",
+            "2026-09-01"
+          ],
+          "validation": [
+            "2026-09-02",
+            "2026-09-29"
+          ]
+        },
+        "batch_id": "beeb20e4-21e5-4d98-982c-6920c78c1cc3",
+        "features": [
+          "weekday_sin",
+          "weekday_cos",
+          "month_sin",
+          "month_cos",
+          "weekend",
+          "lag_1",
+          "lag_7",
+          "lag_14",
+          "trailing_7_mean",
+          "day_index"
+        ],
+        "strategy": "Recursive seven-day forecast; negative outputs are clamped to zero.",
+        "synthetic": true,
+        "test_wape": 5.072827557289888,
+        "evaluation": "Rolling origins in seven-day recursive blocks; no actual values inside a forecast block.",
+        "filled_days": 0,
+        "fingerprint": "17f937e3254b4fd073ae4c447a88c382b89d5c25091bf6daf6cdaa37cb202b5c",
+        "random_seed": 42,
+        "recommended": true,
+        "test_points": [
+          {
+            "date": "2026-09-30",
+            "actual": 265.0,
+            "predicted": 254.09
+          },
+          {
+            "date": "2026-10-01",
+            "actual": 257.5,
+            "predicted": 260.98
+          },
+          {
+            "date": "2026-10-02",
+            "actual": 273.5,
+            "predicted": 257.42
+          },
+          {
+            "date": "2026-10-03",
+            "actual": 286.5,
+            "predicted": 305.73
+          },
+          {
+            "date": "2026-10-04",
+            "actual": 312.0,
+            "predicted": 309.14
+          },
+          {
+            "date": "2026-10-05",
+            "actual": 258.0,
+            "predicted": 255.47
+          },
+          {
+            "date": "2026-10-06",
+            "actual": 242.5,
+            "predicted": 253.52
+          },
+          {
+            "date": "2026-10-07",
+            "actual": 222.5,
+            "predicted": 260.88
+          },
+          {
+            "date": "2026-10-08",
+            "actual": 241.0,
+            "predicted": 264.59
+          },
+          {
+            "date": "2026-10-09",
+            "actual": 269.5,
+            "predicted": 266.51
+          },
+          {
+            "date": "2026-10-10",
+            "actual": 300.0,
+            "predicted": 305.58
+          },
+          {
+            "date": "2026-10-11",
+            "actual": 291.0,
+            "predicted": 309.94
+          },
+          {
+            "date": "2026-10-12",
+            "actual": 261.0,
+            "predicted": 263.98
+          },
+          {
+            "date": "2026-10-13",
+            "actual": 251.5,
+            "predicted": 261.95
+          },
+          {
+            "date": "2026-10-14",
+            "actual": 241.0,
+            "predicted": 253.05
+          },
+          {
+            "date": "2026-10-15",
+            "actual": 265.0,
+            "predicted": 259.19
+          },
+          {
+            "date": "2026-10-16",
+            "actual": 252.5,
+            "predicted": 259.25
+          },
+          {
+            "date": "2026-10-17",
+            "actual": 344.0,
+            "predicted": 306.62
+          },
+          {
+            "date": "2026-10-18",
+            "actual": 319.0,
+            "predicted": 307.39
+          },
+          {
+            "date": "2026-10-19",
+            "actual": 259.0,
+            "predicted": 261.94
+          },
+          {
+            "date": "2026-10-20",
+            "actual": 292.0,
+            "predicted": 259.58
+          },
+          {
+            "date": "2026-10-21",
+            "actual": 272.5,
+            "predicted": 274.89
+          },
+          {
+            "date": "2026-10-22",
+            "actual": 302.0,
+            "predicted": 275.29
+          },
+          {
+            "date": "2026-10-23",
+            "actual": 305.5,
+            "predicted": 268.84
+          },
+          {
+            "date": "2026-10-24",
+            "actual": 341.5,
+            "predicted": 319.67
+          },
+          {
+            "date": "2026-10-25",
+            "actual": 334.0,
+            "predicted": 322.24
+          },
+          {
+            "date": "2026-10-26",
+            "actual": 275.5,
+            "predicted": 270.58
+          }
+        ],
+        "calendar_days": 180,
+        "observed_days": 180,
+        "missing_policy": "reject",
+        "validation_mae": 15.089333075114965,
+        "sklearn_version": "1.9.1",
+        "validation_rmse": 19.11712866575042
+      },
+      "stale": false
+    },
+    {
+      "id": "de848d7c-57b2-4082-a862-d88764e10e74",
+      "model_name": "Previous week",
+      "algorithm": "seasonal_naive",
+      "training_start_date": "2026-04-30",
+      "training_end_date": "2026-10-26",
+      "mae": 20.14814814814815,
+      "rmse": 24.59448899426229,
+      "trained_at": "2026-10-27 12:39:21.078656",
+      "metadata": {
+        "splits": {
+          "test": [
+            "2026-09-30",
+            "2026-10-26"
+          ],
+          "train": [
+            "2026-04-30",
+            "2026-09-01"
+          ],
+          "validation": [
+            "2026-09-02",
+            "2026-09-29"
+          ]
+        },
+        "batch_id": "beeb20e4-21e5-4d98-982c-6920c78c1cc3",
+        "features": [
+          "weekday_sin",
+          "weekday_cos",
+          "month_sin",
+          "month_cos",
+          "weekend",
+          "lag_1",
+          "lag_7",
+          "lag_14",
+          "trailing_7_mean",
+          "day_index"
+        ],
+        "strategy": "Recursive seven-day forecast; negative outputs are clamped to zero.",
+        "synthetic": true,
+        "test_wape": 7.219641672196417,
+        "evaluation": "Rolling origins in seven-day recursive blocks; no actual values inside a forecast block.",
+        "filled_days": 0,
+        "fingerprint": "17f937e3254b4fd073ae4c447a88c382b89d5c25091bf6daf6cdaa37cb202b5c",
+        "random_seed": 42,
+        "recommended": false,
+        "test_points": [
+          {
+            "date": "2026-09-30",
+            "actual": 265.0,
+            "predicted": 251.5
+          },
+          {
+            "date": "2026-10-01",
+            "actual": 257.5,
+            "predicted": 250.0
+          },
+          {
+            "date": "2026-10-02",
+            "actual": 273.5,
+            "predicted": 235.5
+          },
+          {
+            "date": "2026-10-03",
+            "actual": 286.5,
+            "predicted": 304.5
+          },
+          {
+            "date": "2026-10-04",
+            "actual": 312.0,
+            "predicted": 320.5
+          },
+          {
+            "date": "2026-10-05",
+            "actual": 258.0,
+            "predicted": 250.5
+          },
+          {
+            "date": "2026-10-06",
+            "actual": 242.5,
+            "predicted": 230.5
+          },
+          {
+            "date": "2026-10-07",
+            "actual": 222.5,
+            "predicted": 265.0
+          },
+          {
+            "date": "2026-10-08",
+            "actual": 241.0,
+            "predicted": 257.5
+          },
+          {
+            "date": "2026-10-09",
+            "actual": 269.5,
+            "predicted": 273.5
+          },
+          {
+            "date": "2026-10-10",
+            "actual": 300.0,
+            "predicted": 286.5
+          },
+          {
+            "date": "2026-10-11",
+            "actual": 291.0,
+            "predicted": 312.0
+          },
+          {
+            "date": "2026-10-12",
+            "actual": 261.0,
+            "predicted": 258.0
+          },
+          {
+            "date": "2026-10-13",
+            "actual": 251.5,
+            "predicted": 242.5
+          },
+          {
+            "date": "2026-10-14",
+            "actual": 241.0,
+            "predicted": 222.5
+          },
+          {
+            "date": "2026-10-15",
+            "actual": 265.0,
+            "predicted": 241.0
+          },
+          {
+            "date": "2026-10-16",
+            "actual": 252.5,
+            "predicted": 269.5
+          },
+          {
+            "date": "2026-10-17",
+            "actual": 344.0,
+            "predicted": 300.0
+          },
+          {
+            "date": "2026-10-18",
+            "actual": 319.0,
+            "predicted": 291.0
+          },
+          {
+            "date": "2026-10-19",
+            "actual": 259.0,
+            "predicted": 261.0
+          },
+          {
+            "date": "2026-10-20",
+            "actual": 292.0,
+            "predicted": 251.5
+          },
+          {
+            "date": "2026-10-21",
+            "actual": 272.5,
+            "predicted": 241.0
+          },
+          {
+            "date": "2026-10-22",
+            "actual": 302.0,
+            "predicted": 265.0
+          },
+          {
+            "date": "2026-10-23",
+            "actual": 305.5,
+            "predicted": 252.5
+          },
+          {
+            "date": "2026-10-24",
+            "actual": 341.5,
+            "predicted": 344.0
+          },
+          {
+            "date": "2026-10-25",
+            "actual": 334.0,
+            "predicted": 319.0
+          },
+          {
+            "date": "2026-10-26",
+            "actual": 275.5,
+            "predicted": 259.0
+          }
+        ],
+        "calendar_days": 180,
+        "observed_days": 180,
+        "missing_policy": "reject",
+        "validation_mae": 16.446428571428573,
+        "sklearn_version": "1.9.1",
+        "validation_rmse": 21.15103003233108
+      },
+      "stale": false
+    },
+    {
+      "id": "f7f232ee-a8c5-4dd8-8259-65daea6173dc",
+      "model_name": "Historical average",
+      "algorithm": "historical_average",
+      "training_start_date": "2026-04-30",
+      "training_end_date": "2026-10-26",
+      "mae": 29.2269426289034,
+      "rmse": 38.97155651181503,
+      "trained_at": "2026-10-27 12:39:21.078652",
+      "metadata": {
+        "splits": {
+          "test": [
+            "2026-09-30",
+            "2026-10-26"
+          ],
+          "train": [
+            "2026-04-30",
+            "2026-09-01"
+          ],
+          "validation": [
+            "2026-09-02",
+            "2026-09-29"
+          ]
+        },
+        "batch_id": "beeb20e4-21e5-4d98-982c-6920c78c1cc3",
+        "features": [
+          "weekday_sin",
+          "weekday_cos",
+          "month_sin",
+          "month_cos",
+          "weekend",
+          "lag_1",
+          "lag_7",
+          "lag_14",
+          "trailing_7_mean",
+          "day_index"
+        ],
+        "strategy": "Recursive seven-day forecast; negative outputs are clamped to zero.",
+        "synthetic": true,
+        "test_wape": 10.472826157669436,
+        "evaluation": "Rolling origins in seven-day recursive blocks; no actual values inside a forecast block.",
+        "filled_days": 0,
+        "fingerprint": "17f937e3254b4fd073ae4c447a88c382b89d5c25091bf6daf6cdaa37cb202b5c",
+        "random_seed": 42,
+        "recommended": false,
+        "test_points": [
+          {
+            "date": "2026-09-30",
+            "actual": 265.0,
+            "predicted": 256.26
+          },
+          {
+            "date": "2026-10-01",
+            "actual": 257.5,
+            "predicted": 256.26
+          },
+          {
+            "date": "2026-10-02",
+            "actual": 273.5,
+            "predicted": 256.26
+          },
+          {
+            "date": "2026-10-03",
+            "actual": 286.5,
+            "predicted": 256.26
+          },
+          {
+            "date": "2026-10-04",
+            "actual": 312.0,
+            "predicted": 256.26
+          },
+          {
+            "date": "2026-10-05",
+            "actual": 258.0,
+            "predicted": 256.26
+          },
+          {
+            "date": "2026-10-06",
+            "actual": 242.5,
+            "predicted": 256.26
+          },
+          {
+            "date": "2026-10-07",
+            "actual": 222.5,
+            "predicted": 256.26
+          },
+          {
+            "date": "2026-10-08",
+            "actual": 241.0,
+            "predicted": 256.26
+          },
+          {
+            "date": "2026-10-09",
+            "actual": 269.5,
+            "predicted": 256.26
+          },
+          {
+            "date": "2026-10-10",
+            "actual": 300.0,
+            "predicted": 256.26
+          },
+          {
+            "date": "2026-10-11",
+            "actual": 291.0,
+            "predicted": 256.26
+          },
+          {
+            "date": "2026-10-12",
+            "actual": 261.0,
+            "predicted": 256.26
+          },
+          {
+            "date": "2026-10-13",
+            "actual": 251.5,
+            "predicted": 256.26
+          },
+          {
+            "date": "2026-10-14",
+            "actual": 241.0,
+            "predicted": 256.26
+          },
+          {
+            "date": "2026-10-15",
+            "actual": 265.0,
+            "predicted": 256.26
+          },
+          {
+            "date": "2026-10-16",
+            "actual": 252.5,
+            "predicted": 256.26
+          },
+          {
+            "date": "2026-10-17",
+            "actual": 344.0,
+            "predicted": 256.26
+          },
+          {
+            "date": "2026-10-18",
+            "actual": 319.0,
+            "predicted": 256.26
+          },
+          {
+            "date": "2026-10-19",
+            "actual": 259.0,
+            "predicted": 256.26
+          },
+          {
+            "date": "2026-10-20",
+            "actual": 292.0,
+            "predicted": 256.26
+          },
+          {
+            "date": "2026-10-21",
+            "actual": 272.5,
+            "predicted": 256.26
+          },
+          {
+            "date": "2026-10-22",
+            "actual": 302.0,
+            "predicted": 256.26
+          },
+          {
+            "date": "2026-10-23",
+            "actual": 305.5,
+            "predicted": 256.26
+          },
+          {
+            "date": "2026-10-24",
+            "actual": 341.5,
+            "predicted": 256.26
+          },
+          {
+            "date": "2026-10-25",
+            "actual": 334.0,
+            "predicted": 256.26
+          },
+          {
+            "date": "2026-10-26",
+            "actual": 275.5,
+            "predicted": 256.26
+          }
+        ],
+        "calendar_days": 180,
+        "observed_days": 180,
+        "missing_policy": "reject",
+        "validation_mae": 28.072999999999997,
+        "sklearn_version": "1.9.1",
+        "validation_rmse": 35.734909118595574
+      },
+      "stale": false
+    }
+  ]
+}

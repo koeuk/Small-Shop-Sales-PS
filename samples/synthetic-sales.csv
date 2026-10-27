@@ -1,0 +1,901 @@
+sale_date,product_name,quantity,unit_price
+2026-04-30,Butter croissant,18,2.50
+2026-04-30,Chocolate cookie,20,1.50
+2026-04-30,Coffee,24,2.00
+2026-04-30,Iced latte,18,3.50
+2026-04-30,Matcha tea,12,3.00
+2026-05-01,Butter croissant,16,2.50
+2026-05-01,Chocolate cookie,20,1.50
+2026-05-01,Coffee,20,2.00
+2026-05-01,Iced latte,19,3.50
+2026-05-01,Matcha tea,11,3.00
+2026-05-02,Butter croissant,20,2.50
+2026-05-02,Chocolate cookie,23,1.50
+2026-05-02,Coffee,30,2.00
+2026-05-02,Iced latte,25,3.50
+2026-05-02,Matcha tea,16,3.00
+2026-05-03,Butter croissant,20,2.50
+2026-05-03,Chocolate cookie,25,1.50
+2026-05-03,Coffee,27,2.00
+2026-05-03,Iced latte,23,3.50
+2026-05-03,Matcha tea,18,3.00
+2026-05-04,Butter croissant,18,2.50
+2026-05-04,Chocolate cookie,23,1.50
+2026-05-04,Coffee,26,2.00
+2026-05-04,Iced latte,15,3.50
+2026-05-04,Matcha tea,12,3.00
+2026-05-05,Butter croissant,19,2.50
+2026-05-05,Chocolate cookie,18,1.50
+2026-05-05,Coffee,24,2.00
+2026-05-05,Iced latte,20,3.50
+2026-05-05,Matcha tea,13,3.00
+2026-05-06,Butter croissant,15,2.50
+2026-05-06,Chocolate cookie,19,1.50
+2026-05-06,Coffee,27,2.00
+2026-05-06,Iced latte,15,3.50
+2026-05-06,Matcha tea,6,3.00
+2026-05-07,Butter croissant,19,2.50
+2026-05-07,Chocolate cookie,19,1.50
+2026-05-07,Coffee,27,2.00
+2026-05-07,Iced latte,21,3.50
+2026-05-07,Matcha tea,10,3.00
+2026-05-08,Butter croissant,19,2.50
+2026-05-08,Chocolate cookie,23,1.50
+2026-05-08,Coffee,25,2.00
+2026-05-08,Iced latte,18,3.50
+2026-05-08,Matcha tea,13,3.00
+2026-05-09,Butter croissant,19,2.50
+2026-05-09,Chocolate cookie,24,1.50
+2026-05-09,Coffee,32,2.00
+2026-05-09,Iced latte,25,3.50
+2026-05-09,Matcha tea,17,3.00
+2026-05-10,Butter croissant,26,2.50
+2026-05-10,Chocolate cookie,24,1.50
+2026-05-10,Coffee,30,2.00
+2026-05-10,Iced latte,24,3.50
+2026-05-10,Matcha tea,15,3.00
+2026-05-11,Butter croissant,18,2.50
+2026-05-11,Chocolate cookie,24,1.50
+2026-05-11,Coffee,23,2.00
+2026-05-11,Iced latte,21,3.50
+2026-05-11,Matcha tea,16,3.00
+2026-05-12,Butter croissant,16,2.50
+2026-05-12,Chocolate cookie,24,1.50
+2026-05-12,Coffee,29,2.00
+2026-05-12,Iced latte,19,3.50
+2026-05-12,Matcha tea,9,3.00
+2026-05-13,Butter croissant,16,2.50
+2026-05-13,Chocolate cookie,23,1.50
+2026-05-13,Coffee,22,2.00
+2026-05-13,Iced latte,20,3.50
+2026-05-13,Matcha tea,14,3.00
+2026-05-14,Butter croissant,16,2.50
+2026-05-14,Chocolate cookie,20,1.50
+2026-05-14,Coffee,27,2.00
+2026-05-14,Iced latte,25,3.50
+2026-05-14,Matcha tea,15,3.00
+2026-05-15,Butter croissant,17,2.50
+2026-05-15,Chocolate cookie,24,1.50
+2026-05-15,Coffee,24,2.00
+2026-05-15,Iced latte,22,3.50
+2026-05-15,Matcha tea,12,3.00
+2026-05-16,Butter croissant,18,2.50
+2026-05-16,Chocolate cookie,25,1.50
+2026-05-16,Coffee,29,2.00
+2026-05-16,Iced latte,23,3.50
+2026-05-16,Matcha tea,11,3.00
+2026-05-17,Butter croissant,21,2.50
+2026-05-17,Chocolate cookie,26,1.50
+2026-05-17,Coffee,32,2.00
+2026-05-17,Iced latte,26,3.50
+2026-05-17,Matcha tea,16,3.00
+2026-05-18,Butter croissant,15,2.50
+2026-05-18,Chocolate cookie,24,1.50
+2026-05-18,Coffee,29,2.00
+2026-05-18,Iced latte,22,3.50
+2026-05-18,Matcha tea,14,3.00
+2026-05-19,Butter croissant,22,2.50
+2026-05-19,Chocolate cookie,21,1.50
+2026-05-19,Coffee,27,2.00
+2026-05-19,Iced latte,23,3.50
+2026-05-19,Matcha tea,13,3.00
+2026-05-20,Butter croissant,14,2.50
+2026-05-20,Chocolate cookie,21,1.50
+2026-05-20,Coffee,30,2.00
+2026-05-20,Iced latte,20,3.50
+2026-05-20,Matcha tea,12,3.00
+2026-05-21,Butter croissant,11,2.50
+2026-05-21,Chocolate cookie,23,1.50
+2026-05-21,Coffee,29,2.00
+2026-05-21,Iced latte,21,3.50
+2026-05-21,Matcha tea,15,3.00
+2026-05-22,Butter croissant,17,2.50
+2026-05-22,Chocolate cookie,26,1.50
+2026-05-22,Coffee,27,2.00
+2026-05-22,Iced latte,18,3.50
+2026-05-22,Matcha tea,11,3.00
+2026-05-23,Butter croissant,19,2.50
+2026-05-23,Chocolate cookie,25,1.50
+2026-05-23,Coffee,28,2.00
+2026-05-23,Iced latte,22,3.50
+2026-05-23,Matcha tea,19,3.00
+2026-05-24,Butter croissant,18,2.50
+2026-05-24,Chocolate cookie,28,1.50
+2026-05-24,Coffee,31,2.00
+2026-05-24,Iced latte,20,3.50
+2026-05-24,Matcha tea,16,3.00
+2026-05-25,Butter croissant,20,2.50
+2026-05-25,Chocolate cookie,18,1.50
+2026-05-25,Coffee,25,2.00
+2026-05-25,Iced latte,25,3.50
+2026-05-25,Matcha tea,13,3.00
+2026-05-26,Butter croissant,13,2.50
+2026-05-26,Chocolate cookie,24,1.50
+2026-05-26,Coffee,25,2.00
+2026-05-26,Iced latte,20,3.50
+2026-05-26,Matcha tea,17,3.00
+2026-05-27,Butter croissant,17,2.50
+2026-05-27,Chocolate cookie,20,1.50
+2026-05-27,Coffee,27,2.00
+2026-05-27,Iced latte,23,3.50
+2026-05-27,Matcha tea,14,3.00
+2026-05-28,Butter croissant,22,2.50
+2026-05-28,Chocolate cookie,19,1.50
+2026-05-28,Coffee,22,2.00
+2026-05-28,Iced latte,19,3.50
+2026-05-28,Matcha tea,12,3.00
+2026-05-29,Butter croissant,17,2.50
+2026-05-29,Chocolate cookie,23,1.50
+2026-05-29,Coffee,26,2.00
+2026-05-29,Iced latte,15,3.50
+2026-05-29,Matcha tea,11,3.00
+2026-05-30,Butter croissant,21,2.50
+2026-05-30,Chocolate cookie,26,1.50
+2026-05-30,Coffee,34,2.00
+2026-05-30,Iced latte,22,3.50
+2026-05-30,Matcha tea,12,3.00
+2026-05-31,Butter croissant,20,2.50
+2026-05-31,Chocolate cookie,27,1.50
+2026-05-31,Coffee,31,2.00
+2026-05-31,Iced latte,21,3.50
+2026-05-31,Matcha tea,18,3.00
+2026-06-01,Butter croissant,22,2.50
+2026-06-01,Chocolate cookie,21,1.50
+2026-06-01,Coffee,28,2.00
+2026-06-01,Iced latte,20,3.50
+2026-06-01,Matcha tea,13,3.00
+2026-06-02,Butter croissant,17,2.50
+2026-06-02,Chocolate cookie,22,1.50
+2026-06-02,Coffee,24,2.00
+2026-06-02,Iced latte,19,3.50
+2026-06-02,Matcha tea,16,3.00
+2026-06-03,Butter croissant,17,2.50
+2026-06-03,Chocolate cookie,21,1.50
+2026-06-03,Coffee,27,2.00
+2026-06-03,Iced latte,17,3.50
+2026-06-03,Matcha tea,8,3.00
+2026-06-04,Butter croissant,14,2.50
+2026-06-04,Chocolate cookie,22,1.50
+2026-06-04,Coffee,23,2.00
+2026-06-04,Iced latte,20,3.50
+2026-06-04,Matcha tea,14,3.00
+2026-06-05,Butter croissant,16,2.50
+2026-06-05,Chocolate cookie,18,1.50
+2026-06-05,Coffee,24,2.00
+2026-06-05,Iced latte,14,3.50
+2026-06-05,Matcha tea,13,3.00
+2026-06-06,Butter croissant,21,2.50
+2026-06-06,Chocolate cookie,27,1.50
+2026-06-06,Coffee,31,2.00
+2026-06-06,Iced latte,23,3.50
+2026-06-06,Matcha tea,13,3.00
+2026-06-07,Butter croissant,25,2.50
+2026-06-07,Chocolate cookie,20,1.50
+2026-06-07,Coffee,28,2.00
+2026-06-07,Iced latte,23,3.50
+2026-06-07,Matcha tea,15,3.00
+2026-06-08,Butter croissant,21,2.50
+2026-06-08,Chocolate cookie,20,1.50
+2026-06-08,Coffee,26,2.00
+2026-06-08,Iced latte,17,3.50
+2026-06-08,Matcha tea,12,3.00
+2026-06-09,Butter croissant,15,2.50
+2026-06-09,Chocolate cookie,18,1.50
+2026-06-09,Coffee,30,2.00
+2026-06-09,Iced latte,17,3.50
+2026-06-09,Matcha tea,13,3.00
+2026-06-10,Butter croissant,11,2.50
+2026-06-10,Chocolate cookie,25,1.50
+2026-06-10,Coffee,24,2.00
+2026-06-10,Iced latte,17,3.50
+2026-06-10,Matcha tea,13,3.00
+2026-06-11,Butter croissant,17,2.50
+2026-06-11,Chocolate cookie,28,1.50
+2026-06-11,Coffee,24,2.00
+2026-06-11,Iced latte,22,3.50
+2026-06-11,Matcha tea,10,3.00
+2026-06-12,Butter croissant,17,2.50
+2026-06-12,Chocolate cookie,22,1.50
+2026-06-12,Coffee,22,2.00
+2026-06-12,Iced latte,14,3.50
+2026-06-12,Matcha tea,11,3.00
+2026-06-13,Butter croissant,19,2.50
+2026-06-13,Chocolate cookie,28,1.50
+2026-06-13,Coffee,33,2.00
+2026-06-13,Iced latte,21,3.50
+2026-06-13,Matcha tea,11,3.00
+2026-06-14,Butter croissant,23,2.50
+2026-06-14,Chocolate cookie,30,1.50
+2026-06-14,Coffee,31,2.00
+2026-06-14,Iced latte,17,3.50
+2026-06-14,Matcha tea,15,3.00
+2026-06-15,Butter croissant,14,2.50
+2026-06-15,Chocolate cookie,20,1.50
+2026-06-15,Coffee,26,2.00
+2026-06-15,Iced latte,19,3.50
+2026-06-15,Matcha tea,9,3.00
+2026-06-16,Butter croissant,13,2.50
+2026-06-16,Chocolate cookie,18,1.50
+2026-06-16,Coffee,26,2.00
+2026-06-16,Iced latte,20,3.50
+2026-06-16,Matcha tea,11,3.00
+2026-06-17,Butter croissant,16,2.50
+2026-06-17,Chocolate cookie,22,1.50
+2026-06-17,Coffee,22,2.00
+2026-06-17,Iced latte,20,3.50
+2026-06-17,Matcha tea,6,3.00
+2026-06-18,Butter croissant,15,2.50
+2026-06-18,Chocolate cookie,19,1.50
+2026-06-18,Coffee,28,2.00
+2026-06-18,Iced latte,19,3.50
+2026-06-18,Matcha tea,15,3.00
+2026-06-19,Butter croissant,18,2.50
+2026-06-19,Chocolate cookie,29,1.50
+2026-06-19,Coffee,23,2.00
+2026-06-19,Iced latte,22,3.50
+2026-06-19,Matcha tea,15,3.00
+2026-06-20,Butter croissant,20,2.50
+2026-06-20,Chocolate cookie,31,1.50
+2026-06-20,Coffee,30,2.00
+2026-06-20,Iced latte,24,3.50
+2026-06-20,Matcha tea,16,3.00
+2026-06-21,Butter croissant,21,2.50
+2026-06-21,Chocolate cookie,27,1.50
+2026-06-21,Coffee,34,2.00
+2026-06-21,Iced latte,19,3.50
+2026-06-21,Matcha tea,14,3.00
+2026-06-22,Butter croissant,17,2.50
+2026-06-22,Chocolate cookie,21,1.50
+2026-06-22,Coffee,22,2.00
+2026-06-22,Iced latte,13,3.50
+2026-06-22,Matcha tea,8,3.00
+2026-06-23,Butter croissant,12,2.50
+2026-06-23,Chocolate cookie,22,1.50
+2026-06-23,Coffee,26,2.00
+2026-06-23,Iced latte,17,3.50
+2026-06-23,Matcha tea,10,3.00
+2026-06-24,Butter croissant,17,2.50
+2026-06-24,Chocolate cookie,25,1.50
+2026-06-24,Coffee,27,2.00
+2026-06-24,Iced latte,22,3.50
+2026-06-24,Matcha tea,15,3.00
+2026-06-25,Butter croissant,16,2.50
+2026-06-25,Chocolate cookie,16,1.50
+2026-06-25,Coffee,26,2.00
+2026-06-25,Iced latte,18,3.50
+2026-06-25,Matcha tea,12,3.00
+2026-06-26,Butter croissant,16,2.50
+2026-06-26,Chocolate cookie,23,1.50
+2026-06-26,Coffee,27,2.00
+2026-06-26,Iced latte,20,3.50
+2026-06-26,Matcha tea,12,3.00
+2026-06-27,Butter croissant,20,2.50
+2026-06-27,Chocolate cookie,26,1.50
+2026-06-27,Coffee,36,2.00
+2026-06-27,Iced latte,24,3.50
+2026-06-27,Matcha tea,15,3.00
+2026-06-28,Butter croissant,26,2.50
+2026-06-28,Chocolate cookie,29,1.50
+2026-06-28,Coffee,29,2.00
+2026-06-28,Iced latte,24,3.50
+2026-06-28,Matcha tea,16,3.00
+2026-06-29,Butter croissant,15,2.50
+2026-06-29,Chocolate cookie,23,1.50
+2026-06-29,Coffee,29,2.00
+2026-06-29,Iced latte,18,3.50
+2026-06-29,Matcha tea,15,3.00
+2026-06-30,Butter croissant,19,2.50
+2026-06-30,Chocolate cookie,18,1.50
+2026-06-30,Coffee,28,2.00
+2026-06-30,Iced latte,18,3.50
+2026-06-30,Matcha tea,18,3.00
+2026-07-01,Butter croissant,19,2.50
+2026-07-01,Chocolate cookie,24,1.50
+2026-07-01,Coffee,28,2.00
+2026-07-01,Iced latte,19,3.50
+2026-07-01,Matcha tea,14,3.00
+2026-07-02,Butter croissant,21,2.50
+2026-07-02,Chocolate cookie,27,1.50
+2026-07-02,Coffee,22,2.00
+2026-07-02,Iced latte,18,3.50
+2026-07-02,Matcha tea,16,3.00
+2026-07-03,Butter croissant,13,2.50
+2026-07-03,Chocolate cookie,27,1.50
+2026-07-03,Coffee,32,2.00
+2026-07-03,Iced latte,15,3.50
+2026-07-03,Matcha tea,16,3.00
+2026-07-04,Butter croissant,23,2.50
+2026-07-04,Chocolate cookie,23,1.50
+2026-07-04,Coffee,33,2.00
+2026-07-04,Iced latte,22,3.50
+2026-07-04,Matcha tea,21,3.00
+2026-07-05,Butter croissant,21,2.50
+2026-07-05,Chocolate cookie,31,1.50
+2026-07-05,Coffee,34,2.00
+2026-07-05,Iced latte,23,3.50
+2026-07-05,Matcha tea,17,3.00
+2026-07-06,Butter croissant,16,2.50
+2026-07-06,Chocolate cookie,24,1.50
+2026-07-06,Coffee,24,2.00
+2026-07-06,Iced latte,22,3.50
+2026-07-06,Matcha tea,18,3.00
+2026-07-07,Butter croissant,19,2.50
+2026-07-07,Chocolate cookie,21,1.50
+2026-07-07,Coffee,28,2.00
+2026-07-07,Iced latte,19,3.50
+2026-07-07,Matcha tea,16,3.00
+2026-07-08,Butter croissant,17,2.50
+2026-07-08,Chocolate cookie,21,1.50
+2026-07-08,Coffee,32,2.00
+2026-07-08,Iced latte,23,3.50
+2026-07-08,Matcha tea,14,3.00
+2026-07-09,Butter croissant,18,2.50
+2026-07-09,Chocolate cookie,25,1.50
+2026-07-09,Coffee,31,2.00
+2026-07-09,Iced latte,21,3.50
+2026-07-09,Matcha tea,15,3.00
+2026-07-10,Butter croissant,21,2.50
+2026-07-10,Chocolate cookie,25,1.50
+2026-07-10,Coffee,28,2.00
+2026-07-10,Iced latte,23,3.50
+2026-07-10,Matcha tea,14,3.00
+2026-07-11,Butter croissant,20,2.50
+2026-07-11,Chocolate cookie,25,1.50
+2026-07-11,Coffee,33,2.00
+2026-07-11,Iced latte,23,3.50
+2026-07-11,Matcha tea,14,3.00
+2026-07-12,Butter croissant,28,2.50
+2026-07-12,Chocolate cookie,28,1.50
+2026-07-12,Coffee,35,2.00
+2026-07-12,Iced latte,25,3.50
+2026-07-12,Matcha tea,21,3.00
+2026-07-13,Butter croissant,15,2.50
+2026-07-13,Chocolate cookie,23,1.50
+2026-07-13,Coffee,24,2.00
+2026-07-13,Iced latte,20,3.50
+2026-07-13,Matcha tea,14,3.00
+2026-07-14,Butter croissant,17,2.50
+2026-07-14,Chocolate cookie,28,1.50
+2026-07-14,Coffee,29,2.00
+2026-07-14,Iced latte,20,3.50
+2026-07-14,Matcha tea,12,3.00
+2026-07-15,Butter croissant,21,2.50
+2026-07-15,Chocolate cookie,22,1.50
+2026-07-15,Coffee,28,2.00
+2026-07-15,Iced latte,19,3.50
+2026-07-15,Matcha tea,13,3.00
+2026-07-16,Butter croissant,22,2.50
+2026-07-16,Chocolate cookie,22,1.50
+2026-07-16,Coffee,29,2.00
+2026-07-16,Iced latte,23,3.50
+2026-07-16,Matcha tea,16,3.00
+2026-07-17,Butter croissant,22,2.50
+2026-07-17,Chocolate cookie,25,1.50
+2026-07-17,Coffee,31,2.00
+2026-07-17,Iced latte,19,3.50
+2026-07-17,Matcha tea,13,3.00
+2026-07-18,Butter croissant,20,2.50
+2026-07-18,Chocolate cookie,25,1.50
+2026-07-18,Coffee,33,2.00
+2026-07-18,Iced latte,22,3.50
+2026-07-18,Matcha tea,18,3.00
+2026-07-19,Butter croissant,23,2.50
+2026-07-19,Chocolate cookie,28,1.50
+2026-07-19,Coffee,31,2.00
+2026-07-19,Iced latte,25,3.50
+2026-07-19,Matcha tea,11,3.00
+2026-07-20,Butter croissant,17,2.50
+2026-07-20,Chocolate cookie,21,1.50
+2026-07-20,Coffee,26,2.00
+2026-07-20,Iced latte,23,3.50
+2026-07-20,Matcha tea,15,3.00
+2026-07-21,Butter croissant,17,2.50
+2026-07-21,Chocolate cookie,23,1.50
+2026-07-21,Coffee,29,2.00
+2026-07-21,Iced latte,17,3.50
+2026-07-21,Matcha tea,13,3.00
+2026-07-22,Butter croissant,19,2.50
+2026-07-22,Chocolate cookie,22,1.50
+2026-07-22,Coffee,28,2.00
+2026-07-22,Iced latte,21,3.50
+2026-07-22,Matcha tea,16,3.00
+2026-07-23,Butter croissant,22,2.50
+2026-07-23,Chocolate cookie,21,1.50
+2026-07-23,Coffee,24,2.00
+2026-07-23,Iced latte,22,3.50
+2026-07-23,Matcha tea,15,3.00
+2026-07-24,Butter croissant,18,2.50
+2026-07-24,Chocolate cookie,18,1.50
+2026-07-24,Coffee,27,2.00
+2026-07-24,Iced latte,20,3.50
+2026-07-24,Matcha tea,13,3.00
+2026-07-25,Butter croissant,27,2.50
+2026-07-25,Chocolate cookie,26,1.50
+2026-07-25,Coffee,34,2.00
+2026-07-25,Iced latte,26,3.50
+2026-07-25,Matcha tea,19,3.00
+2026-07-26,Butter croissant,17,2.50
+2026-07-26,Chocolate cookie,28,1.50
+2026-07-26,Coffee,32,2.00
+2026-07-26,Iced latte,24,3.50
+2026-07-26,Matcha tea,21,3.00
+2026-07-27,Butter croissant,14,2.50
+2026-07-27,Chocolate cookie,25,1.50
+2026-07-27,Coffee,23,2.00
+2026-07-27,Iced latte,14,3.50
+2026-07-27,Matcha tea,8,3.00
+2026-07-28,Butter croissant,19,2.50
+2026-07-28,Chocolate cookie,19,1.50
+2026-07-28,Coffee,24,2.00
+2026-07-28,Iced latte,19,3.50
+2026-07-28,Matcha tea,10,3.00
+2026-07-29,Butter croissant,18,2.50
+2026-07-29,Chocolate cookie,22,1.50
+2026-07-29,Coffee,30,2.00
+2026-07-29,Iced latte,17,3.50
+2026-07-29,Matcha tea,11,3.00
+2026-07-30,Butter croissant,16,2.50
+2026-07-30,Chocolate cookie,21,1.50
+2026-07-30,Coffee,30,2.00
+2026-07-30,Iced latte,20,3.50
+2026-07-30,Matcha tea,10,3.00
+2026-07-31,Butter croissant,20,2.50
+2026-07-31,Chocolate cookie,21,1.50
+2026-07-31,Coffee,28,2.00
+2026-07-31,Iced latte,21,3.50
+2026-07-31,Matcha tea,13,3.00
+2026-08-01,Butter croissant,21,2.50
+2026-08-01,Chocolate cookie,25,1.50
+2026-08-01,Coffee,31,2.00
+2026-08-01,Iced latte,24,3.50
+2026-08-01,Matcha tea,20,3.00
+2026-08-02,Butter croissant,22,2.50
+2026-08-02,Chocolate cookie,21,1.50
+2026-08-02,Coffee,29,2.00
+2026-08-02,Iced latte,25,3.50
+2026-08-02,Matcha tea,14,3.00
+2026-08-03,Butter croissant,20,2.50
+2026-08-03,Chocolate cookie,18,1.50
+2026-08-03,Coffee,29,2.00
+2026-08-03,Iced latte,16,3.50
+2026-08-03,Matcha tea,11,3.00
+2026-08-04,Butter croissant,21,2.50
+2026-08-04,Chocolate cookie,25,1.50
+2026-08-04,Coffee,26,2.00
+2026-08-04,Iced latte,20,3.50
+2026-08-04,Matcha tea,11,3.00
+2026-08-05,Butter croissant,14,2.50
+2026-08-05,Chocolate cookie,21,1.50
+2026-08-05,Coffee,21,2.00
+2026-08-05,Iced latte,16,3.50
+2026-08-05,Matcha tea,15,3.00
+2026-08-06,Butter croissant,18,2.50
+2026-08-06,Chocolate cookie,20,1.50
+2026-08-06,Coffee,26,2.00
+2026-08-06,Iced latte,21,3.50
+2026-08-06,Matcha tea,12,3.00
+2026-08-07,Butter croissant,16,2.50
+2026-08-07,Chocolate cookie,22,1.50
+2026-08-07,Coffee,29,2.00
+2026-08-07,Iced latte,18,3.50
+2026-08-07,Matcha tea,14,3.00
+2026-08-08,Butter croissant,23,2.50
+2026-08-08,Chocolate cookie,30,1.50
+2026-08-08,Coffee,31,2.00
+2026-08-08,Iced latte,23,3.50
+2026-08-08,Matcha tea,13,3.00
+2026-08-09,Butter croissant,23,2.50
+2026-08-09,Chocolate cookie,27,1.50
+2026-08-09,Coffee,32,2.00
+2026-08-09,Iced latte,25,3.50
+2026-08-09,Matcha tea,18,3.00
+2026-08-10,Butter croissant,15,2.50
+2026-08-10,Chocolate cookie,22,1.50
+2026-08-10,Coffee,27,2.00
+2026-08-10,Iced latte,22,3.50
+2026-08-10,Matcha tea,13,3.00
+2026-08-11,Butter croissant,21,2.50
+2026-08-11,Chocolate cookie,22,1.50
+2026-08-11,Coffee,22,2.00
+2026-08-11,Iced latte,20,3.50
+2026-08-11,Matcha tea,14,3.00
+2026-08-12,Butter croissant,14,2.50
+2026-08-12,Chocolate cookie,20,1.50
+2026-08-12,Coffee,29,2.00
+2026-08-12,Iced latte,20,3.50
+2026-08-12,Matcha tea,11,3.00
+2026-08-13,Butter croissant,19,2.50
+2026-08-13,Chocolate cookie,22,1.50
+2026-08-13,Coffee,23,2.00
+2026-08-13,Iced latte,22,3.50
+2026-08-13,Matcha tea,13,3.00
+2026-08-14,Butter croissant,17,2.50
+2026-08-14,Chocolate cookie,21,1.50
+2026-08-14,Coffee,29,2.00
+2026-08-14,Iced latte,23,3.50
+2026-08-14,Matcha tea,12,3.00
+2026-08-15,Butter croissant,21,2.50
+2026-08-15,Chocolate cookie,26,1.50
+2026-08-15,Coffee,28,2.00
+2026-08-15,Iced latte,26,3.50
+2026-08-15,Matcha tea,19,3.00
+2026-08-16,Butter croissant,22,2.50
+2026-08-16,Chocolate cookie,26,1.50
+2026-08-16,Coffee,35,2.00
+2026-08-16,Iced latte,18,3.50
+2026-08-16,Matcha tea,17,3.00
+2026-08-17,Butter croissant,18,2.50
+2026-08-17,Chocolate cookie,22,1.50
+2026-08-17,Coffee,31,2.00
+2026-08-17,Iced latte,23,3.50
+2026-08-17,Matcha tea,13,3.00
+2026-08-18,Butter croissant,21,2.50
+2026-08-18,Chocolate cookie,25,1.50
+2026-08-18,Coffee,26,2.00
+2026-08-18,Iced latte,17,3.50
+2026-08-18,Matcha tea,17,3.00
+2026-08-19,Butter croissant,19,2.50
+2026-08-19,Chocolate cookie,21,1.50
+2026-08-19,Coffee,25,2.00
+2026-08-19,Iced latte,26,3.50
+2026-08-19,Matcha tea,19,3.00
+2026-08-20,Butter croissant,18,2.50
+2026-08-20,Chocolate cookie,26,1.50
+2026-08-20,Coffee,26,2.00
+2026-08-20,Iced latte,22,3.50
+2026-08-20,Matcha tea,12,3.00
+2026-08-21,Butter croissant,16,2.50
+2026-08-21,Chocolate cookie,20,1.50
+2026-08-21,Coffee,24,2.00
+2026-08-21,Iced latte,26,3.50
+2026-08-21,Matcha tea,18,3.00
+2026-08-22,Butter croissant,16,2.50
+2026-08-22,Chocolate cookie,27,1.50
+2026-08-22,Coffee,33,2.00
+2026-08-22,Iced latte,23,3.50
+2026-08-22,Matcha tea,16,3.00
+2026-08-23,Butter croissant,19,2.50
+2026-08-23,Chocolate cookie,30,1.50
+2026-08-23,Coffee,38,2.00
+2026-08-23,Iced latte,23,3.50
+2026-08-23,Matcha tea,16,3.00
+2026-08-24,Butter croissant,18,2.50
+2026-08-24,Chocolate cookie,25,1.50
+2026-08-24,Coffee,28,2.00
+2026-08-24,Iced latte,26,3.50
+2026-08-24,Matcha tea,15,3.00
+2026-08-25,Butter croissant,19,2.50
+2026-08-25,Chocolate cookie,24,1.50
+2026-08-25,Coffee,28,2.00
+2026-08-25,Iced latte,18,3.50
+2026-08-25,Matcha tea,15,3.00
+2026-08-26,Butter croissant,24,2.50
+2026-08-26,Chocolate cookie,21,1.50
+2026-08-26,Coffee,30,2.00
+2026-08-26,Iced latte,20,3.50
+2026-08-26,Matcha tea,16,3.00
+2026-08-27,Butter croissant,26,2.50
+2026-08-27,Chocolate cookie,25,1.50
+2026-08-27,Coffee,34,2.00
+2026-08-27,Iced latte,21,3.50
+2026-08-27,Matcha tea,13,3.00
+2026-08-28,Butter croissant,20,2.50
+2026-08-28,Chocolate cookie,23,1.50
+2026-08-28,Coffee,33,2.00
+2026-08-28,Iced latte,24,3.50
+2026-08-28,Matcha tea,10,3.00
+2026-08-29,Butter croissant,25,2.50
+2026-08-29,Chocolate cookie,30,1.50
+2026-08-29,Coffee,31,2.00
+2026-08-29,Iced latte,22,3.50
+2026-08-29,Matcha tea,18,3.00
+2026-08-30,Butter croissant,22,2.50
+2026-08-30,Chocolate cookie,26,1.50
+2026-08-30,Coffee,34,2.00
+2026-08-30,Iced latte,24,3.50
+2026-08-30,Matcha tea,15,3.00
+2026-08-31,Butter croissant,19,2.50
+2026-08-31,Chocolate cookie,23,1.50
+2026-08-31,Coffee,29,2.00
+2026-08-31,Iced latte,22,3.50
+2026-08-31,Matcha tea,13,3.00
+2026-09-01,Butter croissant,21,2.50
+2026-09-01,Chocolate cookie,21,1.50
+2026-09-01,Coffee,30,2.00
+2026-09-01,Iced latte,24,3.50
+2026-09-01,Matcha tea,15,3.00
+2026-09-02,Butter croissant,16,2.50
+2026-09-02,Chocolate cookie,25,1.50
+2026-09-02,Coffee,29,2.00
+2026-09-02,Iced latte,23,3.50
+2026-09-02,Matcha tea,17,3.00
+2026-09-03,Butter croissant,21,2.50
+2026-09-03,Chocolate cookie,26,1.50
+2026-09-03,Coffee,33,2.00
+2026-09-03,Iced latte,22,3.50
+2026-09-03,Matcha tea,15,3.00
+2026-09-04,Butter croissant,18,2.50
+2026-09-04,Chocolate cookie,25,1.50
+2026-09-04,Coffee,32,2.00
+2026-09-04,Iced latte,23,3.50
+2026-09-04,Matcha tea,15,3.00
+2026-09-05,Butter croissant,22,2.50
+2026-09-05,Chocolate cookie,31,1.50
+2026-09-05,Coffee,38,2.00
+2026-09-05,Iced latte,26,3.50
+2026-09-05,Matcha tea,17,3.00
+2026-09-06,Butter croissant,21,2.50
+2026-09-06,Chocolate cookie,30,1.50
+2026-09-06,Coffee,33,2.00
+2026-09-06,Iced latte,29,3.50
+2026-09-06,Matcha tea,15,3.00
+2026-09-07,Butter croissant,19,2.50
+2026-09-07,Chocolate cookie,26,1.50
+2026-09-07,Coffee,30,2.00
+2026-09-07,Iced latte,23,3.50
+2026-09-07,Matcha tea,18,3.00
+2026-09-08,Butter croissant,21,2.50
+2026-09-08,Chocolate cookie,25,1.50
+2026-09-08,Coffee,28,2.00
+2026-09-08,Iced latte,26,3.50
+2026-09-08,Matcha tea,17,3.00
+2026-09-09,Butter croissant,20,2.50
+2026-09-09,Chocolate cookie,25,1.50
+2026-09-09,Coffee,28,2.00
+2026-09-09,Iced latte,22,3.50
+2026-09-09,Matcha tea,16,3.00
+2026-09-10,Butter croissant,17,2.50
+2026-09-10,Chocolate cookie,25,1.50
+2026-09-10,Coffee,27,2.00
+2026-09-10,Iced latte,23,3.50
+2026-09-10,Matcha tea,13,3.00
+2026-09-11,Butter croissant,20,2.50
+2026-09-11,Chocolate cookie,22,1.50
+2026-09-11,Coffee,25,2.00
+2026-09-11,Iced latte,24,3.50
+2026-09-11,Matcha tea,17,3.00
+2026-09-12,Butter croissant,24,2.50
+2026-09-12,Chocolate cookie,31,1.50
+2026-09-12,Coffee,33,2.00
+2026-09-12,Iced latte,26,3.50
+2026-09-12,Matcha tea,11,3.00
+2026-09-13,Butter croissant,24,2.50
+2026-09-13,Chocolate cookie,32,1.50
+2026-09-13,Coffee,34,2.00
+2026-09-13,Iced latte,25,3.50
+2026-09-13,Matcha tea,18,3.00
+2026-09-14,Butter croissant,20,2.50
+2026-09-14,Chocolate cookie,29,1.50
+2026-09-14,Coffee,30,2.00
+2026-09-14,Iced latte,20,3.50
+2026-09-14,Matcha tea,14,3.00
+2026-09-15,Butter croissant,14,2.50
+2026-09-15,Chocolate cookie,25,1.50
+2026-09-15,Coffee,29,2.00
+2026-09-15,Iced latte,19,3.50
+2026-09-15,Matcha tea,13,3.00
+2026-09-16,Butter croissant,17,2.50
+2026-09-16,Chocolate cookie,26,1.50
+2026-09-16,Coffee,26,2.00
+2026-09-16,Iced latte,19,3.50
+2026-09-16,Matcha tea,10,3.00
+2026-09-17,Butter croissant,19,2.50
+2026-09-17,Chocolate cookie,25,1.50
+2026-09-17,Coffee,26,2.00
+2026-09-17,Iced latte,18,3.50
+2026-09-17,Matcha tea,15,3.00
+2026-09-18,Butter croissant,19,2.50
+2026-09-18,Chocolate cookie,26,1.50
+2026-09-18,Coffee,31,2.00
+2026-09-18,Iced latte,22,3.50
+2026-09-18,Matcha tea,11,3.00
+2026-09-19,Butter croissant,22,2.50
+2026-09-19,Chocolate cookie,28,1.50
+2026-09-19,Coffee,33,2.00
+2026-09-19,Iced latte,22,3.50
+2026-09-19,Matcha tea,20,3.00
+2026-09-20,Butter croissant,22,2.50
+2026-09-20,Chocolate cookie,30,1.50
+2026-09-20,Coffee,34,2.00
+2026-09-20,Iced latte,28,3.50
+2026-09-20,Matcha tea,18,3.00
+2026-09-21,Butter croissant,16,2.50
+2026-09-21,Chocolate cookie,33,1.50
+2026-09-21,Coffee,34,2.00
+2026-09-21,Iced latte,25,3.50
+2026-09-21,Matcha tea,16,3.00
+2026-09-22,Butter croissant,23,2.50
+2026-09-22,Chocolate cookie,25,1.50
+2026-09-22,Coffee,26,2.00
+2026-09-22,Iced latte,21,3.50
+2026-09-22,Matcha tea,13,3.00
+2026-09-23,Butter croissant,18,2.50
+2026-09-23,Chocolate cookie,21,1.50
+2026-09-23,Coffee,25,2.00
+2026-09-23,Iced latte,22,3.50
+2026-09-23,Matcha tea,16,3.00
+2026-09-24,Butter croissant,18,2.50
+2026-09-24,Chocolate cookie,26,1.50
+2026-09-24,Coffee,27,2.00
+2026-09-24,Iced latte,20,3.50
+2026-09-24,Matcha tea,14,3.00
+2026-09-25,Butter croissant,22,2.50
+2026-09-25,Chocolate cookie,22,1.50
+2026-09-25,Coffee,26,2.00
+2026-09-25,Iced latte,17,3.50
+2026-09-25,Matcha tea,12,3.00
+2026-09-26,Butter croissant,20,2.50
+2026-09-26,Chocolate cookie,29,1.50
+2026-09-26,Coffee,39,2.00
+2026-09-26,Iced latte,26,3.50
+2026-09-26,Matcha tea,14,3.00
+2026-09-27,Butter croissant,24,2.50
+2026-09-27,Chocolate cookie,32,1.50
+2026-09-27,Coffee,31,2.00
+2026-09-27,Iced latte,31,3.50
+2026-09-27,Matcha tea,14,3.00
+2026-09-28,Butter croissant,20,2.50
+2026-09-28,Chocolate cookie,26,1.50
+2026-09-28,Coffee,28,2.00
+2026-09-28,Iced latte,19,3.50
+2026-09-28,Matcha tea,13,3.00
+2026-09-29,Butter croissant,17,2.50
+2026-09-29,Chocolate cookie,18,1.50
+2026-09-29,Coffee,28,2.00
+2026-09-29,Iced latte,18,3.50
+2026-09-29,Matcha tea,14,3.00
+2026-09-30,Butter croissant,24,2.50
+2026-09-30,Chocolate cookie,28,1.50
+2026-09-30,Coffee,26,2.00
+2026-09-30,Iced latte,18,3.50
+2026-09-30,Matcha tea,16,3.00
+2026-10-01,Butter croissant,21,2.50
+2026-10-01,Chocolate cookie,22,1.50
+2026-10-01,Coffee,27,2.00
+2026-10-01,Iced latte,20,3.50
+2026-10-01,Matcha tea,16,3.00
+2026-10-02,Butter croissant,18,2.50
+2026-10-02,Chocolate cookie,24,1.50
+2026-10-02,Coffee,28,2.00
+2026-10-02,Iced latte,27,3.50
+2026-10-02,Matcha tea,14,3.00
+2026-10-03,Butter croissant,19,2.50
+2026-10-03,Chocolate cookie,27,1.50
+2026-10-03,Coffee,35,2.00
+2026-10-03,Iced latte,23,3.50
+2026-10-03,Matcha tea,16,3.00
+2026-10-04,Butter croissant,20,2.50
+2026-10-04,Chocolate cookie,27,1.50
+2026-10-04,Coffee,38,2.00
+2026-10-04,Iced latte,27,3.50
+2026-10-04,Matcha tea,17,3.00
+2026-10-05,Butter croissant,15,2.50
+2026-10-05,Chocolate cookie,23,1.50
+2026-10-05,Coffee,31,2.00
+2026-10-05,Iced latte,20,3.50
+2026-10-05,Matcha tea,18,3.00
+2026-10-06,Butter croissant,14,2.50
+2026-10-06,Chocolate cookie,23,1.50
+2026-10-06,Coffee,33,2.00
+2026-10-06,Iced latte,16,3.50
+2026-10-06,Matcha tea,17,3.00
+2026-10-07,Butter croissant,14,2.50
+2026-10-07,Chocolate cookie,22,1.50
+2026-10-07,Coffee,28,2.00
+2026-10-07,Iced latte,23,3.50
+2026-10-07,Matcha tea,6,3.00
+2026-10-08,Butter croissant,16,2.50
+2026-10-08,Chocolate cookie,23,1.50
+2026-10-08,Coffee,29,2.00
+2026-10-08,Iced latte,19,3.50
+2026-10-08,Matcha tea,14,3.00
+2026-10-09,Butter croissant,23,2.50
+2026-10-09,Chocolate cookie,22,1.50
+2026-10-09,Coffee,27,2.00
+2026-10-09,Iced latte,22,3.50
+2026-10-09,Matcha tea,16,3.00
+2026-10-10,Butter croissant,23,2.50
+2026-10-10,Chocolate cookie,25,1.50
+2026-10-10,Coffee,33,2.00
+2026-10-10,Iced latte,26,3.50
+2026-10-10,Matcha tea,16,3.00
+2026-10-11,Butter croissant,19,2.50
+2026-10-11,Chocolate cookie,32,1.50
+2026-10-11,Coffee,35,2.00
+2026-10-11,Iced latte,23,3.50
+2026-10-11,Matcha tea,15,3.00
+2026-10-12,Butter croissant,15,2.50
+2026-10-12,Chocolate cookie,22,1.50
+2026-10-12,Coffee,29,2.00
+2026-10-12,Iced latte,25,3.50
+2026-10-12,Matcha tea,15,3.00
+2026-10-13,Butter croissant,19,2.50
+2026-10-13,Chocolate cookie,24,1.50
+2026-10-13,Coffee,31,2.00
+2026-10-13,Iced latte,20,3.50
+2026-10-13,Matcha tea,12,3.00
+2026-10-14,Butter croissant,13,2.50
+2026-10-14,Chocolate cookie,26,1.50
+2026-10-14,Coffee,27,2.00
+2026-10-14,Iced latte,21,3.50
+2026-10-14,Matcha tea,14,3.00
+2026-10-15,Butter croissant,16,2.50
+2026-10-15,Chocolate cookie,28,1.50
+2026-10-15,Coffee,28,2.00
+2026-10-15,Iced latte,26,3.50
+2026-10-15,Matcha tea,12,3.00
+2026-10-16,Butter croissant,19,2.50
+2026-10-16,Chocolate cookie,21,1.50
+2026-10-16,Coffee,26,2.00
+2026-10-16,Iced latte,21,3.50
+2026-10-16,Matcha tea,16,3.00
+2026-10-17,Butter croissant,25,2.50
+2026-10-17,Chocolate cookie,37,1.50
+2026-10-17,Coffee,36,2.00
+2026-10-17,Iced latte,26,3.50
+2026-10-17,Matcha tea,21,3.00
+2026-10-18,Butter croissant,27,2.50
+2026-10-18,Chocolate cookie,32,1.50
+2026-10-18,Coffee,32,2.00
+2026-10-18,Iced latte,27,3.50
+2026-10-18,Matcha tea,15,3.00
+2026-10-19,Butter croissant,15,2.50
+2026-10-19,Chocolate cookie,30,1.50
+2026-10-19,Coffee,32,2.00
+2026-10-19,Iced latte,21,3.50
+2026-10-19,Matcha tea,13,3.00
+2026-10-20,Butter croissant,22,2.50
+2026-10-20,Chocolate cookie,28,1.50
+2026-10-20,Coffee,32,2.00
+2026-10-20,Iced latte,22,3.50
+2026-10-20,Matcha tea,18,3.00
+2026-10-21,Butter croissant,22,2.50
+2026-10-21,Chocolate cookie,28,1.50
+2026-10-21,Coffee,27,2.00
+2026-10-21,Iced latte,21,3.50
+2026-10-21,Matcha tea,16,3.00
+2026-10-22,Butter croissant,22,2.50
+2026-10-22,Chocolate cookie,28,1.50
+2026-10-22,Coffee,29,2.00
+2026-10-22,Iced latte,24,3.50
+2026-10-22,Matcha tea,21,3.00
+2026-10-23,Butter croissant,21,2.50
+2026-10-23,Chocolate cookie,29,1.50
+2026-10-23,Coffee,31,2.00
+2026-10-23,Iced latte,25,3.50
+2026-10-23,Matcha tea,20,3.00
+2026-10-24,Butter croissant,23,2.50
+2026-10-24,Chocolate cookie,33,1.50
+2026-10-24,Coffee,35,2.00
+2026-10-24,Iced latte,29,3.50
+2026-10-24,Matcha tea,21,3.00
+2026-10-25,Butter croissant,29,2.50
+2026-10-25,Chocolate cookie,31,1.50
+2026-10-25,Coffee,35,2.00
+2026-10-25,Iced latte,26,3.50
+2026-10-25,Matcha tea,18,3.00
+2026-10-26,Butter croissant,18,2.50
+2026-10-26,Chocolate cookie,25,1.50
+2026-10-26,Coffee,34,2.00
+2026-10-26,Iced latte,22,3.50
+2026-10-26,Matcha tea,16,3.00
