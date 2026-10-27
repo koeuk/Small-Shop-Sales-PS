@@ -17,7 +17,7 @@ python3 scripts/dev.py
 ```
 
 Open **http://127.0.0.1:5173**. API documentation: **http://127.0.0.1:8000/docs**.
-Stop both development servers with Ctrl+C. Keep the MySQL service running.
+Ctrl+C stops servers started by the command; existing project servers are reused. Keep the MySQL service running.
 
 Default local demo sign-in:
 
