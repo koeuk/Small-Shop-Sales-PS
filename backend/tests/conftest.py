@@ -12,6 +12,7 @@ os.environ["DEMO_EMAIL"] = "admin@smallshop.local"
 os.environ["DEMO_PASSWORD"] = "shopdemo2026"
 
 from fastapi.testclient import TestClient
+
 from app.database import Base, engine
 from app.main import app, login_attempts
 
@@ -27,7 +28,9 @@ def client():
 
 @pytest.fixture
 def auth(client):
-    response = client.post("/api/auth/login", json={"email": "admin@smallshop.local", "password": "shopdemo2026"})
+    response = client.post(
+        "/api/auth/login", json={"email": "admin@smallshop.local", "password": "shopdemo2026"}
+    )
     assert response.status_code == 200, response.text
     client.headers["Authorization"] = f"Bearer {response.json()['access_token']}"
     return client

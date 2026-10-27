@@ -6,7 +6,6 @@ from zipfile import ZipFile
 
 import numpy as np
 from openpyxl import Workbook
-from sqlalchemy import select
 
 from app.config import settings
 from app.database import session_scope
@@ -19,34 +18,65 @@ def today():
 
 
 def product(client, name="Coffee", price="2.00"):
-    response = client.post("/api/products", json={"name": name, "category": "Drinks", "price": price})
+    response = client.post(
+        "/api/products", json={"name": name, "category": "Drinks", "price": price}
+    )
     assert response.status_code == 201, response.text
     return response.json()
 
 
 def sale(client, product_id, **kwargs):
-    payload = {"product_id": product_id, "sale_date": (today() - timedelta(days=1)).isoformat(), "quantity": 3, "unit_price": "2.00", **kwargs}
+    payload = {
+        "product_id": product_id,
+        "sale_date": (today() - timedelta(days=1)).isoformat(),
+        "quantity": 3,
+        "unit_price": "2.00",
+        **kwargs,
+    }
     return client.post("/api/sales", json=payload)
 
 
 def test_protected_endpoints(client):
-    for path in ["products", "sales", "imports", "ml/models", "ml/dataset", "predictions", "dashboard"]:
+    for path in [
+        "products",
+        "sales",
+        "imports",
+        "ml/models",
+        "ml/dataset",
+        "predictions",
+        "dashboard",
+    ]:
         assert client.get(f"/api/{path}").status_code == 401
     assert client.post("/api/ml/train", json={}).status_code == 401
     assert client.post("/api/demo/seed").status_code == 401
-    assert client.post("/api/auth/login", json={"email": "bad@example.com", "password": "wrong"}).status_code == 401
-    assert client.get("/api/products", headers={"Authorization": "Bearer forged"}).status_code == 401
+    assert (
+        client.post(
+            "/api/auth/login", json={"email": "bad@example.com", "password": "wrong"}
+        ).status_code
+        == 401
+    )
+    assert (
+        client.get("/api/products", headers={"Authorization": "Bearer forged"}).status_code == 401
+    )
 
 
 def test_product_sales_and_historical_prices(auth):
     item = product(auth)
-    assert auth.patch(f"/api/products/{item['id']}", json={"category": "Hot drinks"}).status_code == 200
+    assert (
+        auth.patch(f"/api/products/{item['id']}", json={"category": "Hot drinks"}).status_code
+        == 200
+    )
     created = sale(auth, item["id"])
     assert created.status_code == 201, created.text
     assert Decimal(str(created.json()["total_amount"])) == Decimal("6.00")
     auth.patch(f"/api/products/{item['id']}", json={"price": "9.00"})
     assert Decimal(str(auth.get("/api/sales").json()["items"][0]["unit_price"])) == Decimal("2.00")
-    payload = {"product_id": item["id"], "sale_date": (today() - timedelta(days=1)).isoformat(), "quantity": 4, "unit_price": "2.50"}
+    payload = {
+        "product_id": item["id"],
+        "sale_date": (today() - timedelta(days=1)).isoformat(),
+        "quantity": 4,
+        "unit_price": "2.50",
+    }
     updated = auth.patch(f"/api/sales/{created.json()['id']}", json=payload)
     assert updated.status_code == 200
     assert Decimal(str(updated.json()["total_amount"])) == Decimal("10.00")
@@ -63,7 +93,10 @@ def test_validation_and_owner_isolation(auth):
         assert sale(auth, item["id"], quantity=qty).status_code == 422
     assert sale(auth, item["id"], unit_price="-1").status_code == 422
     assert sale(auth, item["id"], unit_price="1.234").status_code == 422
-    assert sale(auth, item["id"], sale_date=(today() + timedelta(days=1)).isoformat()).status_code == 422
+    assert (
+        sale(auth, item["id"], sale_date=(today() + timedelta(days=1)).isoformat()).status_code
+        == 422
+    )
     assert sale(auth, item["id"], total_amount=1).status_code == 422
     assert auth.post("/api/products", json={"name": " coffee ", "price": 2}).status_code == 409
     assert auth.patch(f"/api/products/{item['id']}", json={"price": None}).status_code == 422
@@ -93,7 +126,12 @@ def test_csv_preview_partial_import_and_duplicates(auth):
     assert result.json()["import"]["row_count"] == 1
     assert result.json()["import"]["invalid_rows"] == 2
     assert auth.get("/api/sales").json()["total"] == 1
-    assert auth.post("/api/imports", files={"file": ("renamed.csv", content)}, data={"dry_run": "false"}).status_code == 409
+    assert (
+        auth.post(
+            "/api/imports", files={"file": ("renamed.csv", content)}, data={"dry_run": "false"}
+        ).status_code
+        == 409
+    )
 
 
 def test_excel_and_malformed_audit(auth):
@@ -101,14 +139,24 @@ def test_excel_and_malformed_audit(auth):
     workbook = Workbook()
     sheet = workbook.active
     sheet.append(["sale_date", "product_name", "quantity", "unit_price"])
-    sheet.append([datetime.combine(today() - timedelta(days=1), datetime.min.time()), "Coffee", 2, 2.5])
+    sheet.append(
+        [datetime.combine(today() - timedelta(days=1), datetime.min.time()), "Coffee", 2, 2.5]
+    )
     output = io.BytesIO()
     workbook.save(output)
-    response = auth.post("/api/imports", files={"file": ("sales.xlsx", output.getvalue())}, data={"dry_run": "false"})
+    response = auth.post(
+        "/api/imports", files={"file": ("sales.xlsx", output.getvalue())}, data={"dry_run": "false"}
+    )
     assert response.status_code == 200, response.text
     assert response.json()["valid_rows"] == 1
-    for name, content in [("bad.csv", b"wrong,headers\n1,2"), ("bad.xlsx", b"not a zip file"), ("bad.pdf", b"pdf")]:
-        response = auth.post("/api/imports", files={"file": (name, content)}, data={"dry_run": "false"})
+    for name, content in [
+        ("bad.csv", b"wrong,headers\n1,2"),
+        ("bad.xlsx", b"not a zip file"),
+        ("bad.pdf", b"pdf"),
+    ]:
+        response = auth.post(
+            "/api/imports", files={"file": (name, content)}, data={"dry_run": "false"}
+        )
         assert response.status_code == 422, response.text
     assert sum(row["status"] == "failed" for row in auth.get("/api/imports").json()) == 3
 
@@ -118,8 +166,9 @@ def test_insufficient_data_and_missing_policy(auth):
     assert auth.post("/api/ml/train", json={"missing_policy": "zero"}).status_code == 422
     start = today() - timedelta(days=100)
     rows = [(start + timedelta(days=i), 100.0) for i in range(100) if i != 30]
-    from fastapi import HTTPException
     import pytest
+    from fastapi import HTTPException
+
     with pytest.raises(HTTPException):
         prepare_series(rows, "reject")
     dates, values = prepare_series(rows, "zero")
@@ -140,9 +189,17 @@ def test_spreadsheet_dimensions_and_malformed_xml_are_audited(auth):
             for item in source.infolist():
                 data = source.read(item.filename)
                 if item.filename == "xl/worksheets/sheet1.xml":
-                    data = data.replace(b'A1:D2', b'A1:XFD1048576') if kind == "dimensions" else data[:150]
+                    data = (
+                        data.replace(b"A1:D2", b"A1:XFD1048576")
+                        if kind == "dimensions"
+                        else data[:150]
+                    )
                 target.writestr(item, data)
-        response = auth.post("/api/imports", files={"file": (f"{kind}.xlsx", rewritten.getvalue())}, data={"dry_run": "false"})
+        response = auth.post(
+            "/api/imports",
+            files={"file": (f"{kind}.xlsx", rewritten.getvalue())},
+            data={"dry_run": "false"},
+        )
         assert response.status_code == 422, response.text
     assert len(auth.get("/api/imports").json()) == 2
     assert auth.get("/api/sales").json()["total"] == 0
@@ -152,6 +209,7 @@ def test_unicode_product_names_cannot_silently_remap(auth):
     product(auth, "Straße")
     assert auth.post("/api/products", json={"name": "STRASSE", "price": 2}).status_code == 409
     from app.config import DEMO_USER_ID
+
     with session_scope(DEMO_USER_ID) as session:
         session.add(Product(owner_id=DEMO_USER_ID, name="STRASSE", price=Decimal("2.00")))
     content = f"sale_date,product_name,quantity,unit_price\n{today()},Straße,1,2\n".encode()
@@ -167,7 +225,10 @@ def test_recursive_evaluation_does_not_read_future_actuals():
     first = evaluate("linear_regression", estimator, dates, values, 70, 84)
     changed = values[:70] + [value * 10 for value in values[70:]]
     second = evaluate("linear_regression", estimator, dates, changed, 70, 84)
-    np.testing.assert_allclose([p["predicted"] for p in first["points"][:7]], [p["predicted"] for p in second["points"][:7]])
+    np.testing.assert_allclose(
+        [p["predicted"] for p in first["points"][:7]],
+        [p["predicted"] for p in second["points"][:7]],
+    )
 
 
 def test_complete_training_forecast_retraining_and_history(auth):
@@ -180,10 +241,17 @@ def test_complete_training_forecast_retraining_and_history(auth):
     models = trained.json()["models"]
     assert len(models) == 4
     chosen = next(model for model in models if model["metadata"]["recommended"])
-    assert chosen["metadata"]["validation_mae"] == min(m["metadata"]["validation_mae"] for m in models)
+    assert chosen["metadata"]["validation_mae"] == min(
+        m["metadata"]["validation_mae"] for m in models
+    )
     for model in models:
         splits = model["metadata"]["splits"]
-        assert splits["train"][1] < splits["validation"][0] <= splits["validation"][1] < splits["test"][0]
+        assert (
+            splits["train"][1]
+            < splits["validation"][0]
+            <= splits["validation"][1]
+            < splits["test"][0]
+        )
         assert all(point["date"] >= splits["test"][0] for point in model["metadata"]["test_points"])
         assert model["mae"] >= 0 and model["rmse"] >= 0
         assert "model_path" not in model

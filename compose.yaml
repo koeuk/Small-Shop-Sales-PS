@@ -1,0 +1,21 @@
+name: small-shop-sales
+services:
+  mysql:
+    image: mysql:8.4
+    ports:
+      - "127.0.0.1:3307:3306"
+    environment:
+      MYSQL_DATABASE: small_shop_sales
+      MYSQL_USER: smallshop
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-smallshop_local_2026}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-smallshop_root_local_2026}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+    restart: unless-stopped
+volumes:
+  mysql_data:

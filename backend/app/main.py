@@ -15,11 +15,19 @@ from fastapi.responses import JSONResponse, Response
 from sqlalchemy import func, inspect, select
 from sqlalchemy.exc import IntegrityError, OperationalError
 
-from .auth import Login, Refresh, current_user, sign_in, supabase_request
+from .auth import Login, current_user, sign_in
 from .config import settings
 from .database import Base, engine, session_scope
 from .imports import MAX_FILE_BYTES, commit_import, prepare_import
-from .ml import TRAINING_LOCK, daily_history, dataset_quality, fingerprint, forecast_values, public_model, train_models
+from .ml import (
+    TRAINING_LOCK,
+    daily_history,
+    dataset_quality,
+    fingerprint,
+    forecast_values,
+    public_model,
+    train_models,
+)
 from .models import DataImport, MLModel, Prediction, Product, Sale, utcnow
 from .product_names import normalize_name
 from .schemas import ForecastInput, ProductInput, ProductUpdate, SaleInput, TrainInput
@@ -30,33 +38,52 @@ logger = logging.getLogger(__name__)
 
 @asynccontextmanager
 async def lifespan(_):
-    if settings.mode == "demo":
-        Base.metadata.create_all(engine)
+    Base.metadata.create_all(engine)
     yield
 
 
 app = FastAPI(title="Small Shop Sales API", version="1.0.0", lifespan=lifespan)
-app.add_middleware(CORSMiddleware, allow_origins=list(settings.origins), allow_credentials=False, allow_methods=["GET", "POST", "PATCH", "DELETE"], allow_headers=["Authorization", "Content-Type"])
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=list(settings.origins),
+    allow_credentials=False,
+    allow_methods=["GET", "POST", "PATCH", "DELETE"],
+    allow_headers=["Authorization", "Content-Type"],
+)
 
 
 @app.exception_handler(IntegrityError)
 async def integrity_error(_, exc):
     logger.warning("Database constraint rejected a write: %s", type(exc).__name__)
-    return JSONResponse(status_code=409, content={"detail": "This record conflicts with existing data or a database constraint. Refresh and check the values."})
+    return JSONResponse(
+        status_code=409,
+        content={
+            "detail": "This record conflicts with existing data or a database constraint. Refresh and check the values."
+        },
+    )
 
 
 @app.exception_handler(OperationalError)
 async def database_error(_, exc):
     logger.error("Database operation failed: %s", type(exc).__name__)
-    return JSONResponse(status_code=503, content={"detail": "Database is temporarily unavailable. Check the server configuration."})
+    return JSONResponse(
+        status_code=503,
+        content={"detail": "Database is temporarily unavailable. Check the server configuration."},
+    )
 
 
 def row_dict(record):
-    return {column.key: getattr(record, column.key) for column in inspect(record).mapper.column_attrs if column.key not in {"owner_id", "model_path"}}
+    return {
+        column.key: getattr(record, column.key)
+        for column in inspect(record).mapper.column_attrs
+        if column.key not in {"owner_id", "model_path"}
+    }
 
 
 def owned(session, model, record_id, owner_id):
-    record = session.scalar(select(model).where(model.id == str(record_id), model.owner_id == owner_id))
+    record = session.scalar(
+        select(model).where(model.id == str(record_id), model.owner_id == owner_id)
+    )
     if not record:
         raise HTTPException(404, "Record not found")
     return record
@@ -69,7 +96,14 @@ def health_check():
 
 @app.get("/api/config")
 def app_config():
-    return {"mode": settings.mode, "currency": "USD", "timezone": str(settings.timezone), "demo_email": settings.demo_email if settings.mode == "demo" else None, "default_demo_password": settings.mode == "demo" and settings.demo_password == "shopdemo2026"}
+    return {
+        "mode": settings.mode,
+        "currency": "USD",
+        "timezone": str(settings.timezone),
+        "demo_email": settings.admin_email if settings.mode == "demo" else None,
+        "default_demo_password": settings.mode == "demo"
+        and settings.admin_password == "shopdemo2026",
+    }
 
 
 login_attempts = defaultdict(deque)
@@ -90,20 +124,19 @@ def login(payload: Login, request: Request):
     return sign_in(payload)
 
 
-@app.post("/api/auth/refresh")
-def refresh(payload: Refresh):
-    if settings.mode != "supabase":
-        raise HTTPException(400, "Demo sessions last eight hours. Sign in again to renew.")
-    return supabase_request("token?grant_type=refresh_token", payload.model_dump())
-
-
 @app.get("/api/auth/me")
 def me(owner_id: str = Depends(current_user)):
     return {"id": owner_id, "mode": settings.mode}
 
 
 @app.get("/api/products")
-def products(search: str = Query("", max_length=100), include_archived: bool = False, page: int = Query(1, ge=1), page_size: int = Query(50, ge=1, le=1000), owner_id: str = Depends(current_user)):
+def products(
+    search: str = Query("", max_length=100),
+    include_archived: bool = False,
+    page: int = Query(1, ge=1),
+    page_size: int = Query(50, ge=1, le=1000),
+    owner_id: str = Depends(current_user),
+):
     with session_scope(owner_id) as session:
         query = select(Product).where(Product.owner_id == owner_id)
         if not include_archived:
@@ -111,16 +144,29 @@ def products(search: str = Query("", max_length=100), include_archived: bool = F
         if search:
             query = query.where(Product.name.ilike(f"%{search}%"))
         total = session.scalar(select(func.count()).select_from(query.subquery()))
-        items = session.scalars(query.order_by(Product.archived, Product.name).offset((page - 1) * page_size).limit(page_size))
-        return {"items": [row_dict(item) for item in items], "total": total, "page": page, "page_size": page_size}
+        items = session.scalars(
+            query.order_by(Product.archived, Product.name)
+            .offset((page - 1) * page_size)
+            .limit(page_size)
+        )
+        return {
+            "items": [row_dict(item) for item in items],
+            "total": total,
+            "page": page,
+            "page_size": page_size,
+        }
 
 
 def unique_product_name(session, owner_id, name, excluding=None):
     query = select(Product).where(Product.owner_id == owner_id)
     if excluding:
         query = query.where(Product.id != excluding)
-    if any(normalize_name(product.name) == normalize_name(name) for product in session.scalars(query)):
-        raise HTTPException(409, "A product with this name already exists, including archived products")
+    if any(
+        normalize_name(product.name) == normalize_name(name) for product in session.scalars(query)
+    ):
+        raise HTTPException(
+            409, "A product with this name already exists, including archived products"
+        )
 
 
 @app.post("/api/products", status_code=201)
@@ -150,15 +196,27 @@ def update_product(record_id: UUID, payload: ProductUpdate, owner_id: str = Depe
 def delete_product(record_id: UUID, owner_id: str = Depends(current_user)):
     with session_scope(owner_id) as session:
         record = owned(session, Product, record_id, owner_id)
-        if session.scalar(select(func.count()).select_from(Sale).where(Sale.product_id == record.id)):
+        if session.scalar(
+            select(func.count()).select_from(Sale).where(Sale.product_id == record.id)
+        ):
             record.archived = True
-            return {"action": "archived", "message": "Product archived; historical sales are preserved"}
+            return {
+                "action": "archived",
+                "message": "Product archived; historical sales are preserved",
+            }
         session.delete(record)
         return {"action": "deleted", "message": "Product deleted"}
 
 
 @app.get("/api/sales")
-def sales(start_date: date | None = None, end_date: date | None = None, product_id: UUID | None = None, page: int = Query(1, ge=1), page_size: int = Query(25, ge=1, le=200), owner_id: str = Depends(current_user)):
+def sales(
+    start_date: date | None = None,
+    end_date: date | None = None,
+    product_id: UUID | None = None,
+    page: int = Query(1, ge=1),
+    page_size: int = Query(25, ge=1, le=200),
+    owner_id: str = Depends(current_user),
+):
     if start_date and end_date and start_date > end_date:
         raise HTTPException(400, "Start date must be before end date")
     with session_scope(owner_id) as session:
@@ -170,10 +228,34 @@ def sales(start_date: date | None = None, end_date: date | None = None, product_
         if product_id:
             query = query.where(Sale.product_id == str(product_id))
         subquery = query.subquery()
-        total, revenue = session.execute(select(func.count(), func.coalesce(func.sum(subquery.c.total_amount), 0)).select_from(subquery)).one()
-        records = session.scalars(query.order_by(Sale.sale_date.desc(), Sale.created_at.desc(), Sale.id).offset((page - 1) * page_size).limit(page_size)).all()
-        names = dict(session.execute(select(Product.id, Product.name).where(Product.owner_id == owner_id)).all())
-        return {"items": [{**row_dict(record), "product_name": names.get(record.product_id, "Archived product")} for record in records], "total": total, "revenue": revenue, "page": page, "page_size": page_size}
+        total, revenue = session.execute(
+            select(func.count(), func.coalesce(func.sum(subquery.c.total_amount), 0)).select_from(
+                subquery
+            )
+        ).one()
+        records = session.scalars(
+            query.order_by(Sale.sale_date.desc(), Sale.created_at.desc(), Sale.id)
+            .offset((page - 1) * page_size)
+            .limit(page_size)
+        ).all()
+        names = dict(
+            session.execute(
+                select(Product.id, Product.name).where(Product.owner_id == owner_id)
+            ).all()
+        )
+        return {
+            "items": [
+                {
+                    **row_dict(record),
+                    "product_name": names.get(record.product_id, "Archived product"),
+                }
+                for record in records
+            ],
+            "total": total,
+            "revenue": revenue,
+            "page": page,
+            "page_size": page_size,
+        }
 
 
 def assign_sale(session, owner_id, payload, record=None):
@@ -213,7 +295,12 @@ def delete_sale(record_id: UUID, owner_id: str = Depends(current_user)):
 
 
 @app.post("/api/imports")
-def import_sales(file: UploadFile = File(...), dry_run: bool = Form(True), synthetic: bool = Form(False), owner_id: str = Depends(current_user)):
+def import_sales(
+    file: UploadFile = File(...),
+    dry_run: bool = Form(True),
+    synthetic: bool = Form(False),
+    owner_id: str = Depends(current_user),
+):
     content = file.file.read(MAX_FILE_BYTES + 1)
     if len(content) > MAX_FILE_BYTES:
         raise HTTPException(413, "File size must be 5 MB or less")
@@ -225,14 +312,25 @@ def import_sales(file: UploadFile = File(...), dry_run: bool = Form(True), synth
         record = commit_import(session, owner_id, filename, summary, valid, existing, synthetic)
         result = {**summary, "import": row_dict(record)}
     if not valid:
-        return JSONResponse(status_code=422, content={"detail": "No valid rows were imported. Review the preview and import history.", "errors": summary["errors"]})
+        return JSONResponse(
+            status_code=422,
+            content={
+                "detail": "No valid rows were imported. Review the preview and import history.",
+                "errors": summary["errors"],
+            },
+        )
     return result
 
 
 @app.get("/api/imports")
 def import_history(owner_id: str = Depends(current_user)):
     with session_scope(owner_id) as session:
-        records = session.scalars(select(DataImport).where(DataImport.owner_id == owner_id).order_by(DataImport.created_at.desc()).limit(100))
+        records = session.scalars(
+            select(DataImport)
+            .where(DataImport.owner_id == owner_id)
+            .order_by(DataImport.created_at.desc())
+            .limit(100)
+        )
         return [row_dict(record) for record in records]
 
 
@@ -249,7 +347,10 @@ def train(payload: TrainInput, owner_id: str = Depends(current_user)):
     try:
         with session_scope(owner_id) as session:
             records = train_models(session, owner_id, payload.missing_policy)
-            return {"models": [public_model(record) for record in records], "message": "Compared four models. Recommendation uses validation MAE; test dates remain unseen until final evaluation."}
+            return {
+                "models": [public_model(record) for record in records],
+                "message": "Compared four models. Recommendation uses validation MAE; test dates remain unseen until final evaluation.",
+            }
     finally:
         TRAINING_LOCK.release()
 
@@ -258,20 +359,55 @@ def train(payload: TrainInput, owner_id: str = Depends(current_user)):
 def models(owner_id: str = Depends(current_user)):
     with session_scope(owner_id) as session:
         current = fingerprint(daily_history(session, owner_id))
-        records = session.scalars(select(MLModel).where(MLModel.owner_id == owner_id).order_by(MLModel.trained_at.desc(), MLModel.id).limit(100)).all()
+        records = session.scalars(
+            select(MLModel)
+            .where(MLModel.owner_id == owner_id)
+            .order_by(MLModel.trained_at.desc(), MLModel.id)
+            .limit(100)
+        ).all()
         return [public_model(record, current) for record in records]
 
 
 def forecast_runs(session, owner_id, limit=100):
-    runs = session.scalars(select(Prediction.run_id).where(Prediction.owner_id == owner_id).group_by(Prediction.run_id).order_by(func.max(Prediction.created_at).desc()).limit(limit)).all()
+    runs = session.scalars(
+        select(Prediction.run_id)
+        .where(Prediction.owner_id == owner_id)
+        .group_by(Prediction.run_id)
+        .order_by(func.max(Prediction.created_at).desc())
+        .limit(limit)
+    ).all()
     if not runs:
         return []
-    records = session.execute(select(Prediction, MLModel).join(MLModel, Prediction.model_id == MLModel.id).where(Prediction.owner_id == owner_id, Prediction.run_id.in_(runs)).order_by(Prediction.prediction_date)).all()
+    records = session.execute(
+        select(Prediction, MLModel)
+        .join(MLModel, Prediction.model_id == MLModel.id)
+        .where(Prediction.owner_id == owner_id, Prediction.run_id.in_(runs))
+        .order_by(Prediction.prediction_date)
+    ).all()
     actuals = dict(daily_history(session, owner_id))
     grouped = {}
     for prediction, model in records:
-        run = grouped.setdefault(prediction.run_id, {"id": prediction.run_id, "model_id": model.id, "model_name": model.model_name, "created_at": prediction.created_at, "synthetic": model.metadata_json.get("synthetic", False), "training_end_date": model.training_end_date, "mae": model.mae, "predictions": [], "total": Decimal("0.00")})
-        run["predictions"].append({"date": prediction.prediction_date, "revenue": prediction.predicted_sales, "actual": actuals.get(prediction.prediction_date)})
+        run = grouped.setdefault(
+            prediction.run_id,
+            {
+                "id": prediction.run_id,
+                "model_id": model.id,
+                "model_name": model.model_name,
+                "created_at": prediction.created_at,
+                "synthetic": model.metadata_json.get("synthetic", False),
+                "training_end_date": model.training_end_date,
+                "mae": model.mae,
+                "predictions": [],
+                "total": Decimal("0.00"),
+            },
+        )
+        run["predictions"].append(
+            {
+                "date": prediction.prediction_date,
+                "revenue": prediction.predicted_sales,
+                "actual": actuals.get(prediction.prediction_date),
+            }
+        )
         run["total"] += prediction.predicted_sales
     return [grouped[run] for run in runs]
 
@@ -284,7 +420,16 @@ def predict(payload: ForecastInput, owner_id: str = Depends(current_user)):
         run_id = str(uuid4())
         created_at = utcnow()
         for day, value in values:
-            session.add(Prediction(owner_id=owner_id, model_id=model.id, run_id=run_id, prediction_date=day, predicted_sales=Decimal(str(value)), created_at=created_at))
+            session.add(
+                Prediction(
+                    owner_id=owner_id,
+                    model_id=model.id,
+                    run_id=run_id,
+                    prediction_date=day,
+                    predicted_sales=Decimal(str(value)),
+                    created_at=created_at,
+                )
+            )
         session.flush()
         return forecast_runs(session, owner_id, limit=1)[0]
 
@@ -298,15 +443,33 @@ def predictions(owner_id: str = Depends(current_user)):
 @app.get("/api/predictions/{run_id}/export")
 def export_predictions(run_id: UUID, owner_id: str = Depends(current_user)):
     with session_scope(owner_id) as session:
-        records = session.scalars(select(Prediction).where(Prediction.owner_id == owner_id, Prediction.run_id == str(run_id)).order_by(Prediction.prediction_date)).all()
+        records = session.scalars(
+            select(Prediction)
+            .where(Prediction.owner_id == owner_id, Prediction.run_id == str(run_id))
+            .order_by(Prediction.prediction_date)
+        ).all()
         if not records:
             raise HTTPException(404, "Forecast not found")
         output = io.StringIO()
         writer = csv.writer(output)
-        writer.writerow(["prediction_date", "predicted_revenue_usd", "model_id", "run_id", "created_at_utc"])
+        writer.writerow(
+            ["prediction_date", "predicted_revenue_usd", "model_id", "run_id", "created_at_utc"]
+        )
         for record in records:
-            writer.writerow([record.prediction_date, record.predicted_sales, record.model_id, record.run_id, record.created_at.isoformat()])
-        return Response(output.getvalue(), media_type="text/csv", headers={"Content-Disposition": f'attachment; filename="forecast-{run_id}.csv"'})
+            writer.writerow(
+                [
+                    record.prediction_date,
+                    record.predicted_sales,
+                    record.model_id,
+                    record.run_id,
+                    record.created_at.isoformat(),
+                ]
+            )
+        return Response(
+            output.getvalue(),
+            media_type="text/csv",
+            headers={"Content-Disposition": f'attachment; filename="forecast-{run_id}.csv"'},
+        )
 
 
 @app.post("/api/demo/seed", status_code=201)
@@ -319,23 +482,80 @@ def sample_data(owner_id: str = Depends(current_user)):
 def dashboard(owner_id: str = Depends(current_user)):
     today = datetime.now(settings.timezone).date()
     with session_scope(owner_id) as session:
-        rows = session.execute(select(Sale.sale_date, func.sum(Sale.total_amount), func.sum(Sale.quantity)).where(Sale.owner_id == owner_id).group_by(Sale.sale_date).order_by(Sale.sale_date)).all()
-        recent = [(day, float(revenue), quantity) for day, revenue, quantity in rows if day >= today - timedelta(days=29)]
-        previous = sum(float(revenue) for day, revenue, _ in rows if today - timedelta(days=59) <= day < today - timedelta(days=29))
+        rows = session.execute(
+            select(Sale.sale_date, func.sum(Sale.total_amount), func.sum(Sale.quantity))
+            .where(Sale.owner_id == owner_id)
+            .group_by(Sale.sale_date)
+            .order_by(Sale.sale_date)
+        ).all()
+        recent = [
+            (day, float(revenue), quantity)
+            for day, revenue, quantity in rows
+            if day >= today - timedelta(days=29)
+        ]
+        previous = sum(
+            float(revenue)
+            for day, revenue, _ in rows
+            if today - timedelta(days=59) <= day < today - timedelta(days=29)
+        )
         revenue = sum(value for _, value, _ in recent)
-        names = session.execute(select(Product.name, func.sum(Sale.total_amount).label("revenue"), func.sum(Sale.quantity).label("quantity")).join(Sale, Sale.product_id == Product.id).where(Sale.owner_id == owner_id, Sale.sale_date >= today - timedelta(days=29)).group_by(Product.id, Product.name).order_by(func.sum(Sale.total_amount).desc()).limit(5)).all()
+        names = session.execute(
+            select(
+                Product.name,
+                func.sum(Sale.total_amount).label("revenue"),
+                func.sum(Sale.quantity).label("quantity"),
+            )
+            .join(Sale, Sale.product_id == Product.id)
+            .where(Sale.owner_id == owner_id, Sale.sale_date >= today - timedelta(days=29))
+            .group_by(Product.id, Product.name)
+            .order_by(func.sum(Sale.total_amount).desc())
+            .limit(5)
+        ).all()
         quality = dataset_quality(session, owner_id)
-        latest_model = session.scalar(select(MLModel).where(MLModel.owner_id == owner_id).order_by(MLModel.trained_at.desc()).limit(1))
+        latest_model = session.scalar(
+            select(MLModel)
+            .where(MLModel.owner_id == owner_id)
+            .order_by(MLModel.trained_at.desc())
+            .limit(1)
+        )
         if latest_model:
-            group = session.scalars(select(MLModel).where(MLModel.owner_id == owner_id).order_by(MLModel.trained_at.desc()).limit(4)).all()
-            latest_model = next((model for model in group if model.metadata_json["batch_id"] == latest_model.metadata_json["batch_id"] and model.metadata_json.get("recommended")), latest_model)
+            group = session.scalars(
+                select(MLModel)
+                .where(MLModel.owner_id == owner_id)
+                .order_by(MLModel.trained_at.desc())
+                .limit(4)
+            ).all()
+            latest_model = next(
+                (
+                    model
+                    for model in group
+                    if model.metadata_json["batch_id"] == latest_model.metadata_json["batch_id"]
+                    and model.metadata_json.get("recommended")
+                ),
+                latest_model,
+            )
         return {
-            "revenue_30d": revenue, "previous_revenue_30d": previous, "change_percent": (revenue - previous) / previous * 100 if previous else None,
-            "units_30d": sum(quantity for _, _, quantity in recent), "average_daily": revenue / 30,
-            "sales_count": session.scalar(select(func.count()).select_from(Sale).where(Sale.owner_id == owner_id)),
-            "product_count": session.scalar(select(func.count()).select_from(Product).where(Product.owner_id == owner_id, Product.archived.is_(False))),
-            "daily": [{"date": day, "revenue": float(value), "quantity": quantity} for day, value, quantity in rows[-90:]],
-            "top_products": [{"name": name, "revenue": float(value), "quantity": quantity} for name, value, quantity in names],
+            "revenue_30d": revenue,
+            "previous_revenue_30d": previous,
+            "change_percent": (revenue - previous) / previous * 100 if previous else None,
+            "units_30d": sum(quantity for _, _, quantity in recent),
+            "average_daily": revenue / 30,
+            "sales_count": session.scalar(
+                select(func.count()).select_from(Sale).where(Sale.owner_id == owner_id)
+            ),
+            "product_count": session.scalar(
+                select(func.count())
+                .select_from(Product)
+                .where(Product.owner_id == owner_id, Product.archived.is_(False))
+            ),
+            "daily": [
+                {"date": day, "revenue": float(value), "quantity": quantity}
+                for day, value, quantity in rows[-90:]
+            ],
+            "top_products": [
+                {"name": name, "revenue": float(value), "quantity": quantity}
+                for name, value, quantity in names
+            ],
             "quality": {key: value for key, value in quality.items() if key != "daily"},
             "model": public_model(latest_model, quality["fingerprint"]) if latest_model else None,
             "forecast": next(iter(forecast_runs(session, owner_id, limit=1)), None),
