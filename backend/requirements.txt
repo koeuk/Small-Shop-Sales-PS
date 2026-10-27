@@ -10,4 +10,4 @@ joblib==1.6.0
 defusedxml==0.7.1
 python-dotenv==1.2.4
 numpy==2.5.4
-argon2-cffi>=25,<26
+argon2-cffi==25.1.0

@@ -4,6 +4,7 @@ Run on a fresh demo database. This deliberately loads synthetic sales and leaves
 them in place for inspection. Start the two servers before running this script.
 """
 
+import os
 from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -64,7 +65,15 @@ with sync_playwright() as playwright:
     page.goto("http://127.0.0.1:5173", wait_until="networkidle")
     expect(page.get_by_role("heading", name="Welcome back.")).to_be_visible()
     capture(page, "login.png")
-    page.get_by_role("button", name="Fill demo credentials").click()
+    config = page.request.get("http://127.0.0.1:5173/api/config").json()
+    supplied_password = os.getenv("BROWSER_ADMIN_PASSWORD")
+    if supplied_password:
+        page.get_by_label("Email address", exact=True).fill(os.getenv("BROWSER_ADMIN_EMAIL", config["demo_email"]))
+        page.get_by_label("Password", exact=True).fill(supplied_password)
+    elif config["default_demo_password"]:
+        page.get_by_role("button", name="Fill demo credentials").click()
+    else:
+        raise SystemExit("Set BROWSER_ADMIN_PASSWORD for the configured demo account before running browser checks")
     page.get_by_role("button", name="Sign in to your shop").click()
     expect(
         page.get_by_role("heading", name="Your shop, a little clearer.")
