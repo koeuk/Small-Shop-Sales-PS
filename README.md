@@ -109,6 +109,9 @@ python -m scripts.test_mysql
 ruff check app tests
 ```
 
+`backend/requirements-dev.lock.txt` records the complete verified Python environment
+when identical dependency versions are needed.
+
 MySQL tests require a separate project `_test` schema; the configured workspace has
 one. Ordinary `python -m pytest -q` uses a temporary SQLite test harness and does
 not use the application database. SQLite is not the application's default storage.

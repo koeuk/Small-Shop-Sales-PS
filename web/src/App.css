@@ -1796,6 +1796,24 @@
   min-height: 45px;
   background: white;
 }
+.password-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.password-input {
+  position: relative;
+}
+.password-input input {
+  padding-right: 48px;
+}
+.password-input .password-toggle {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  width: 42px;
+  height: calc(100% - 2px);
+}
 .login-form > .button {
   width: 100%;
   min-height: 45px;

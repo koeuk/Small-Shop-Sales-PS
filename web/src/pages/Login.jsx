@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowRight, LockKeyhole, Sprout, Store } from "lucide-react";
+import { ArrowRight, Eye, EyeOff, LockKeyhole, Sprout, Store } from "lucide-react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../hooks";
 import { Button, Notice } from "../components";
@@ -8,6 +8,7 @@ export default function Login() {
   const { user, config, configError, expired, login, retryConfig } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   if (user) return <Navigate to="/" replace />;
@@ -111,17 +112,31 @@ export default function Login() {
               placeholder="you@yourshop.com"
             />
           </label>
-          <label>
-            Password
-            <input
-              type="password"
-              autoComplete="current-password"
-              required
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              placeholder="Enter your password"
-            />
-          </label>
+          <div className="password-field">
+            <label htmlFor="login-password">Password</label>
+            <div className="password-input">
+              <input
+                id="login-password"
+                type={showPassword ? "text" : "password"}
+                autoComplete="current-password"
+                required
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                placeholder="Enter your password"
+              />
+              <button
+                type="button"
+                className="icon-button password-toggle"
+                aria-label={showPassword ? "Hide password" : "Show password"}
+                aria-controls="login-password"
+                aria-pressed={showPassword}
+                title={showPassword ? "Hide password" : "Show password"}
+                onClick={() => setShowPassword((visible) => !visible)}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
+          </div>
           <Button type="submit" busy={busy} disabled={!config}>
             Sign in to your shop
             <ArrowRight size={17} />

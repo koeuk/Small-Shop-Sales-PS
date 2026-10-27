@@ -29,11 +29,29 @@ def utcnow():
     return datetime.now(UTC)
 
 
+class User(Base):
+    __tablename__ = "users"
+    id: Mapped[str] = mapped_column(
+        Uuid(as_uuid=False), primary_key=True, default=lambda: str(uuid4())
+    )
+    name: Mapped[str] = mapped_column(String(100), default="Shop administrator")
+    email: Mapped[str] = mapped_column(String(255), unique=True)
+    password_hash: Mapped[str] = mapped_column(String(255))
+    role: Mapped[str] = mapped_column(String(20), default="administrator")
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True)
+    token_version: Mapped[int] = mapped_column(Integer, default=1)
+    created_at: Mapped[datetime] = mapped_column(UTC_DATETIME, default=utcnow)
+    updated_at: Mapped[datetime] = mapped_column(UTC_DATETIME, default=utcnow, onupdate=utcnow)
+    __table_args__ = (CheckConstraint("role IN ('administrator', 'operator')", name="users_role_valid"),)
+
+
 class Record:
     id: Mapped[str] = mapped_column(
         Uuid(as_uuid=False), primary_key=True, default=lambda: str(uuid4())
     )
-    owner_id: Mapped[str] = mapped_column(Uuid(as_uuid=False), nullable=False, index=True)
+    owner_id: Mapped[str] = mapped_column(
+        Uuid(as_uuid=False), ForeignKey("users.id", ondelete="RESTRICT"), nullable=False, index=True
+    )
     created_at: Mapped[datetime] = mapped_column(UTC_DATETIME, default=utcnow)
 
 

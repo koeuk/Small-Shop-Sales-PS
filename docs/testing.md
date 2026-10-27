@@ -79,3 +79,10 @@ to `docs/screenshots/`.
 No live forecast accuracy guarantee is claimed. Metrics and screenshots describe
 the generated demonstration dataset. Performance is observed on this development
 machine, not load-tested for public multi-user deployment.
+
+The temporary standalone MySQL instance used early in verification listens on
+localhost:3307. The execution environment denied signaling that process during
+cleanup; it is not used by the application, which connects to the configured
+existing server on port 3306. Its runtime directory and PID are recorded in
+`/tmp/small-shop-mysql-runtime.json` and that directory's `mysql.pid` file, for
+cleanup from the host terminal. The existing MySQL service must remain running.

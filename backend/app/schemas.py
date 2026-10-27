@@ -1,9 +1,10 @@
 from datetime import date, datetime
+import re
 from decimal import Decimal
 from typing import Annotated, Literal
 from uuid import UUID
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, field_validator, model_validator
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StringConstraints, field_validator, model_validator
 
 from .config import settings
 
@@ -81,3 +82,40 @@ class TrainInput(Input):
 
 class ForecastInput(Input):
     model_id: UUID
+
+
+class UserInput(Input):
+    name: str = Field(min_length=1, max_length=100)
+    email: str = Field(min_length=3, max_length=255)
+    password: Annotated[str, StringConstraints(strip_whitespace=False, min_length=12, max_length=256)]
+    role: Literal["administrator", "operator"] = "operator"
+
+    @field_validator("email")
+    @classmethod
+    def valid_email(cls, value):
+        if not re.fullmatch(r"[^\s@]+@[^\s@]+\.[^\s@]+", value):
+            raise ValueError("Enter a valid email address")
+        return value.casefold()
+
+class UserUpdate(Input):
+    name: str | None = Field(default=None, min_length=1, max_length=100)
+    email: str | None = Field(default=None, min_length=3, max_length=255)
+    role: Literal["administrator", "operator"] | None = None
+    is_active: bool | None = None
+
+    @field_validator("email")
+    @classmethod
+    def valid_email(cls, value):
+        return UserInput.valid_email(value) if value is not None else value
+
+    @model_validator(mode="after")
+    def not_null(self):
+        for name in self.model_fields_set:
+            if getattr(self, name) is None:
+                raise ValueError(f"{name} cannot be null")
+        return self
+
+
+class PasswordReset(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    password: str = Field(min_length=12, max_length=256)

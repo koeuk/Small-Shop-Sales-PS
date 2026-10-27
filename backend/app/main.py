@@ -16,7 +16,7 @@ from pydantic import ValidationError
 from sqlalchemy import func, inspect, select
 from sqlalchemy.exc import IntegrityError, OperationalError
 
-from .auth import Login, current_user, sign_in
+from .auth import Login, bootstrap_administrator, current_identity, current_user, demo_account_config, public_user, require_administrator, sign_in
 from .config import settings
 from .database import Base, engine, session_scope
 from .imports import MAX_FILE_BYTES, commit_import, prepare_import
@@ -29,10 +29,12 @@ from .ml import (
     public_model,
     train_models,
 )
-from .models import DataImport, MLModel, Prediction, Product, Sale, utcnow
+from .models import DataImport, MLModel, Prediction, Product, Sale, User, utcnow
+from .migrations import migrate_user_ownership
 from .product_names import normalize_name
 from .schemas import ForecastInput, ProductInput, ProductUpdate, SaleInput, SaleUpdate, TrainInput
 from .seed import seed_demo
+from .users import router as users_router
 
 logger = logging.getLogger(__name__)
 
@@ -40,10 +42,13 @@ logger = logging.getLogger(__name__)
 @asynccontextmanager
 async def lifespan(_):
     Base.metadata.create_all(engine)
+    bootstrap_administrator()
+    migrate_user_ownership()
     yield
 
 
 app = FastAPI(title="Small Shop Sales API", version="1.0.0", lifespan=lifespan)
+app.include_router(users_router)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=list(settings.origins),
@@ -77,7 +82,7 @@ def row_dict(record):
     return {
         column.key: getattr(record, column.key)
         for column in inspect(record).mapper.column_attrs
-        if column.key not in {"owner_id", "model_path"}
+        if column.key not in {"owner_id", "model_path", "password_hash", "token_version"}
     }
 
 
@@ -101,9 +106,7 @@ def app_config():
         "mode": settings.mode,
         "currency": "USD",
         "timezone": str(settings.timezone),
-        "demo_email": settings.admin_email if settings.mode == "demo" else None,
-        "default_demo_password": settings.mode == "demo"
-        and settings.admin_password == "shopdemo2026",
+        **demo_account_config(),
     }
 
 
@@ -126,8 +129,8 @@ def login(payload: Login, request: Request):
 
 
 @app.get("/api/auth/me")
-def me(owner_id: str = Depends(current_user)):
-    return {"id": owner_id, "mode": settings.mode}
+def me(identity: User = Depends(current_identity)):
+    return {**public_user(identity), "mode": settings.mode}
 
 
 @app.get("/api/products")
@@ -351,7 +354,7 @@ def dataset(owner_id: str = Depends(current_user)):
 
 
 @app.post("/api/ml/train", status_code=201)
-def train(payload: TrainInput, owner_id: str = Depends(current_user)):
+def train(payload: TrainInput, owner_id: str = Depends(require_administrator)):
     if not TRAINING_LOCK.acquire(blocking=False):
         raise HTTPException(409, "Training is already running; try again shortly")
     try:
@@ -424,7 +427,7 @@ def forecast_runs(session, owner_id, limit=100, run_id=None):
 
 
 @app.post("/api/predictions", status_code=201)
-def predict(payload: ForecastInput, owner_id: str = Depends(current_user)):
+def predict(payload: ForecastInput, owner_id: str = Depends(require_administrator)):
     with session_scope(owner_id) as session:
         model = owned(session, MLModel, payload.model_id, owner_id)
         values = forecast_values(session, owner_id, model)
@@ -484,7 +487,7 @@ def export_predictions(run_id: UUID, owner_id: str = Depends(current_user)):
 
 
 @app.post("/api/demo/seed", status_code=201)
-def sample_data(owner_id: str = Depends(current_user)):
+def sample_data(owner_id: str = Depends(require_administrator)):
     with session_scope(owner_id) as session:
         return seed_demo(session, owner_id)
 

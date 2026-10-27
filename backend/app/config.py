@@ -43,13 +43,9 @@ class Settings:
             raise RuntimeError("APP_MODE must be demo or production")
         UUID(self.admin_id)
         if self.mode == "production":
-            if (
-                len(self.jwt_secret) < 32
-                or len(self.admin_password) < 12
-                or self.admin_password == "shopdemo2026"
-            ):
+            if len(self.jwt_secret) < 32:
                 raise RuntimeError(
-                    "Production requires JWT_SECRET (32+ characters) and a custom ADMIN_PASSWORD (12+ characters)"
+                    "Production requires JWT_SECRET (32+ characters)"
                 )
             if not self.database_url.startswith("mysql+pymysql://"):
                 raise RuntimeError("Production requires a MySQL database")
