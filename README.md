@@ -19,12 +19,15 @@ python3 scripts/dev.py
 Open **http://127.0.0.1:5173**. API documentation: **http://127.0.0.1:8000/docs**.
 Ctrl+C stops servers started by the command; existing project servers are reused. Keep the MySQL service running.
 
-Default local demo sign-in:
+This workspace uses administrator email `admin@gmail.com` and the password assigned in Users.
+Passwords are stored as Argon2 hashes in MySQL. The values below apply only to a fresh demo installation:
+
+Factory demo sign-in:
 
 - Email: `admin@smallshop.local`
 - Password: `shopdemo2026`
 
-The sign-in page can fill these demo credentials. Synthetic sample sales, trained
+The sign-in page offers demo autofill only while the original demo password is still active. Synthetic sample sales, trained
 models, and forecasts generated during verification are available in the local
 workspace. On an empty database, use **Load sample data** on the overview.
 
@@ -40,7 +43,10 @@ workspace. On an empty database, use **Load sample data** on the overview.
    recommendation uses chronological validation MAE.
 5. **Forecasts:** choose a trained model, generate tomorrow through seven days ahead,
    inspect daily estimates and download CSV. Past runs retain their original model.
-6. **Overview:** review revenue, daily charts, bestsellers, dataset quality and your
+6. **Users:** administrators create/edit accounts, assign roles, reset passwords and
+   activate/deactivate access. The original owner is retained to preserve history,
+   and the final active administrator cannot be disabled or demoted.
+7. **Overview:** review revenue, daily charts, bestsellers, dataset quality and your
    current upcoming forecast. Retrain after historical sales change.
 
 Forecasts are estimates. Synthetic data is explicitly labeled. No forecast accuracy
@@ -69,7 +75,7 @@ cp backend/.env.example backend/.env
 ```
 
 Run that copy command only for a new setup; it would replace this workspace's
-configured credentials. The API creates the five tables automatically on first
+configured credentials. The API creates the six tables automatically on first
 startup. Inspect the schema in [database/schema.sql](database/schema.sql).
 
 ### 2. Python API
@@ -149,9 +155,14 @@ requirements are in [plan.md](plan.md).
 `APP_MODE=demo` enables sample loading and default local credentials. Production
 mode requires a custom administrator password and a random `JWT_SECRET` of at least
 32 characters. JWTs expire after eight hours. No external authentication provider
-is used. The administrator is configured on the server; there is no users table.
+is used. Accounts live in the MySQL `users` table. `ADMIN_EMAIL` and `ADMIN_PASSWORD`
+bootstrap the original administrator once; changing these environment values never
+overwrites an existing account. Manage passwords in Users afterward.
 
 MySQL records and `backend/data/artifacts/` must be backed up together. Training
 is synchronous and creates new model versions. Model artifacts are validated
 before loading, are not uploaded by users, and must never be replaced by untrusted
-files. The prototype covers one administrator, shop, and USD currency.
+files. The prototype covers one shared shop and USD currency, with administrator and operator accounts.
+Operators manage products/sales/imports and view reports; administrators also manage
+users, train models and generate forecasts. Email/role/status changes and password
+resets revoke that account’s existing sessions.

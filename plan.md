@@ -4,7 +4,7 @@ Small Shop Sales Prediction System
 
 Machine Learning–Focused University Project
 
-Prepared for: Software Project Management | Prepared by: Kos Koeuk | Version: 1.1 | Date: 27 October 2026
+Prepared for: Software Project Management | Prepared by: Kos Koeuk | Version: 1.2 | Date: 27 October 2026
 
 Status: Proposed requirements — subject to supervisor approval
 
@@ -30,7 +30,7 @@ Success is demonstrated by a working end-to-end flow, valid imports, saved model
 
 3.1 Included
 
-Single shop, one administrator/operator; product list; historical sales; file imports; model training and evaluation; seven-day total revenue forecast; dashboard and prediction history; simple access control.
+Single shop, managed administrator/operator accounts; product list; historical sales; file imports; model training and evaluation; seven-day total revenue forecast; dashboard and prediction history; simple access control.
 
 3.2 Excluded
 
@@ -50,7 +50,7 @@ Unauthenticated visitor
 
 No access to protected data or model endpoints.
 
-Use FastAPI administrator sign-in with signed, expiring JWTs. Administrator credentials are configured on the server; a separate application users table is not required for this single-administrator prototype. Backend authorization and ownership checks must protect records. MySQL is private to the backend and uses a dedicated database account.
+Use FastAPI sign-in with signed, expiring JWTs and a MySQL users table. Store only Argon2 password hashes. Administrators manage users and forecasting; operators manage products, sales and imports and view reports. Initialize the original administrator once, then manage accounts in the Users screen. Revoke existing sessions after password, role, email or active-status changes. Preserve at least one active administrator. Backend authorization and ownership checks must protect records. MySQL is private to the backend and uses a dedicated database account.
 
 5. Functional Requirements
 
@@ -150,9 +150,13 @@ Export
 
 Allow downloading forecast results as CSV (optional enhancement).
 
-6. Data Dictionary — Five Tables
+6. Data Dictionary — Six Tables
 
 Use application-generated UUID primary keys (stored as CHAR(32) by SQLAlchemy and returned as standard UUID strings), DECIMAL monetary values, UTC DATETIME timestamps, and appropriate foreign keys. Every table includes owner_id for backend ownership checks. Currency is fixed to USD for the prototype; do not mix currencies.
+
+6.x users
+
+id UUID primary key; name VARCHAR(100); email VARCHAR(255) unique; password_hash VARCHAR(255); role administrator/operator; is_active BOOLEAN; token_version INTEGER; created_at/updated_at UTC DATETIME. Never return password_hash in API responses. The five shop-data tables reference the original shop owner via owner_id; managed accounts share this one workspace.
 
 6.x products
 
@@ -680,7 +684,7 @@ SRS, schema, screen wireframes, dataset plan
 
 2. Database & CRUD
 
-Five tables, constraints, authentication, products/sales API/UI
+Six tables, constraints, database-backed authentication and user management, products/sales API/UI
 
 3. Import & cleaning
 
@@ -716,8 +720,10 @@ Working seven-day sales forecast and dashboard.
 
 Test results, screenshots, installation guide, and final project demonstration.
 
-End of Software Requirements Specification — Version 1.1
+End of Software Requirements Specification — Version 1.2
 
-Small Shop Sales Prediction System  |  SRS v1.1
+Small Shop Sales Prediction System  |  SRS v1.2
 
 Revision 1.1: Per project owner request, MySQL replaces the original database provider and FastAPI handles administrator authentication. Local demo mode still uses MySQL; synthetic data remains explicitly labeled.
+
+Revision 1.2: Added the users table, Argon2 password hashing, account management, administrator/operator permissions, and account-based session revocation per project owner request.

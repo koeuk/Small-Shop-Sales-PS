@@ -158,7 +158,7 @@ export default function Login() {
                   <ArrowRight size={15} />
                 </button>
               ) : (
-                <p>Use the demo credentials from your backend configuration.</p>
+                <p>Use your shop account email and password.</p>
               )}
             </div>
           )}

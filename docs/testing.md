@@ -17,7 +17,7 @@ ruff format --check app tests
 
 `scripts.test_mysql` reads the database connection from `.env`, replaces only the
 database name with the test name from `.env.test` (or appends `_test`), and runs pytest.
-It drops/recreates the five tables in that test schema before each test. Never point
+It drops/recreates the six tables in that test schema before each test. Never point
 it at an application database. The schema must exist and the account needs table
 creation/deletion privileges there.
 
@@ -86,3 +86,13 @@ cleanup; it is not used by the application, which connects to the configured
 existing server on port 3306. Its runtime directory and PID are recorded in
 `/tmp/small-shop-mysql-runtime.json` and that directory's `mysql.pid` file, for
 cleanup from the host terminal. The existing MySQL service must remain running.
+
+User-management verification includes Argon2 storage, bootstrap idempotence,
+case-normalized unique emails, account CRUD, administrator/operator permissions,
+shared-shop access, password reset, deactivation, token revocation, password
+whitespace, rejection of legacy sessions, and preservation of the final active
+administrator and original owner. `scripts/users_browser_check.py` exercises those
+flows through the real interface with a temporary account that is deleted afterward.
+Custom demo sign-ins can be supplied to browser checks with `BROWSER_ADMIN_EMAIL`
+and `BROWSER_ADMIN_PASSWORD` environment variables; keep password values out of
+shared command history.

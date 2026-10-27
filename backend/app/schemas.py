@@ -96,7 +96,7 @@ class UserInput(Input):
     name: str = Field(min_length=1, max_length=100)
     email: str = Field(min_length=3, max_length=255)
     password: Annotated[
-        str, StringConstraints(strip_whitespace=False, min_length=12, max_length=256)
+        str, StringConstraints(strip_whitespace=False, min_length=8, max_length=256)
     ]
     role: Literal["administrator", "operator"] = "operator"
 
@@ -129,4 +129,4 @@ class UserUpdate(Input):
 
 class PasswordReset(BaseModel):
     model_config = ConfigDict(extra="forbid")
-    password: str = Field(min_length=12, max_length=256)
+    password: str = Field(min_length=8, max_length=256)

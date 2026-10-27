@@ -1,4 +1,4 @@
-import { useDeferredValue, useState } from "react";
+import { useDeferredValue, useId, useState } from "react";
 import {
   Eye,
   EyeOff,
@@ -35,37 +35,8 @@ function PasswordInput({
   autoComplete = "new-password",
 }) {
   const [visible, setVisible] = useState(false);
-  return (
-    <div className="password-field">
-      <label>
-        {label}
-        <div className="password-input">
-          <input
-            type={visible ? "text" : "password"}
-            required
-            minLength={12}
-            maxLength={256}
-            autoComplete={autoComplete}
-            value={value}
-            onChange={onChange}
-          />
-        </div>
-      </label>
-      <button
-        type="button"
-        className="icon-button user-password-toggle"
-        aria-label={
-          visible
-            ? `Hide ${label.toLowerCase()}`
-            : `Show ${label.toLowerCase()}`
-        }
-        aria-pressed={visible}
-        onClick={() => setVisible((current) => !current)}
-      >
-        {visible ? <EyeOff size={18} /> : <Eye size={18} />}
-      </button>
-    </div>
-  );
+  const id = useId();
+  return <div className="password-field"><label htmlFor={id}>{label}</label><div className="password-input"><input id={id} type={visible ? "text" : "password"} required minLength={8} maxLength={256} autoComplete={autoComplete} value={value} onChange={onChange} /><button type="button" className="icon-button password-toggle" aria-label={visible ? `Hide ${label.toLowerCase()}` : `Show ${label.toLowerCase()}`} aria-controls={id} aria-pressed={visible} onClick={() => setVisible(current => !current)}>{visible ? <EyeOff size={18} /> : <Eye size={18} />}</button></div></div>;
 }
 
 function UserForm({ item, onClose, onSaved }) {
@@ -135,7 +106,7 @@ function UserForm({ item, onClose, onSaved }) {
         </label>
         <label>
           Role
-          <select name="role" value={form.role} onChange={change}>
+          <select aria-label="Role" name="role" value={form.role} onChange={change}>
             <option value="operator">Operator</option>
             <option value="administrator">Administrator</option>
           </select>
@@ -152,7 +123,7 @@ function UserForm({ item, onClose, onSaved }) {
         <p className="form-hint">
           Operators manage products, sales and imports. Administrators also
           manage users, train models and generate forecasts. New passwords
-          require at least 12 characters.
+          require at least 8 characters.
         </p>
         {item && (
           <p className="form-hint">
@@ -220,7 +191,7 @@ function ResetPassword({ item, onClose, onSaved }) {
           onChange={(event) => setConfirmation(event.target.value)}
         />
         <p className="form-hint">
-          Use at least 12 characters. Resetting your own password signs you out.
+          Use at least 8 characters. Resetting your own password signs you out.
         </p>
         <div className="modal-actions">
           <Button type="button" variant="secondary" onClick={onClose}>

@@ -5,11 +5,12 @@ FastAPI administrator authentication. The UI is called **little shop**.
 
 ## 1. Database and sign-in
 
-The API uses SQLAlchemy and PyMySQL. All five tables have UUID identifiers,
-an `owner_id`, and UTC timestamps. Monetary amounts use fixed-precision decimal
+The API uses SQLAlchemy and PyMySQL. All six tables have UUID identifiers and UTC timestamps. The five shop-data
+tables link `owner_id` to `users.id`. All managed accounts share this one shop. Monetary amounts use fixed-precision decimal
 columns. MySQL timestamps retain microseconds so model versions and forecast runs
 can be ordered correctly.
 
+- `users`: account name/email, Argon2 password hash, role, active state, token version.
 - `products`: catalog price, category, archive state, created/updated timestamps.
 - `sales`: historical unit price, quantity, server-calculated total, optional import link.
 - `data_imports`: file fingerprint, original filename, counts, errors, synthetic flag.
@@ -20,12 +21,29 @@ can be ordered correctly.
 missing tables at startup. This initializes a new database; it is not a migration
 system for changing existing tables. Use MySQL 8.0.16+; Docker targets 8.4.
 
-There is one administrator, configured in the backend environment. Successful
-sign-in issues an eight-hour signed JWT. Every data endpoint verifies its signature,
-issuer, audience, expiry and administrator identity. Data queries and writes are
-scoped to that administrator. The browser keeps the token in tab session storage;
-closing the tab or signing out clears the browser session. Expired tokens require
-sign-in again. Sign-out does not revoke a copied token before its expiry.
+Accounts are stored in MySQL. The initial administrator is bootstrapped once from
+backend environment settings, preserving the existing UUID and shop data. Booting
+again never resets a password, role, or deactivated account. Subsequent account
+management happens in **Users**, restricted to administrators. Operators can manage
+products, sales and imports and read reports; administrators can additionally manage
+users, train models, generate forecasts and load demo data.
+
+Successful sign-in verifies the stored Argon2 hash and issues an eight-hour JWT.
+Each protected request checks the current database account, role, active status and
+token version. Changing email/role/status or resetting a password revokes previous
+sessions. The last active administrator cannot be deactivated, removed or demoted.
+The original owner's UUID is retained because historical shop records reference it.
+
+The browser keeps the token in tab session storage. Sign-out clears that tab;
+a copied token remains valid until expiry or an account change revokes its version.
+Password hashes are never returned by the API. Users can be searched, created,
+edited, activated/deactivated, removed, or have their password reset from the Users
+screen. Password fields include show/hide controls. New passwords require at least
+eight characters. All accounts access the shared shop under its stable owner UUID.
+
+Existing installations receive an additive `users` table and owner foreign keys on
+startup. Missing owner-account matches stop migration instead of rewriting data.
+The migrated initial account keeps its identifier; sales and forecasts are preserved.
 
 MySQL uses a dedicated account limited to the application and test schemas. MySQL
 uses API ownership checks to restrict access to shop records.
@@ -136,7 +154,7 @@ metrics and model artifacts in the local workspace are synthetic demonstration d
 
 ## Boundaries
 
-Single administrator, shop, currency (USD), and seven-day horizon. This is a
+Single shared shop, currency (USD), and seven-day horizon, with managed administrator/operator accounts. This is a
 university prototype, with synchronous training and local artifact storage.
 It does not implement inventory, payments, accounting, OCR, product-level forecasts,
 or automated business decisions. Back up MySQL and the artifact directory together.
