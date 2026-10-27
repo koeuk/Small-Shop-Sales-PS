@@ -8,6 +8,7 @@ from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 from uuid import uuid4
+import re
 
 from playwright.sync_api import expect, sync_playwright
 
@@ -98,7 +99,7 @@ with sync_playwright() as playwright:
     expect(page.get_by_text("browser-check.csv", exact=True)).to_be_visible()
 
     navigation.get_by_role("link", name="Model training", exact=True).click()
-    page.get_by_role("button", name="Train models", exact=True).click()
+    page.get_by_role("button", name=re.compile(r"^(Train|Retrain) models$")).click()
     expect(page.get_by_role("button", name="Retrain models", exact=True)).to_be_enabled(timeout=30000)
     expect(page.get_by_text("Recommended", exact=True)).to_be_visible()
     page.wait_for_load_state("networkidle")
@@ -133,6 +134,9 @@ with sync_playwright() as playwright:
     navigation.get_by_role("link", name="Forecasts", exact=False).click()
     expect(page.get_by_role("heading", name="Make room for what’s next.")).to_be_visible()
     expect(page.get_by_role("button", name="Open navigation")).to_have_attribute("aria-expanded", "false")
+    for _ in range(8):
+        page.keyboard.press("Tab")
+        assert not page.evaluate("document.activeElement.closest('.sidebar') !== null"), "Closed mobile navigation remains keyboard-focusable"
     assert page.evaluate("document.documentElement.scrollWidth <= window.innerWidth"), "Mobile forecast page overflows horizontally"
     capture(page, "mobile-forecasts.png")
     page.get_by_role("button", name="Open navigation").click()

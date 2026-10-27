@@ -372,7 +372,7 @@ def forecast_runs(session, owner_id, limit=100, run_id=None):
     runs = session.scalars(
         select(Prediction.run_id)
         .where(Prediction.owner_id == owner_id)
-            .where(Prediction.run_id == run_id if run_id else True)
+        .where(Prediction.run_id == run_id if run_id else True)
         .group_by(Prediction.run_id)
         .order_by(func.max(Prediction.created_at).desc())
         .limit(limit)

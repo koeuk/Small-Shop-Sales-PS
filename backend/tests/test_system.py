@@ -1,5 +1,5 @@
 import io
-from datetime import datetime, timedelta
+from datetime import UTC, datetime, timedelta
 from decimal import Decimal
 from uuid import uuid4
 from zipfile import ZipFile
@@ -183,7 +183,7 @@ def test_spreadsheet_dimensions_and_malformed_xml_are_audited(auth):
     workbook.active.append([(today() - timedelta(days=1)).isoformat(), "Coffee", 2, 2])
     original = io.BytesIO()
     workbook.save(original)
-    for kind in ["dimensions", "xml"]:
+    for kind in ["dimensions", "xml", "empty"]:
         rewritten = io.BytesIO()
         with ZipFile(io.BytesIO(original.getvalue())) as source, ZipFile(rewritten, "w") as target:
             for item in source.infolist():
@@ -193,7 +193,13 @@ def test_spreadsheet_dimensions_and_malformed_xml_are_audited(auth):
                         data.replace(b"A1:D2", b"A1:XFD1048576")
                         if kind == "dimensions"
                         else data[:150]
+                        if kind == "xml"
+                        else data
                     )
+                if kind == "empty" and item.filename == "xl/workbook.xml":
+                    import re
+
+                    data = re.sub(rb"<sheets>.*?</sheets>", b"<sheets/>", data)
                 target.writestr(item, data)
         response = auth.post(
             "/api/imports",
@@ -201,7 +207,7 @@ def test_spreadsheet_dimensions_and_malformed_xml_are_audited(auth):
             data={"dry_run": "false"},
         )
         assert response.status_code == 422, response.text
-    assert len(auth.get("/api/imports").json()) == 2
+    assert len(auth.get("/api/imports").json()) == 3
     assert auth.get("/api/sales").json()["total"] == 0
 
 
@@ -231,7 +237,7 @@ def test_recursive_evaluation_does_not_read_future_actuals():
     )
 
 
-def test_complete_training_forecast_retraining_and_history(auth):
+def test_complete_training_forecast_retraining_and_history(auth, monkeypatch):
     assert auth.post("/api/demo/seed").status_code == 201
     assert auth.post("/api/demo/seed").status_code == 409
     quality = auth.get("/api/ml/dataset").json()
@@ -262,6 +268,14 @@ def test_complete_training_forecast_retraining_and_history(auth):
     assert run["predictions"][0]["date"] == (today() + timedelta(days=1)).isoformat()
     assert all(float(row["revenue"]) >= 0 for row in run["predictions"])
     assert auth.get(f"/api/predictions/{run['id']}/export").text.count("\n") == 8
+    # Return this new run by ID even if its timestamp sorts before existing runs.
+
+    from app import main
+
+    monkeypatch.setattr(main, "utcnow", lambda: datetime(2000, 1, 1, tzinfo=UTC))
+    second = auth.post("/api/predictions", json={"model_id": chosen["id"]})
+    assert second.status_code == 201, second.text
+    assert second.json()["id"] != run["id"]
     items = auth.get("/api/sales").json()["items"]
     payload = {key: items[0][key] for key in ("product_id", "sale_date", "quantity", "unit_price")}
     payload["quantity"] += 1

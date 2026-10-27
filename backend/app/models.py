@@ -17,8 +17,8 @@ from sqlalchemy import (
     UniqueConstraint,
     Uuid,
 )
-from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.dialects.mysql import DATETIME
+from sqlalchemy.orm import Mapped, mapped_column
 
 from .database import Base
 
@@ -43,9 +43,7 @@ class Product(Record, Base):
     category: Mapped[str | None] = mapped_column(String(50), nullable=True)
     price: Mapped[Decimal] = mapped_column(Numeric(10, 2))
     archived: Mapped[bool] = mapped_column(Boolean, default=False)
-    updated_at: Mapped[datetime] = mapped_column(
-        UTC_DATETIME, default=utcnow, onupdate=utcnow
-    )
+    updated_at: Mapped[datetime] = mapped_column(UTC_DATETIME, default=utcnow, onupdate=utcnow)
     __table_args__ = (
         CheckConstraint("price >= 0", name="products_price_nonnegative"),
         UniqueConstraint("owner_id", "name", name="products_owner_name"),
@@ -121,6 +119,4 @@ class Prediction(Record, Base):
 
 
 for table in Base.metadata.tables.values():
-    table.dialect_options["mysql"].update(
-        engine="InnoDB", charset="utf8mb4", collate="utf8mb4_bin"
-    )
+    table.dialect_options["mysql"].update(engine="InnoDB", charset="utf8mb4", collate="utf8mb4_bin")
