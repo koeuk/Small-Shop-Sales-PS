@@ -122,7 +122,11 @@ export default function Predictions() {
             ))}
           </select>
         </div>
-        <Button busy={busy} disabled={!isAdministrator || !model || model.stale} onClick={generate}>
+        <Button
+          busy={busy}
+          disabled={!isAdministrator || !model || model.stale}
+          onClick={generate}
+        >
           <Sparkles size={17} />
           Generate 7-day forecast
         </Button>

@@ -33,9 +33,13 @@ def locked_users(session, user_id):
 
 
 def keep_an_administrator(user, users, role, active):
-    if user.role == "administrator" and user.is_active and (role != "administrator" or not active):
-        if sum(item.role == "administrator" and item.is_active for item in users) <= 1:
-            raise HTTPException(409, "Keep at least one active administrator")
+    if (
+        user.role == "administrator"
+        and user.is_active
+        and (role != "administrator" or not active)
+        and sum(item.role == "administrator" and item.is_active for item in users) <= 1
+    ):
+        raise HTTPException(409, "Keep at least one active administrator")
 
 
 @router.get("")

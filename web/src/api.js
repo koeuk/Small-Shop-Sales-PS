@@ -25,7 +25,8 @@ export function clearSession() {
 
 export function updateSessionUser(user) {
   const session = getSession();
-  if (session) sessionStorage.setItem(KEY, JSON.stringify({ ...session, user }));
+  if (session)
+    sessionStorage.setItem(KEY, JSON.stringify({ ...session, user }));
 }
 
 export async function api(

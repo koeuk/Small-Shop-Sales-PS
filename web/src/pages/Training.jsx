@@ -92,7 +92,11 @@ export default function Training() {
       >
         <Button
           busy={busy}
-          disabled={!isAdministrator || !enough || (quality.missing_days > 0 && !confirmZero)}
+          disabled={
+            !isAdministrator ||
+            !enough ||
+            (quality.missing_days > 0 && !confirmZero)
+          }
           onClick={train}
         >
           <Play size={16} />

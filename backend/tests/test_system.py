@@ -7,10 +7,11 @@ from zipfile import ZipFile
 import numpy as np
 from openpyxl import Workbook
 
+from app.auth import hash_password
 from app.config import settings
 from app.database import session_scope
 from app.ml import evaluate, fit_algorithm, prepare_series
-from app.models import Product
+from app.models import Product, User
 
 
 def today():
@@ -105,6 +106,14 @@ def test_validation_and_owner_isolation(auth):
     assert auth.patch(f"/api/products/{item['id']}", json={"price": None}).status_code == 422
     other_owner = str(uuid4())
     with session_scope(other_owner) as session:
+        session.add(
+            User(
+                id=other_owner,
+                email="private@example.com",
+                password_hash=hash_password("private-password-test"),
+            )
+        )
+        session.flush()
         private = Product(owner_id=other_owner, name="Private", price=Decimal("1.00"))
         session.add(private)
         session.flush()

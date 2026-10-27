@@ -100,7 +100,11 @@ export default function Dashboard() {
               </p>
             </div>
           </div>
-          <Button busy={seeding} disabled={user.role !== "administrator"} onClick={seed}>
+          <Button
+            busy={seeding}
+            disabled={user.role !== "administrator"}
+            onClick={seed}
+          >
             Load sample data
             <ArrowUpRight size={17} />
           </Button>

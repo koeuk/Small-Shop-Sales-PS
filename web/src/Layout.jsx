@@ -80,21 +80,27 @@ export default function Layout() {
         </div>
         <p className="nav-label">WORKSPACE</p>
         <nav aria-label="Main navigation">
-          {navigation.filter(([path]) => path !== "/users" || user.role === "administrator").map(([path, label, Icon], index) => (
-            <NavLink
-              to={path}
-              onClick={() => setOpen(false)}
-              end={path === "/"}
-              key={path}
-              className={({ isActive }) =>
-                `nav-link ${isActive ? "active" : ""} ${index === 4 ? "nav-separated" : ""}`
-              }
-            >
-              <Icon size={19} strokeWidth={1.7} />
-              <span>{label}</span>
-              {path === "/predictions" && <span className="nav-pill">7d</span>}
-            </NavLink>
-          ))}
+          {navigation
+            .filter(
+              ([path]) => path !== "/users" || user.role === "administrator",
+            )
+            .map(([path, label, Icon], index) => (
+              <NavLink
+                to={path}
+                onClick={() => setOpen(false)}
+                end={path === "/"}
+                key={path}
+                className={({ isActive }) =>
+                  `nav-link ${isActive ? "active" : ""} ${index === 4 ? "nav-separated" : ""}`
+                }
+              >
+                <Icon size={19} strokeWidth={1.7} />
+                <span>{label}</span>
+                {path === "/predictions" && (
+                  <span className="nav-pill">7d</span>
+                )}
+              </NavLink>
+            ))}
         </nav>
         <div className="sidebar-bottom">
           <div className="sidebar-note">
