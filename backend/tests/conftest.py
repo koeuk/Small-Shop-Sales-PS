@@ -13,6 +13,9 @@ os.environ["DATABASE_URL"] = test_database or f"sqlite:///{TEST_ROOT / 'test.db'
 os.environ["ARTIFACT_DIR"] = str(TEST_ROOT / "artifacts")
 os.environ["DEMO_EMAIL"] = "admin@smallshop.local"
 os.environ["DEMO_PASSWORD"] = "shopdemo2026"
+os.environ["ADMIN_EMAIL"] = "admin@smallshop.local"
+os.environ["ADMIN_PASSWORD"] = "shopdemo2026"
+os.environ["ADMIN_USER_ID"] = "00000000-0000-4000-8000-000000000001"
 
 from fastapi.testclient import TestClient
 

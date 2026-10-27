@@ -1,0 +1,81 @@
+# Verification
+
+The system was exercised against **MySQL 8.0.46**, FastAPI, React and Vite.
+Docker Compose targets MySQL 8.4; the existing MySQL server is configured in this
+workspace. Tests use a separate schema whose name ends in `_test`.
+
+## Backend
+
+```bash
+cd backend
+source .venv/bin/activate
+python -m pip install -r requirements-dev.txt
+python -m scripts.test_mysql
+ruff check app tests
+ruff format --check app tests
+```
+
+`scripts.test_mysql` reads the database connection from `.env`, replaces only the
+database name with the test name from `.env.test` (or appends `_test`), and runs pytest.
+It drops/recreates the five tables in that test schema before each test. Never point
+it at an application database. The schema must exist and the account needs table
+creation/deletion privileges there.
+
+Portable tests can also run with `python -m pytest -q`. They use a fresh temporary
+SQLite file solely as a test harness, with the same ORM. The application itself
+defaults to MySQL.
+
+Coverage includes unauthenticated/forged-token denial, administrator sign-in,
+ownership isolation, product edit/archive/delete behavior, retained historical
+prices, server-calculated totals, invalid input rejection, CSV/XLSX preview and
+partial commit, duplicate-file rejection, malformed spreadsheet auditing, inflated
+dimensions, Unicode product mapping, insufficient history, explicit missing-date
+policy, chronological train/validation/test boundaries, recursive feature leakage,
+seven future nonnegative dates, CSV export, stale models, and preserved forecast
+history after retraining.
+
+## Frontend
+
+```bash
+cd web
+npm run lint
+npm run build
+```
+
+Production builds split the chart library into a separate chunk, and fonts are
+bundled locally. `npm run preview` previews frontend output; set an API URL or use
+the configured local API proxy.
+
+## Browser workflow
+
+The native Python Playwright script `scripts/browser_check.py` uses real endpoints
+and data. It covers sign-in, sample loading, product and sales create/edit/delete,
+CSV validation and commit, training, forecast generation, CSV download, session
+survival on reload, 390-pixel mobile overflow/navigation checks and sign-out. It
+also asserts that the browser raised no uncaught JavaScript errors.
+
+Run the two servers first, then (in an environment with Python Playwright installed):
+
+```bash
+python3 -m playwright install chromium
+python3 scripts/browser_check.py
+```
+
+Use a fresh demo database. The script loads synthetic data and creates records;
+it is not intended for a database containing real sales. Screenshots are written
+to `docs/screenshots/`.
+
+## Acceptance mapping
+
+| Requirement | Verification |
+| --- | --- |
+| TC-01–03 products, totals, invalid quantity | Backend tests; browser CRUD |
+| TC-04–05 imports and malformed files | Backend CSV/XLSX tests; browser import |
+| TC-06–08 models, insufficient data, holdout | Backend ML tests; browser training |
+| TC-09–10 seven-day output and linked history | Backend forecast tests; browser export/history |
+| TC-11 protected endpoints | Backend authentication/ownership tests |
+| TC-12 retrain and retain older forecasts | Backend end-to-end retraining test |
+
+No live forecast accuracy guarantee is claimed. Metrics and screenshots describe
+the generated demonstration dataset. Performance is observed on this development
+machine, not load-tested for public multi-user deployment.

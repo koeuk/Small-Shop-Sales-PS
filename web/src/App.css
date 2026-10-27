@@ -2025,11 +2025,13 @@
 @media (max-width: 900px) {
   .sidebar {
     transform: translateX(-100%);
+    visibility: hidden;
     width: 238px;
     transition: transform 0.2s;
   }
   .sidebar.open {
     transform: translateX(0);
+    visibility: visible;
   }
   .sidebar-close {
     display: flex;
@@ -2428,3 +2430,16 @@
     font-size: 39px;
   }
 }
+
+.segmented { display: inline-flex; gap: 3px; padding: 3px; background: #f3f5ed; border: 1px solid #e6ebdd; border-radius: 7px; }
+.segmented button { border: 0; background: transparent; color: #95a284; border-radius: 4px; padding: 6px 10px; font-size: 10px; }
+.segmented button.active { background: white; color: #5f7c4b; box-shadow: 0 1px 4px #3355220a; }
+.stat-note { font-size: 10px; }
+.stat-label { font-size: 11px; }
+.card-header p { font-size: 11px; }
+.nav-link { font-size: 13px; }
+.health-row, .health-row strong { font-size: 11px; }
+.health-bottom { font-size: 10px; }
+.dataset-label { font-size: 11px; }
+@media (max-width: 760px) { .stat-note { font-size: 9px; } .stat-label { font-size: 10px; } .dataset-label { font-size: 10px; } }
+@media (max-width: 420px) { .stat-note { font-size: 8px; } .stat-label { font-size: 9px; } }
