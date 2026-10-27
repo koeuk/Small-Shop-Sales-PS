@@ -6,7 +6,10 @@ import pytest
 
 TEST_ROOT = Path(tempfile.mkdtemp(prefix="small-shop-tests-"))
 os.environ["APP_MODE"] = "demo"
-os.environ["DATABASE_URL"] = f"sqlite:///{TEST_ROOT / 'test.db'}"
+test_database = os.getenv("TEST_DATABASE_URL")
+if test_database and not test_database.split("?")[0].endswith("_test"):
+    raise RuntimeError("TEST_DATABASE_URL must point to a database whose name ends in _test")
+os.environ["DATABASE_URL"] = test_database or f"sqlite:///{TEST_ROOT / 'test.db'}"
 os.environ["ARTIFACT_DIR"] = str(TEST_ROOT / "artifacts")
 os.environ["DEMO_EMAIL"] = "admin@smallshop.local"
 os.environ["DEMO_PASSWORD"] = "shopdemo2026"

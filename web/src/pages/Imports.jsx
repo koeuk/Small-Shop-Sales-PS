@@ -32,6 +32,7 @@ export default function Imports() {
   const input = useRef(null);
   const notify = useToast();
   const choose = (selected) => {
+    if (busy) return;
     setPreview(null);
     setError("");
     if (!selected) return;
@@ -104,6 +105,7 @@ export default function Imports() {
             ref={input}
             className="visually-hidden"
             type="file"
+            disabled={!!busy}
             id="sales-file"
             accept=".csv,.xlsx"
             aria-label="Choose sales file"
@@ -115,6 +117,7 @@ export default function Imports() {
           <button
             type="button"
             className={`dropzone ${dragging ? "dragging" : ""}`}
+            disabled={!!busy}
             onClick={() => input.current.click()}
             onDragOver={(event) => {
               event.preventDefault();
@@ -141,6 +144,7 @@ export default function Imports() {
           <label className="checkbox-label">
             <input
               type="checkbox"
+              disabled={!!busy}
               checked={synthetic}
               onChange={(event) => setSynthetic(event.target.checked)}
             />

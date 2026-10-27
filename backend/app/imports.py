@@ -45,6 +45,8 @@ def read_rows(content: bytes, filename: str):
             workbook = load_workbook(io.BytesIO(content), read_only=True, data_only=True)
             try:
                 sheet = workbook.active
+                if sheet is None:
+                    raise ValueError("Workbook must contain a readable worksheet")
                 if (sheet.max_column or 0) > 32 or (sheet.max_row or 0) > MAX_ROWS + 1:
                     raise ValueError(
                         "Spreadsheet dimensions exceed the limit of 32 columns and 10,000 data rows. Remove unused rows/columns and save again."

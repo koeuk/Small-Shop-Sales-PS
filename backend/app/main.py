@@ -368,10 +368,11 @@ def models(owner_id: str = Depends(current_user)):
         return [public_model(record, current) for record in records]
 
 
-def forecast_runs(session, owner_id, limit=100):
+def forecast_runs(session, owner_id, limit=100, run_id=None):
     runs = session.scalars(
         select(Prediction.run_id)
         .where(Prediction.owner_id == owner_id)
+            .where(Prediction.run_id == run_id if run_id else True)
         .group_by(Prediction.run_id)
         .order_by(func.max(Prediction.created_at).desc())
         .limit(limit)
@@ -431,7 +432,7 @@ def predict(payload: ForecastInput, owner_id: str = Depends(current_user)):
                 )
             )
         session.flush()
-        return forecast_runs(session, owner_id, limit=1)[0]
+        return forecast_runs(session, owner_id, run_id=run_id)[0]
 
 
 @app.get("/api/predictions")
@@ -534,6 +535,9 @@ def dashboard(owner_id: str = Depends(current_user)):
                 ),
                 latest_model,
             )
+        forecast = next(iter(forecast_runs(session, owner_id, limit=1)), None)
+        if forecast and forecast["predictions"][0]["date"] != today + timedelta(days=1):
+            forecast = None
         return {
             "revenue_30d": revenue,
             "previous_revenue_30d": previous,
@@ -558,5 +562,5 @@ def dashboard(owner_id: str = Depends(current_user)):
             ],
             "quality": {key: value for key, value in quality.items() if key != "daily"},
             "model": public_model(latest_model, quality["fingerprint"]) if latest_model else None,
-            "forecast": next(iter(forecast_runs(session, owner_id, limit=1)), None),
+            "forecast": forecast,
         }

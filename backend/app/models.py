@@ -18,8 +18,11 @@ from sqlalchemy import (
     Uuid,
 )
 from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.dialects.mysql import DATETIME
 
 from .database import Base
+
+UTC_DATETIME = DateTime(timezone=True).with_variant(DATETIME(fsp=6), "mysql")
 
 
 def utcnow():
@@ -31,7 +34,7 @@ class Record:
         Uuid(as_uuid=False), primary_key=True, default=lambda: str(uuid4())
     )
     owner_id: Mapped[str] = mapped_column(Uuid(as_uuid=False), nullable=False, index=True)
-    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+    created_at: Mapped[datetime] = mapped_column(UTC_DATETIME, default=utcnow)
 
 
 class Product(Record, Base):
@@ -41,7 +44,7 @@ class Product(Record, Base):
     price: Mapped[Decimal] = mapped_column(Numeric(10, 2))
     archived: Mapped[bool] = mapped_column(Boolean, default=False)
     updated_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), default=utcnow, onupdate=utcnow
+        UTC_DATETIME, default=utcnow, onupdate=utcnow
     )
     __table_args__ = (
         CheckConstraint("price >= 0", name="products_price_nonnegative"),
@@ -99,7 +102,7 @@ class MLModel(Record, Base):
     rmse: Mapped[float] = mapped_column()
     model_path: Mapped[str] = mapped_column(Text)
     metadata_json: Mapped[dict] = mapped_column(JSON)
-    trained_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+    trained_at: Mapped[datetime] = mapped_column(UTC_DATETIME, default=utcnow)
 
 
 class Prediction(Record, Base):
