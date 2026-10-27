@@ -21,6 +21,7 @@ from .database import Base, engine, session_scope
 from .imports import MAX_FILE_BYTES, commit_import, prepare_import
 from .ml import TRAINING_LOCK, daily_history, dataset_quality, fingerprint, forecast_values, public_model, train_models
 from .models import DataImport, MLModel, Prediction, Product, Sale, utcnow
+from .product_names import normalize_name
 from .schemas import ForecastInput, ProductInput, ProductUpdate, SaleInput, TrainInput
 from .seed import seed_demo
 
@@ -115,10 +116,10 @@ def products(search: str = Query("", max_length=100), include_archived: bool = F
 
 
 def unique_product_name(session, owner_id, name, excluding=None):
-    query = select(Product).where(Product.owner_id == owner_id, func.lower(Product.name) == name.lower())
+    query = select(Product).where(Product.owner_id == owner_id)
     if excluding:
         query = query.where(Product.id != excluding)
-    if session.scalar(query):
+    if any(normalize_name(product.name) == normalize_name(name) for product in session.scalars(query)):
         raise HTTPException(409, "A product with this name already exists, including archived products")
 
 

@@ -6,14 +6,18 @@ from datetime import date, datetime
 from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from uuid import UUID
+from xml.etree.ElementTree import ParseError
 from zipfile import BadZipFile, ZipFile
 
 from fastapi import HTTPException
+from defusedxml.common import DefusedXmlException
 from openpyxl import load_workbook
+from openpyxl.utils.exceptions import InvalidFileException
 from pydantic import ValidationError
 from sqlalchemy import select
 
 from .models import DataImport, Product, Sale
+from .product_names import normalize_name
 from .schemas import SaleInput
 
 MAX_FILE_BYTES = 5 * 1024 * 1024
@@ -40,14 +44,23 @@ def read_rows(content: bytes, filename: str):
                     raise ValueError("Expanded spreadsheet exceeds the 25 MB limit")
             workbook = load_workbook(io.BytesIO(content), read_only=True, data_only=True)
             try:
+                sheet = workbook.active
+                if (sheet.max_column or 0) > 32 or (sheet.max_row or 0) > MAX_ROWS + 1:
+                    raise ValueError("Spreadsheet dimensions exceed the limit of 32 columns and 10,000 data rows. Remove unused rows/columns and save again.")
+                sheet.reset_dimensions()
                 rows = []
-                for row in workbook.active.iter_rows(values_only=True):
-                    rows.append(list(row))
+                for row in sheet.iter_rows(values_only=True, max_col=33):
+                    if row[32] is not None:
+                        raise ValueError("Spreadsheet may contain at most 32 columns")
+                    values = list(row[:32])
+                    while values and values[-1] is None:
+                        values.pop()
+                    rows.append(values)
                     if len(rows) > MAX_ROWS + 1:
                         raise ValueError(f"Import is limited to {MAX_ROWS:,} rows")
             finally:
                 workbook.close()
-        except (BadZipFile, KeyError, OSError):
+        except (BadZipFile, KeyError, OSError, ParseError, InvalidFileException, DefusedXmlException):
             raise ValueError("Unable to read this XLSX workbook")
     rows = [row for row in rows if any(value is not None and str(value).strip() for value in row)]
     if len(rows) < 2:
@@ -70,7 +83,9 @@ def prepare_import(session, owner_id, content, filename):
         raise HTTPException(409, "This file has already been imported. Rename does not bypass duplicate detection.")
     products = list(session.scalars(select(Product).where(Product.owner_id == owner_id, Product.archived.is_(False))))
     by_id = {product.id: product for product in products}
-    by_name = {product.name.casefold(): product for product in products}
+    by_name = {}
+    for product in products:
+        by_name.setdefault(normalize_name(product.name), []).append(product)
     valid, errors, preview = [], [], []
     try:
         headers, rows = read_rows(content, filename)
@@ -84,10 +99,13 @@ def prepare_import(session, owner_id, content, filename):
                 raise ValueError("More values than column headers")
             product_id = str(row.get("product_id") or "").strip()
             product_name = str(row.get("product_name") or "").strip()
-            product = by_id.get(str(UUID(product_id))) if product_id else by_name.get(product_name.casefold())
+            matches = by_name.get(normalize_name(product_name), [])
+            if not product_id and len(matches) > 1:
+                raise ValueError("Product name is ambiguous; use product_id or rename duplicate products")
+            product = by_id.get(str(UUID(product_id))) if product_id else next(iter(matches), None)
             if not product:
                 raise ValueError("Product is unknown or archived; create or restore it before importing")
-            if product_id and product_name and product.name.casefold() != product_name.casefold():
+            if product_id and product_name and normalize_name(product.name) != normalize_name(product_name):
                 raise ValueError("product_id and product_name refer to different products")
             quantity = str(row.get("quantity", "")).strip()
             if not re.fullmatch(r"[1-9]\d*", quantity):

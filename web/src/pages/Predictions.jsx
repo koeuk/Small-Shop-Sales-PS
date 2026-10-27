@@ -3,7 +3,7 @@ import { ArrowUpRight, Download, History, Sparkles, TrendingUp } from 'lucide-re
 import { Link } from 'react-router-dom'
 import { api, downloadBlob } from '../api'
 import { Badge, Button, Empty, ErrorState, Loading, Notice, PageHeading, RevenueChart } from '../components'
-import { useToast } from '../context'
+import { useToast } from '../hooks'
 import { useResource } from '../hooks'
 import { day, money, timestamp } from '../utils'
 

@@ -1,11 +1,7 @@
-import { createContext, useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
+import { AuthContext, ToastContext } from './contexts'
 import { api, clearSession, getSession, saveSession } from './api'
 import { CheckCircle2, X, AlertCircle } from 'lucide-react'
-
-const AuthContext = createContext(null)
-const ToastContext = createContext(null)
-export const useAuth = () => useContext(AuthContext)
-export const useToast = () => useContext(ToastContext)
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(getSession()?.user || null)

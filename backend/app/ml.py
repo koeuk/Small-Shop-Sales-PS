@@ -40,17 +40,18 @@ def dataset_quality(session, owner_id):
     rows = daily_history(session, owner_id)
     known = dict(rows)
     missing = []
+    calendar_days = (rows[-1][0] - rows[0][0]).days + 1 if rows else 0
     if rows:
         day = rows[0][0]
-        while day <= rows[-1][0]:
+        while day <= rows[-1][0] and len(missing) < 100:
             if day not in known:
                 missing.append(day.isoformat())
             day += timedelta(days=1)
     synthetic = bool(session.scalar(select(func.count()).select_from(Sale).join(DataImport, Sale.import_id == DataImport.id).where(Sale.owner_id == owner_id, DataImport.synthetic.is_(True))))
     return {
-        "observed_days": len(rows), "calendar_days": (rows[-1][0] - rows[0][0]).days + 1 if rows else 0,
+        "observed_days": len(rows), "calendar_days": calendar_days,
         "start_date": rows[0][0] if rows else None, "end_date": rows[-1][0] if rows else None,
-        "missing_days": len(missing), "missing_dates": missing[:100], "minimum_days": 90,
+        "missing_days": calendar_days - len(rows), "missing_dates": missing, "minimum_days": 90,
         "synthetic": synthetic, "fingerprint": fingerprint(rows),
         "daily": [{"date": day, "revenue": value} for day, value in rows],
         "note": "Today's sales are excluded from training because the day may be incomplete.",

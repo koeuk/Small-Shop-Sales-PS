@@ -1,8 +1,6 @@
-import { useEffect, useId, useRef } from 'react'
+import { lazy, Suspense, useEffect, useId, useRef } from 'react'
 import { AlertCircle, ArrowRight, ChevronLeft, ChevronRight, LoaderCircle, Sprout, X } from 'lucide-react'
-import { Area, CartesianGrid, ComposedChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import { Link } from 'react-router-dom'
-import { day, money } from './utils'
 
 export function Button({ children, variant = 'primary', busy = false, className = '', ...props }) {
   return <button {...props} className={`button ${variant} ${className}`} disabled={props.disabled || busy}>{busy && <LoaderCircle className="spin" size={17} />}{children}</button>
@@ -36,12 +34,5 @@ export function Pagination({ page, pageSize, total, onChange }) {
   return <div className="pagination"><span>Showing {(page - 1) * pageSize + 1}–{Math.min(page * pageSize, total)} of {total}</span><div><button className="icon-button" disabled={page <= 1} onClick={() => onChange(page - 1)} aria-label="Previous page"><ChevronLeft size={18} /></button><span>{page} / {pages}</span><button className="icon-button" disabled={page >= pages} onClick={() => onChange(page + 1)} aria-label="Next page"><ChevronRight size={18} /></button></div></div>
 }
 
-export function RevenueChart({ history = [], forecast = [], evaluation = false, height = 290 }) {
-  const id = useId().replace(/:/g, '')
-  const points = new Map()
-  history.forEach(item => points.set(item.date, { date: item.date, actual: Number(item.revenue ?? item.actual) }))
-  forecast.forEach(item => points.set(item.date, { ...points.get(item.date), date: item.date, predicted: Number(item.revenue ?? item.predicted) }))
-  const data = [...points.values()].sort((a, b) => a.date.localeCompare(b.date))
-  if (!data.length) return <Empty title="A clearer picture starts with your sales" description="Add sales records or load the sample dataset to see your daily revenue." />
-  return <div className="revenue-chart" style={{ height }} role="img" aria-label={evaluation ? 'Actual versus predicted revenue on unseen test dates' : 'Daily shop revenue and forecast in US dollars'}><ResponsiveContainer width="100%" height="100%"><ComposedChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 5 }}><defs><linearGradient id={id} x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#346d53" stopOpacity={0.15} /><stop offset="100%" stopColor="#346d53" stopOpacity={0} /></linearGradient></defs><CartesianGrid vertical={false} stroke="#eceee8" strokeDasharray="3 5" /><XAxis dataKey="date" tickFormatter={value => day(value)} axisLine={false} tickLine={false} minTickGap={42} tick={{ fill: '#7d857a', fontSize: 11 }} dy={9} /><YAxis axisLine={false} tickLine={false} tickFormatter={value => `$${value}`} tick={{ fill: '#7d857a', fontSize: 11 }} width={54} /><Tooltip formatter={(value, name) => [money(value), name]} labelFormatter={value => day(value, { year: 'numeric' })} contentStyle={{ borderRadius: 10, border: '1px solid #e4e8de', fontSize: 12 }} /><Area type="monotone" dataKey="actual" name="Actual revenue" stroke="#346d53" strokeWidth={2.3} fill={`url(#${id})`} isAnimationActive={false} /><Line type="monotone" dataKey="predicted" name="Predicted revenue" stroke="#c48c3c" strokeDasharray="5 5" strokeWidth={2.5} dot={data.length <= 14 ? { r: 3, fill: '#c48c3c' } : false} connectNulls={false} isAnimationActive={false} /></ComposedChart></ResponsiveContainer></div>
-}
+const Chart = lazy(() => import('./RevenueChart'))
+export function RevenueChart(props) { return <Suspense fallback={<Loading />}><Chart {...props} /></Suspense> }

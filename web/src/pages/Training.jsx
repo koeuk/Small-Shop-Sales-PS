@@ -3,7 +3,7 @@ import { ArrowRight, Check, FlaskConical, History, Play, ShieldCheck, Sparkles }
 import { Link } from 'react-router-dom'
 import { api } from '../api'
 import { Badge, Button, Empty, ErrorState, Loading, Notice, PageHeading, RevenueChart } from '../components'
-import { useToast } from '../context'
+import { useToast } from '../hooks'
 import { useResource } from '../hooks'
 import { day, money, number, timestamp } from '../utils'
 

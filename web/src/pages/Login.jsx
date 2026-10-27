@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { ArrowRight, LockKeyhole, Sprout, Store } from 'lucide-react'
 import { Navigate } from 'react-router-dom'
-import { useAuth } from '../context'
+import { useAuth } from '../hooks'
 import { Button, Notice } from '../components'
 
 export default function Login() {

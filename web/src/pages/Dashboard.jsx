@@ -3,7 +3,7 @@ import { ArrowDownLeft, ArrowUpRight, CalendarDays, Check, ChevronRight, DollarS
 import { Link } from 'react-router-dom'
 import { api } from '../api'
 import { Badge, Button, CardLink, Empty, ErrorState, Loading, Notice, PageHeading, RevenueChart } from '../components'
-import { useAuth, useToast } from '../context'
+import { useAuth, useToast } from '../hooks'
 import { useResource } from '../hooks'
 import { day, money, number } from '../utils'
 

@@ -2,6 +2,7 @@ import io
 from datetime import datetime, timedelta
 from decimal import Decimal
 from uuid import uuid4
+from zipfile import ZipFile
 
 import numpy as np
 from openpyxl import Workbook
@@ -124,6 +125,39 @@ def test_insufficient_data_and_missing_policy(auth):
     dates, values = prepare_series(rows, "zero")
     assert len(dates) == 100
     assert values[30] == 0
+
+
+def test_spreadsheet_dimensions_and_malformed_xml_are_audited(auth):
+    product(auth)
+    workbook = Workbook()
+    workbook.active.append(["sale_date", "product_name", "quantity", "unit_price"])
+    workbook.active.append([(today() - timedelta(days=1)).isoformat(), "Coffee", 2, 2])
+    original = io.BytesIO()
+    workbook.save(original)
+    for kind in ["dimensions", "xml"]:
+        rewritten = io.BytesIO()
+        with ZipFile(io.BytesIO(original.getvalue())) as source, ZipFile(rewritten, "w") as target:
+            for item in source.infolist():
+                data = source.read(item.filename)
+                if item.filename == "xl/worksheets/sheet1.xml":
+                    data = data.replace(b'A1:D2', b'A1:XFD1048576') if kind == "dimensions" else data[:150]
+                target.writestr(item, data)
+        response = auth.post("/api/imports", files={"file": (f"{kind}.xlsx", rewritten.getvalue())}, data={"dry_run": "false"})
+        assert response.status_code == 422, response.text
+    assert len(auth.get("/api/imports").json()) == 2
+    assert auth.get("/api/sales").json()["total"] == 0
+
+
+def test_unicode_product_names_cannot_silently_remap(auth):
+    product(auth, "Straße")
+    assert auth.post("/api/products", json={"name": "STRASSE", "price": 2}).status_code == 409
+    from app.config import DEMO_USER_ID
+    with session_scope(DEMO_USER_ID) as session:
+        session.add(Product(owner_id=DEMO_USER_ID, name="STRASSE", price=Decimal("2.00")))
+    content = f"sale_date,product_name,quantity,unit_price\n{today()},Straße,1,2\n".encode()
+    preview = auth.post("/api/imports", files={"file": ("unicode.csv", content)}).json()
+    assert preview["valid_rows"] == 0
+    assert "ambiguous" in preview["errors"][0]["message"]
 
 
 def test_recursive_evaluation_does_not_read_future_actuals():
