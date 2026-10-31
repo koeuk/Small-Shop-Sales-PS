@@ -141,32 +141,242 @@
   color: #939c87;
   padding: 22px 10px;
 }
+.account-container {
+  position: relative;
+  width: 100%;
+}
 .account {
   background: transparent;
   border: 0;
   border-top: 1px solid var(--border);
-  padding: 18px 0;
+  padding: 13px 8px;
+  margin: 0 -8px;
+  border-radius: 9px;
   display: flex;
-  gap: 9px;
+  gap: 10px;
   align-items: center;
-  width: 100%;
+  width: calc(100% + 16px);
   text-align: left;
+  cursor: pointer;
+  transition: background-color 0.18s ease, color 0.18s ease;
+}
+.account:hover,
+.account.active {
+  background: #f1f4ea;
 }
 .account strong {
   display: block;
   font-size: 13px;
   font-weight: 600;
   color: #1b2f1f;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 125px;
 }
 .account small {
   display: block;
-  font-size: 11.5px;
+  font-size: 11px;
   color: #6a7762;
-  margin-top: 3px;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 125px;
 }
 .account > svg {
   margin-left: auto;
   color: #8f9b84;
+  flex-shrink: 0;
+}
+.account-popover {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: -8px;
+  right: -8px;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 6px;
+  box-shadow: 0 16px 36px -6px rgba(27, 47, 31, 0.16), 0 4px 12px rgba(27, 47, 31, 0.08);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  animation: popoverFadeUp 0.18s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transform-origin: bottom center;
+}
+@keyframes popoverFadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.account-popover-header {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 8px 10px;
+}
+.account-popover-user {
+  flex: 1;
+  min-width: 0;
+}
+.account-popover-user strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1b2f1f;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.account-popover-user small {
+  display: block;
+  font-size: 11px;
+  color: #6a7762;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 1px;
+}
+.account-popover-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 3px 0;
+}
+.account-popover-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  border: 0;
+  background: transparent;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #3b4e34;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+.account-popover-item:hover {
+  background: #f1f5eb;
+  color: #172b1a;
+}
+.account-popover-item > svg {
+  color: #6a7b63;
+  flex-shrink: 0;
+}
+.account-popover-item.danger {
+  color: #a33838;
+}
+.account-popover-item.danger > svg {
+  color: #a33838;
+}
+.account-popover-item.danger:hover {
+  background: #fdf2f2;
+  color: #b91c1c;
+}
+
+/* Settings Modal */
+.settings-modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.settings-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.settings-section:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+.settings-section h3 {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #1a2f1c;
+}
+.settings-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+.settings-section-header p {
+  font-size: 12px;
+  color: #64735c;
+  margin-top: 2px;
+}
+.settings-profile-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  background: #f8faf4;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.user-avatar.large {
+  width: 44px;
+  height: 44px;
+  font-size: 15px;
+  font-weight: 700;
+}
+.settings-profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.settings-profile-info strong {
+  font-size: 14px;
+  color: #142717;
+}
+.settings-profile-info small {
+  font-size: 12px;
+  color: #5c6b54;
+}
+.settings-badge-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 4px;
+}
+.settings-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.settings-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  background: #f8faf4;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+.settings-info-grid small {
+  display: block;
+  font-size: 11px;
+  color: #718169;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+.settings-info-grid strong {
+  display: block;
+  font-size: 13px;
+  color: #1b2f1f;
+  margin-top: 2px;
 }
 .user-avatar {
   border-radius: 50%;
