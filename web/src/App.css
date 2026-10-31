@@ -46,17 +46,6 @@
   font-weight: 700;
   color: #55694b;
 }
-.shop-switch {
-  margin: 34px 0 26px;
-  border: 1px solid var(--border);
-  padding: 12px 10px;
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  border-radius: 9px;
-  background: white;
-}
-.shop-avatar,
 .user-avatar {
   height: 33px;
   width: 33px;
@@ -70,22 +59,6 @@
   border-radius: 8px;
   flex-shrink: 0;
 }
-.shop-switch strong {
-  display: block;
-  font-size: 13px;
-  font-weight: 600;
-  color: #1b2f1f;
-}
-.shop-switch small {
-  display: block;
-  font-size: 11.5px;
-  margin-top: 2px;
-  color: #5c6c55;
-}
-.shop-switch > svg {
-  margin-left: auto;
-  color: #8d9681;
-}
 .nav-label {
   font-size: 11px;
   letter-spacing: 0.08em;
@@ -93,6 +66,7 @@
   text-transform: uppercase;
   color: #617359;
   padding: 0 13px 12px;
+  margin-top: 32px;
 }
 .nav-link {
   display: flex;
@@ -104,10 +78,14 @@
   margin-bottom: 5px;
   color: #4a5c43;
   font-weight: 500;
+  transition: background-color 0.18s ease, color 0.18s ease, transform 0.18s ease;
 }
 .nav-link:hover {
   background: #f1f4ea;
   color: #1e3b24;
+}
+.nav-link:active {
+  transform: scale(0.98);
 }
 .nav-link.active {
   background: #e9efdf;
@@ -249,6 +227,72 @@
   width: 100%;
   margin: 0 auto;
   flex: 1;
+}
+
+/* Page & Card Smooth Switch Animations */
+@keyframes cardSmoothFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-transition {
+  width: 100%;
+}
+
+.page-transition .page-heading {
+  animation: cardSmoothFadeIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.page-transition .stat-card {
+  animation: cardSmoothFadeIn 0.38s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.page-transition .stats-grid > :nth-child(1) { animation-delay: 0.03s; }
+.page-transition .stats-grid > :nth-child(2) { animation-delay: 0.07s; }
+.page-transition .stats-grid > :nth-child(3) { animation-delay: 0.11s; }
+.page-transition .stats-grid > :nth-child(4) { animation-delay: 0.15s; }
+
+.page-transition .card,
+.page-transition .forecast-card {
+  animation: cardSmoothFadeIn 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.page-transition .dashboard-grid > :nth-child(1) { animation-delay: 0.08s; }
+.page-transition .dashboard-grid > :nth-child(2) { animation-delay: 0.16s; }
+.page-transition .dashboard-grid > :nth-child(3) { animation-delay: 0.24s; }
+
+.page-transition .upload-grid > :nth-child(1) { animation-delay: 0.08s; }
+.page-transition .upload-grid > :nth-child(2) { animation-delay: 0.15s; }
+
+.page-transition .training-grid > :nth-child(1) { animation-delay: 0.08s; }
+.page-transition .training-grid > :nth-child(2) { animation-delay: 0.15s; }
+
+.page-transition > .card:nth-of-type(1) { animation-delay: 0.06s; }
+.page-transition > .card:nth-of-type(2) { animation-delay: 0.14s; }
+.page-transition > .card:nth-of-type(3) { animation-delay: 0.22s; }
+
+.page-transition .loading-state,
+.page-transition .empty-state,
+.page-transition .error-state {
+  animation: cardSmoothFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-transition,
+  .page-transition *,
+  .card,
+  .stat-card,
+  .forecast-card,
+  .nav-link {
+    animation: none !important;
+    transition: none !important;
+  }
 }
 .app-footer {
   display: flex;
@@ -416,6 +460,11 @@
   background: var(--paper);
   min-width: 0;
   margin-bottom: 22px;
+  transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.24s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+}
+.card:hover {
+  border-color: #cbd8be;
+  box-shadow: 0 6px 20px -4px rgba(20, 39, 26, 0.06), 0 2px 6px -1px rgba(20, 39, 26, 0.03);
 }
 .card-header {
   display: flex;
@@ -563,14 +612,21 @@
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 18px 20px;
+  transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.24s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+}
+.stat-card:hover {
+  transform: translateY(-2px);
+  border-color: #c0d1b3;
+  box-shadow: 0 10px 22px -4px rgba(27, 47, 31, 0.07), 0 2px 6px -1px rgba(27, 47, 31, 0.04);
 }
 .stat-card.highlight {
   border-color: #cfdcc0;
   background: #fcfef8;
 }
 .stat-label {
-  font-size: 10px;
-  color: #7e8973;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #55664d;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -580,24 +636,25 @@
 .stat-icon {
   display: grid;
   place-items: center;
-  width: 27px;
-  height: 27px;
-  border-radius: 7px;
-  color: #8c9c79;
-  background: #f4f6ee;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  color: #526f43;
+  background: #f0f4ea;
 }
 .stat-value {
   display: block;
-  font-family: "Newsreader", Georgia, serif;
-  font-size: 34px;
-  font-weight: 400;
-  margin: 12px 0 10px;
-  letter-spacing: -0.8px;
-  line-height: 1.1;
+  font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  margin: 10px 0 6px;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: #14271a;
 }
 .stat-note {
-  font-size: 8px;
-  color: #919c84;
+  font-size: 12px;
+  color: #5d6d56;
   display: flex;
   align-items: center;
   gap: 5px;
@@ -606,17 +663,18 @@
   flex-wrap: wrap;
 }
 .stat-note > a {
-  color: #68854d;
+  color: #3b6b4e;
+  font-weight: 600;
 }
 .change {
   display: inline-flex;
   align-items: center;
   gap: 2px;
-  color: #7b955a;
-  font-weight: 500;
+  color: #43724c;
+  font-weight: 600;
 }
 .change.negative {
-  color: #b18255;
+  color: #a86438;
 }
 .tiny-dot {
   background: #7b9a60;
@@ -637,8 +695,9 @@
   align-items: center;
   gap: 19px;
   padding: 0 24px 10px;
-  color: #9aa28c;
-  font-size: 9px;
+  color: #65745e;
+  font-size: 12px;
+  font-weight: 500;
 }
 .chart-legend > span {
   display: flex;
@@ -646,17 +705,18 @@
   gap: 6px;
 }
 .legend-dot {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: #37654b;
 }
 .legend-dash {
-  width: 12px;
+  width: 14px;
   border-top: 2px dashed #c19a5a;
 }
 .legend-unit {
   margin-left: auto;
+  font-weight: 500;
 }
 .revenue-chart {
   padding: 0 14px 0 3px;
@@ -675,8 +735,8 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 9px;
-  color: #9ca38f;
+  font-size: 12px;
+  color: #65745e;
 }
 .forecast-card {
   background: var(--forest-dark);
@@ -689,6 +749,12 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
+  transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.24s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
+}
+.forecast-card:hover {
+  transform: translateY(-2px);
+  border-color: #27563d;
+  box-shadow: 0 14px 30px -6px rgba(17, 33, 21, 0.35);
 }
 .forecast-card:before {
   content: "";
@@ -720,34 +786,40 @@
   color: #cbd8b9;
 }
 .forecast-card h2 {
-  font-size: 29px;
-  line-height: 1.17;
+  font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
   color: #eaf0df;
 }
 .forecast-card h2 em {
   color: #bfcda9;
-  font-weight: 400;
+  font-weight: 600;
+  font-style: normal;
 }
 .forecast-card > p {
-  font-size: 10px;
-  line-height: 1.8;
-  color: #9db199;
-  margin-top: 12px;
-  max-width: 260px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #afc5ab;
+  margin-top: 10px;
+  max-width: 280px;
 }
 .forecast-amount {
-  font-family: "Newsreader", Georgia, serif;
-  font-size: 35px;
-  letter-spacing: -0.5px;
-  margin: 23px 0 16px;
-  color: #e9eedf;
+  font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin: 20px 0 14px;
+  color: #f1f6eb;
 }
 .forecast-amount > small {
   display: block;
   font-family: "DM Sans", sans-serif;
-  font-size: 8px;
-  letter-spacing: 0;
-  color: #8fa687;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: #a4bea0;
   margin-top: 4px;
 }
 .forecast-card .button {
@@ -756,8 +828,8 @@
   position: relative;
 }
 .forecast-disclaimer {
-  font-size: 7px;
-  color: #849d7b;
+  font-size: 11px;
+  color: #9ab491;
   text-align: center;
   margin-top: 12px;
 }
@@ -789,8 +861,9 @@
   background: #c7d5a9;
 }
 .mini-bars small {
-  font-size: 7px;
-  color: #8da580;
+  font-size: 10px;
+  font-weight: 600;
+  color: #9ab391;
 }
 .bestsellers {
   padding: 0 24px 11px;
@@ -808,27 +881,30 @@
   border: 0;
 }
 .product-rank {
-  font-size: 9px;
-  color: #a9b09e;
+  font-size: 11px;
+  font-weight: 700;
+  color: #79866e;
   align-self: flex-start;
   margin-top: 3px;
 }
 .bestseller strong {
   display: block;
-  font-size: 11px;
-  color: #58654f;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #1e301b;
 }
 .bestseller small {
   display: block;
-  color: #9ca58d;
-  font-size: 8px;
+  color: #68775f;
+  font-size: 11.5px;
   margin-top: 3px;
 }
 .product-revenue {
   margin-left: auto;
-  font-size: 11px;
+  font-size: 13px;
+  font-weight: 600;
   align-self: flex-start;
-  color: #61784c;
+  color: #274828;
   font-variant-numeric: tabular-nums;
 }
 .product-track {
@@ -852,14 +928,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 10px;
+  font-size: 12.5px;
   padding: 14px 24px;
-  color: #919a82;
+  color: #55664d;
   gap: 10px;
 }
 .health-row strong {
-  font-size: 10px;
-  color: #687959;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #21351c;
   display: flex;
   align-items: center;
   gap: 9px;
@@ -886,13 +963,14 @@
   display: flex;
   justify-content: space-between;
   gap: 10px;
-  font-size: 9px;
-  line-height: 1.7;
-  color: #9ba58d;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #65745e;
   align-items: center;
 }
 .health-bottom a {
-  color: #7a9561;
+  color: #39684b;
+  font-weight: 600;
 }
 .table-card {
   overflow: hidden;
@@ -926,18 +1004,18 @@
 .search-field input {
   padding-left: 39px;
   background: #fafbf7;
-  font-size: 12px;
-  min-height: 39px;
+  font-size: 13.5px;
+  min-height: 40px;
 }
 .checkbox-label {
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 8px;
-  font-size: 11px;
-  font-weight: 400;
-  color: #8a947d;
-  line-height: 1.7;
+  font-size: 13px;
+  font-weight: 500;
+  color: #51634b;
+  line-height: 1.6;
 }
 .product-cell {
   display: flex;
@@ -964,8 +1042,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: #8e9980;
-  font-size: 10px;
+  color: #627258;
+  font-size: 12.5px;
 }
 .pagination > div {
   display: flex;
@@ -994,13 +1072,17 @@
   margin-bottom: 23px;
 }
 .modal-head h2 {
-  font-size: 28px;
+  font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #14271a;
+  letter-spacing: -0.02em;
 }
 .modal-head p {
-  font-size: 11px;
-  color: #909b82;
-  margin-top: 9px;
-  line-height: 1.8;
+  font-size: 13px;
+  color: #5f7056;
+  margin-top: 6px;
+  line-height: 1.6;
 }
 .modal-head .icon-button {
   margin: -8px -10px 0 0;
@@ -1017,14 +1099,15 @@
   gap: 16px;
 }
 .optional {
-  font-size: 9px;
-  color: #a3ac97;
+  font-size: 11.5px;
+  font-weight: 400;
+  color: #728269;
   display: contents;
 }
 .form-hint {
-  font-size: 10px;
-  color: #9aa48e;
-  line-height: 1.8;
+  font-size: 12px;
+  color: #62745a;
+  line-height: 1.6;
 }
 .modal-actions {
   display: flex;
@@ -1039,9 +1122,9 @@
   padding: 12px 15px;
   background: #fbefeb;
   border: 1px solid #eddbd4;
-  color: #a05e4f;
-  font-size: 11px;
-  line-height: 1.7;
+  color: #9c3f30;
+  font-size: 12.5px;
+  line-height: 1.6;
   margin-bottom: 12px;
 }
 .form-stack .form-error {
@@ -1055,14 +1138,15 @@
   border: 1px solid #e9eedf;
   padding: 15px;
   border-radius: 8px;
-  font-size: 11px;
-  color: #7c8b6c;
+  font-size: 13px;
+  color: #51634a;
 }
 .sale-total strong {
-  font-size: 21px;
-  font-family: "Newsreader", Georgia, serif;
-  font-weight: 400;
-  color: #40623e;
+  font-size: 24px;
+  font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-weight: 700;
+  color: #1b4522;
+  letter-spacing: -0.02em;
 }
 .sales-summary {
   display: flex;
@@ -1071,12 +1155,12 @@
   gap: 15px;
   padding: 22px 24px;
   border-bottom: 1px solid #eef1e7;
-  font-size: 11px;
-  color: #8b977d;
+  font-size: 13px;
+  color: #51634a;
 }
 .sales-summary strong {
-  font-weight: 500;
-  color: #4e6745;
+  font-weight: 600;
+  color: #1e381f;
   margin-right: 5px;
 }
 .filter-bar {
@@ -1086,7 +1170,9 @@
   padding: 18px 24px 23px;
 }
 .filter-bar label {
-  font-size: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #43543d;
   min-width: 150px;
 }
 .filter-bar label:nth-child(3) {
@@ -1095,9 +1181,9 @@
 }
 .filter-bar input,
 .filter-bar select {
-  font-size: 11px;
-  min-height: 37px;
-  padding: 7px 10px;
+  font-size: 13px;
+  min-height: 38px;
+  padding: 7px 11px;
 }
 .filter-bar .inline-button {
   align-self: center;
@@ -1118,10 +1204,11 @@
 }
 .step-label {
   display: block;
-  font-size: 8px;
-  font-weight: 500;
-  letter-spacing: 1.4px;
-  color: #9aa88a;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #39684b;
   margin-bottom: 12px;
 }
 .dropzone {
@@ -1154,16 +1241,17 @@
   margin-bottom: 5px;
 }
 .dropzone strong {
-  font-size: 13px;
+  font-size: 14px;
+  font-weight: 600;
   max-width: 100%;
 }
 .dropzone > span:not(.upload-icon) {
-  font-size: 10px;
-  color: #a0aa93;
+  font-size: 12.5px;
+  color: #6d7b63;
 }
 .dropzone > small {
-  font-size: 8px;
-  color: #a7b09b;
+  font-size: 11px;
+  color: #7b8870;
   margin-top: 6px;
 }
 .upload-card > .button {
@@ -1181,9 +1269,9 @@
   margin-top: 13px;
 }
 .import-guide > p {
-  font-size: 11px;
-  color: #929e83;
-  line-height: 1.8;
+  font-size: 13px;
+  color: #5a6b52;
+  line-height: 1.6;
   margin-top: 13px;
 }
 .import-guide dl {
@@ -1195,15 +1283,15 @@
   gap: 16px;
   padding: 11px 0;
   border-bottom: 1px solid #f0f3e9;
-  font-size: 10px;
+  font-size: 12px;
 }
 .import-guide dt {
-  color: #60784c;
-  font-weight: 500;
+  color: #3d582f;
+  font-weight: 600;
 }
 .import-guide dd {
   margin: 0;
-  color: #98a48a;
+  color: #718067;
   text-align: right;
 }
 .import-guide .text-link {
@@ -1215,9 +1303,9 @@
   border-top: 1px solid #e9efde;
   padding-top: 19px;
   margin-top: 22px;
-  color: #99a88a;
-  font-size: 9px;
-  line-height: 1.7;
+  color: #6a7962;
+  font-size: 12px;
+  line-height: 1.6;
 }
 .guide-note svg {
   color: #8da573;
@@ -1229,7 +1317,7 @@
   margin: 0 24px 20px;
 }
 .preview-card td {
-  font-size: 11px;
+  font-size: 13px;
 }
 .preview-card td:last-child {
   min-width: 180px;
@@ -1238,22 +1326,22 @@
 .import-errors {
   padding: 18px 24px;
   border-top: 1px solid var(--border);
-  font-size: 11px;
-  color: #9a7e4e;
+  font-size: 12.5px;
+  color: #8a6c37;
 }
 .import-errors summary {
   cursor: pointer;
-  font-weight: 500;
+  font-weight: 600;
 }
 .import-errors ul {
   padding-left: 17px;
-  font-size: 10px;
-  line-height: 1.9;
+  font-size: 12px;
+  line-height: 1.8;
 }
 .table-caption {
   padding: 12px 24px;
-  font-size: 10px;
-  color: #a1ac95;
+  font-size: 12px;
+  color: #6a7962;
   border-top: 1px solid #eff2e8;
 }
 .file-cell {
@@ -1265,11 +1353,12 @@
   color: #9aab86;
 }
 .file-cell strong {
-  font-size: 11px;
+  font-size: 13px;
+  font-weight: 600;
 }
 .file-cell small {
-  font-size: 8px;
-  color: #ac9d70;
+  font-size: 11px;
+  color: #88723f;
   display: block;
   margin-top: 3px;
 }
@@ -1277,17 +1366,18 @@
   margin-top: 7px;
 }
 .file-cell summary {
-  font-size: 9px;
-  color: #9a8863;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #88723f;
   cursor: pointer;
 }
 .file-cell pre {
   font-family: inherit;
-  font-size: 9px;
+  font-size: 11.5px;
   white-space: pre-wrap;
   max-width: 360px;
   margin: 7px 0;
-  color: #a9836f;
+  color: #9a6855;
 }
 .dataset-stats {
   display: grid;
@@ -1305,24 +1395,28 @@
   border: 0;
 }
 .dataset-stats span {
-  font-size: 10px;
-  color: #8f9d80;
+  font-size: 12px;
+  font-weight: 600;
+  color: #55664d;
 }
 .dataset-stats strong {
-  font-family: "Newsreader", Georgia, serif;
-  font-size: 32px;
-  font-weight: 400;
-  color: #537246;
+  font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #1e4526;
   line-height: 1.2;
+  letter-spacing: -0.025em;
 }
 .dataset-stats small {
   font-family: "DM Sans", sans-serif;
-  font-size: 9px;
+  font-size: 12px;
+  font-weight: 500;
   margin-left: 7px;
-  color: #a6af9a;
+  color: #6a7962;
 }
 .dataset-stats .date-coverage {
   font-size: 18px;
+  font-weight: 700;
   line-height: 1.7;
 }
 .dataset-card > .notice,
@@ -1330,7 +1424,8 @@
   margin: 0 24px 24px;
 }
 .missing-policy .checkbox-label {
-  font-size: 10px;
+  font-size: 12.5px;
+  font-weight: 500;
 }
 .training-explainer {
   display: flex;
@@ -1350,13 +1445,14 @@
   flex-shrink: 0;
 }
 .training-explainer strong {
-  font-size: 12px;
-  color: #648153;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #3b5a2f;
 }
 .training-explainer p {
-  font-size: 10px;
-  line-height: 1.8;
-  color: #97a188;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: #627258;
   margin-top: 4px;
 }
 .split-bar {
@@ -1377,31 +1473,32 @@
 .split-bar .train {
   background: #dae7cb;
   width: 70%;
-  color: #65844e;
+  color: #4b6635;
 }
 .split-bar .validation {
   background: #eaeedc;
   width: 15%;
-  color: #8d9973;
+  color: #6a7753;
 }
 .split-bar .test {
   background: #efe7d8;
   width: 15%;
-  color: #a8956e;
+  color: #83724c;
 }
 .split-bar span {
-  font-size: 9px;
+  font-size: 11.5px;
+  font-weight: 600;
 }
 .split-bar strong {
-  font-size: 10px;
-  font-weight: 500;
+  font-size: 12px;
+  font-weight: 700;
   margin-left: auto;
 }
 .split-bar small {
   display: block;
   width: 100%;
-  font-size: 8px;
-  opacity: 0.7;
+  font-size: 10.5px;
+  opacity: 0.8;
 }
 .model-name {
   padding: 0;
@@ -1410,10 +1507,10 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  font-weight: 500;
-  color: #526e44;
+  font-weight: 600;
+  color: #2e4a23;
   white-space: nowrap;
-  font-size: 12px;
+  font-size: 13.5px;
 }
 .model-icon {
   width: 29px;
@@ -1422,7 +1519,7 @@
   background: #edf2e4;
   display: grid;
   place-items: center;
-  color: #92a67c;
+  color: #637a4e;
 }
 .selected-row {
   background: #f5f9ef;
@@ -1452,18 +1549,20 @@
   border: 0;
 }
 .evaluation-metrics span {
-  font-size: 9px;
-  color: #8ea17a;
+  font-size: 12px;
+  font-weight: 600;
+  color: #53644b;
 }
 .evaluation-metrics strong {
-  font-family: "Newsreader", Georgia, serif;
-  font-weight: 400;
-  font-size: 30px;
-  color: #4f7441;
+  font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-weight: 700;
+  font-size: 26px;
+  color: #1e4526;
+  letter-spacing: -0.02em;
 }
 .evaluation-metrics small {
-  font-size: 8px;
-  color: #a4af97;
+  font-size: 11px;
+  color: #697861;
 }
 .model-notes {
   border-top: 1px solid #eef2e8;
@@ -1476,12 +1575,12 @@
   display: flex;
   align-items: flex-start;
   gap: 8px;
-  font-size: 9px;
-  color: #9aa98c;
-  line-height: 1.7;
+  font-size: 12px;
+  color: #5d6d56;
+  line-height: 1.6;
 }
 .model-notes svg {
-  color: #8ba96e;
+  color: #5d823f;
 }
 .model-history {
   padding: 19px 0;
@@ -1494,13 +1593,15 @@
   padding: 0 24px;
   cursor: pointer;
   list-style: none;
-  color: #81996a;
-  font-size: 11px;
+  color: #3b592c;
+  font-size: 13px;
+  font-weight: 600;
 }
 .model-history > summary > span {
   margin-left: auto;
-  font-size: 9px;
-  color: #a0ae93;
+  font-size: 11.5px;
+  color: #68775f;
+  font-weight: 500;
 }
 .model-history[open] > summary {
   margin-bottom: 20px;
@@ -1518,11 +1619,13 @@
   min-width: 0;
 }
 .forecast-controls label {
-  font-size: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #3d5036;
   margin-bottom: 8px;
 }
 .forecast-controls select {
-  font-size: 11px;
+  font-size: 13px;
 }
 .forecast-heading {
   display: flex;
@@ -1532,13 +1635,17 @@
   margin: 32px 0 22px;
 }
 .forecast-heading h2 {
-  font-size: 33px;
-  margin-top: 17px;
+  font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #14271a;
+  letter-spacing: -0.02em;
+  margin-top: 14px;
 }
 .forecast-heading p {
-  font-size: 10px;
-  color: #9ba58d;
-  margin-top: 7px;
+  font-size: 13px;
+  color: #586851;
+  margin-top: 6px;
 }
 .forecast-total {
   display: flex;
@@ -1547,16 +1654,17 @@
   text-align: right;
 }
 .forecast-total span {
-  font-size: 10px;
-  color: #94a381;
+  font-size: 12px;
+  font-weight: 600;
+  color: #55664d;
 }
 .forecast-total strong {
-  font-family: "Newsreader", Georgia, serif;
-  font-weight: 400;
-  font-size: 42px;
-  color: #456d37;
+  font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-weight: 700;
+  font-size: 32px;
+  color: #1e4526;
   line-height: 1.2;
-  letter-spacing: -0.8px;
+  letter-spacing: -0.025em;
 }
 .forecast-days {
   display: grid;
@@ -1579,28 +1687,30 @@
   border: 0;
 }
 .forecast-day > span {
-  font-size: 10px;
-  color: #7d936a;
+  font-size: 12px;
+  font-weight: 600;
+  color: #446134;
 }
 .forecast-day > small {
-  font-size: 8px;
-  color: #a3af95;
+  font-size: 11px;
+  color: #6d7d65;
 }
 .forecast-day strong {
-  font-family: "Newsreader", Georgia, serif;
-  font-weight: 400;
-  font-size: 21px;
-  color: #5d804b;
+  font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: #1e4526;
   margin-top: 5px;
+  letter-spacing: -0.015em;
 }
 .forecast-note {
   display: flex;
   gap: 10px;
   padding: 16px 24px;
   border-top: 1px solid #eef2e7;
-  color: #9eae8d;
-  font-size: 9px;
-  line-height: 1.8;
+  color: #5d6d56;
+  font-size: 12px;
+  line-height: 1.6;
 }
 .forecast-note > svg {
   color: #93aa7a;
@@ -1626,8 +1736,9 @@
   box-shadow: 0 7px 30px #2b4e3014;
   border-radius: 9px;
   padding: 14px 13px 14px 17px;
-  font-size: 11px;
-  line-height: 1.7;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.6;
 }
 .toast.error {
   color: #a46b54;
@@ -1691,28 +1802,33 @@
   z-index: 1;
 }
 .story-tag {
-  font-size: 9px;
-  letter-spacing: 0.3px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  text-transform: uppercase;
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #a4bc8c;
-  margin-bottom: 28px;
+  color: #b1caa0;
+  margin-bottom: 24px;
 }
 .login-story h1 {
-  font-size: 76px;
-  line-height: 1.03;
-  letter-spacing: -2px;
+  font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 52px;
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
   color: #eef3e2;
 }
 .login-story h1 em {
-  color: #bfd0a4;
+  color: #c5d6ab;
+  font-style: normal;
 }
 .login-story-copy > p {
-  color: #9fb58b;
-  font-size: 12px;
-  line-height: 1.9;
-  margin-top: 25px;
+  color: #adc49a;
+  font-size: 14px;
+  line-height: 1.7;
+  margin-top: 22px;
 }
 .story-chart {
   display: flex;
@@ -1770,12 +1886,12 @@
 .story-chart-label {
   display: flex;
   justify-content: space-between;
-  color: #7f9e69;
-  font-size: 8px;
+  color: #9cb687;
+  font-size: 11px;
 }
 .story-footer {
-  color: #7e9b6b;
-  font-size: 9px;
+  color: #9bb586;
+  font-size: 12px;
 }
 .login-form-side {
   display: flex;
@@ -1805,19 +1921,25 @@
   margin: 0;
 }
 .login-form h2 {
-  font-size: 43px;
-  margin: -8px 0 -13px;
+  font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: #14271a;
+  margin: 4px 0 0;
 }
 .login-form > p:not(.eyebrow) {
-  font-size: 12px;
-  color: #9ca68d;
+  font-size: 14px;
+  color: #5d6d56;
   margin-bottom: 6px;
 }
 .login-form label {
-  font-size: 11px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #3d4f36;
 }
 .login-form input {
-  font-size: 12px;
+  font-size: 14px;
   min-height: 45px;
   background: white;
 }
@@ -1852,13 +1974,14 @@
   padding: 16px;
 }
 .demo-login strong {
-  font-size: 11px;
-  color: #6b8555;
+  font-size: 13px;
+  font-weight: 600;
+  color: #3b5c2a;
 }
 .demo-login p {
-  font-size: 10px;
-  color: #a0ad91;
-  line-height: 1.8;
+  font-size: 12px;
+  color: #5c6c54;
+  line-height: 1.6;
   margin-top: 5px;
 }
 .demo-login .text-link {
@@ -1869,8 +1992,8 @@
   cursor: pointer;
 }
 .login-footnote {
-  font-size: 9px;
-  color: #b0b8a3;
+  font-size: 12px;
+  color: #79876e;
   text-align: center;
   margin-top: 8px;
 }
@@ -1895,10 +2018,10 @@
     padding-right: 15px;
   }
   .brand {
-    font-size: 27px;
+    font-size: 21px;
   }
   .brand small {
-    font-size: 6px;
+    font-size: 9px;
   }
   .main-shell {
     margin-left: 215px;
@@ -1914,26 +2037,26 @@
     gap: 15px;
   }
   h1 {
-    font-size: 35px;
+    font-size: 28px;
   }
   .page-description {
-    font-size: 11px;
+    font-size: 13.5px;
   }
   .button {
-    font-size: 10px;
-    padding: 10px 12px;
+    font-size: 12.5px;
+    padding: 10px 14px;
   }
   .stat-card {
     padding: 15px;
   }
   .stat-label {
-    font-size: 9px;
+    font-size: 11.5px;
   }
   .stat-value {
-    font-size: 30px;
+    font-size: 26px;
   }
   .stat-note {
-    font-size: 7px;
+    font-size: 11.5px;
   }
   .dashboard-grid {
     grid-template-columns: minmax(0, 1.7fr) minmax(270px, 1fr);
@@ -1943,29 +2066,30 @@
     padding: 21px;
   }
   .card-header h2 {
-    font-size: 22px;
+    font-size: 18px;
   }
   .forecast-card {
     padding: 22px;
   }
   .forecast-card h2 {
-    font-size: 27px;
+    font-size: 22px;
   }
   .forecast-card > p {
-    font-size: 9px;
+    font-size: 12.5px;
   }
   .card-header p {
-    font-size: 9px;
+    font-size: 12.5px;
   }
   .dataset-stats {
     gap: 12px;
   }
   .dataset-stats .date-coverage {
-    font-size: 15px;
+    font-size: 16px;
   }
   .app-footer {
     padding-left: 28px;
     padding-right: 28px;
+    font-size: 11.5px;
   }
 }
 @media (max-width: 1100px) {
@@ -1973,13 +2097,13 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .stat-note {
-    font-size: 9px;
+    font-size: 11.5px;
   }
   .stat-label {
-    font-size: 10px;
+    font-size: 12px;
   }
   .stat-value {
-    font-size: 34px;
+    font-size: 28px;
   }
   .page-heading {
     align-items: flex-start;
@@ -2046,10 +2170,10 @@
     padding: 35px;
   }
   .login-story h1 {
-    font-size: 61px;
+    font-size: 42px;
   }
   .login-story-copy > p {
-    font-size: 11px;
+    font-size: 13px;
   }
   .login-form-side {
     padding: 40px;
@@ -2107,10 +2231,10 @@
     padding: 28px;
   }
   .brand {
-    font-size: 29px;
+    font-size: 22px;
   }
   .brand small {
-    font-size: 6.8px;
+    font-size: 9.5px;
   }
   .dashboard-grid {
     grid-template-columns: minmax(0, 1.8fr) minmax(250px, 1fr);
@@ -2135,7 +2259,7 @@
     max-width: none;
   }
   .forecast-card h2 {
-    font-size: 26px;
+    font-size: 22px;
   }
   .app-footer {
     padding-bottom: 20px;
@@ -2143,18 +2267,24 @@
 }
 @media (max-width: 760px) {
   h1 {
-    font-size: 33px;
+    font-size: 26px;
   }
   .page-heading {
     flex-direction: column;
     gap: 18px;
     margin-bottom: 24px;
   }
+  .eyebrow {
+    font-size: 11px;
+  }
+  .page-description {
+    font-size: 13.5px;
+  }
   .heading-actions {
     align-self: flex-start;
   }
   .heading-actions .button {
-    font-size: 11px;
+    font-size: 12.5px;
     padding: 10px 13px;
   }
   .main-content {
@@ -2170,7 +2300,7 @@
     gap: 10px;
   }
   .breadcrumb {
-    font-size: 10px;
+    font-size: 12px;
   }
   .breadcrumb > span {
     margin: 0 7px;
@@ -2179,10 +2309,10 @@
     gap: 12px;
   }
   .stat-value {
-    font-size: 32px;
+    font-size: 26px;
   }
   .stat-note {
-    font-size: 8px;
+    font-size: 11px;
   }
   .dashboard-grid {
     grid-template-columns: minmax(0, 1fr);
@@ -2193,13 +2323,13 @@
     min-height: 330px;
   }
   .forecast-card h2 {
-    font-size: 30px;
+    font-size: 22px;
   }
   .forecast-card h2 br {
     display: none;
   }
   .forecast-card > p {
-    font-size: 11px;
+    font-size: 12.5px;
     max-width: 390px;
   }
   .forecast-card .button {
@@ -2214,17 +2344,17 @@
   }
   .forecast-disclaimer {
     max-width: 270px;
-    font-size: 8px;
+    font-size: 11px;
   }
   .card-header {
     padding: 21px;
     flex-wrap: wrap;
   }
   .card-header h2 {
-    font-size: 23px;
+    font-size: 18px;
   }
   .card-header p {
-    font-size: 10px;
+    font-size: 12.5px;
   }
   .welcome-banner {
     flex-direction: column;
@@ -2238,7 +2368,7 @@
     flex-wrap: wrap;
   }
   .table-toolbar .checkbox-label {
-    font-size: 10px;
+    font-size: 12px;
   }
   .table-scroll table {
     min-width: 650px;
@@ -2257,7 +2387,7 @@
   }
   .sales-summary {
     padding: 18px;
-    font-size: 10px;
+    font-size: 12.5px;
   }
   .filter-bar .inline-button {
     margin-top: 0;
@@ -2270,23 +2400,23 @@
     padding: 0 20px 22px;
   }
   .dataset-stats span {
-    font-size: 9px;
+    font-size: 11.5px;
   }
   .dataset-stats .date-coverage {
-    font-size: 16px;
+    font-size: 15px;
   }
   .split-bar > div {
     padding: 12px 10px;
     gap: 5px;
   }
   .split-bar small {
-    font-size: 7px;
+    font-size: 10px;
   }
   .split-bar span {
-    font-size: 8px;
+    font-size: 11px;
   }
   .split-bar strong {
-    font-size: 9px;
+    font-size: 11.5px;
   }
   .evaluation-metrics {
     margin-left: 20px;
@@ -2296,10 +2426,10 @@
     padding-left: 15px;
   }
   .evaluation-metrics strong {
-    font-size: 26px;
+    font-size: 22px;
   }
   .evaluation-metrics small {
-    font-size: 7px;
+    font-size: 10.5px;
   }
   .forecast-heading {
     align-items: flex-start;
@@ -2307,14 +2437,14 @@
     gap: 20px;
   }
   .forecast-heading h2 {
-    font-size: 31px;
+    font-size: 22px;
   }
   .forecast-total {
     text-align: left;
     gap: 3px;
   }
   .forecast-total strong {
-    font-size: 38px;
+    font-size: 28px;
   }
   .forecast-days {
     grid-template-columns: repeat(7, 85px);
@@ -2322,7 +2452,7 @@
     margin-right: 20px;
   }
   .forecast-day strong {
-    font-size: 20px;
+    font-size: 17px;
   }
   .forecast-controls > .button {
     align-self: stretch;
@@ -2330,10 +2460,10 @@
   .app-footer {
     padding-left: 20px;
     padding-right: 20px;
-    font-size: 8px;
+    font-size: 11px;
   }
   .dataset-label {
-    font-size: 9px;
+    font-size: 11.5px;
     align-items: flex-start;
   }
   .dataset-label .status-dot {
@@ -2350,19 +2480,19 @@
     max-width: none;
   }
   .login-story h1 {
-    font-size: 45px;
-    line-height: 1.1;
+    font-size: 34px;
+    line-height: 1.15;
   }
   .login-story h1 br {
     display: none;
   }
   .story-tag {
     margin-bottom: 12px;
-    font-size: 8px;
+    font-size: 11px;
   }
   .login-story-copy > p {
     margin-top: 16px;
-    font-size: 11px;
+    font-size: 13px;
   }
   .story-chart,
   .story-chart-label,
@@ -2380,10 +2510,10 @@
     display: none;
   }
   .login-form h2 {
-    font-size: 37px;
+    font-size: 24px;
   }
   .login-form > .eyebrow {
-    font-size: 8px;
+    font-size: 11px;
   }
 }
 @media (max-width: 420px) {
@@ -2394,7 +2524,7 @@
     padding: 13px 11px;
   }
   .stat-label {
-    font-size: 8px;
+    font-size: 11px;
   }
   .stat-icon {
     width: 22px;
@@ -2404,15 +2534,15 @@
     width: 15px;
   }
   .stat-value {
-    font-size: 29px;
-    margin: 13px 0 10px;
+    font-size: 24px;
+    margin: 10px 0 6px;
   }
   .stat-note {
-    font-size: 7px;
+    font-size: 11px;
     min-height: 24px;
   }
   .forecast-card h2 {
-    font-size: 28px;
+    font-size: 20px;
   }
   .mini-bars {
     width: 35%;
@@ -2422,7 +2552,7 @@
     max-width: 240px;
   }
   .forecast-disclaimer {
-    font-size: 7px;
+    font-size: 11px;
     max-width: 240px;
   }
   .chart-footer {
@@ -2430,29 +2560,29 @@
     flex-wrap: wrap;
   }
   .chart-footer .text-link {
-    font-size: 9px;
+    font-size: 11.5px;
   }
   .card-header .text-link {
-    font-size: 9px;
+    font-size: 11.5px;
   }
   .form-grid {
     gap: 11px;
   }
   .forecast-heading h2 {
-    font-size: 28px;
+    font-size: 20px;
   }
   .health-row {
     padding-left: 20px;
     padding-right: 20px;
   }
   .health-row strong {
-    font-size: 9px;
+    font-size: 11.5px;
   }
   .modal {
     padding: 22px;
   }
   .modal-head h2 {
-    font-size: 26px;
+    font-size: 20px;
   }
   .app-footer > span:first-child {
     max-width: 135px;
@@ -2467,10 +2597,10 @@
     font-size: 14px;
   }
   .dataset-stats span {
-    font-size: 8px;
+    font-size: 11px;
   }
   .login-story h1 {
-    font-size: 39px;
+    font-size: 28px;
   }
 }
 
@@ -2485,55 +2615,57 @@
 .segmented button {
   border: 0;
   background: transparent;
-  color: #95a284;
+  color: #7b8b6a;
   border-radius: 4px;
-  padding: 6px 10px;
-  font-size: 10px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 500;
 }
 .segmented button.active {
   background: white;
-  color: #5f7c4b;
+  color: #3b5c2a;
+  font-weight: 600;
   box-shadow: 0 1px 4px #3355220a;
 }
 .stat-note {
-  font-size: 10px;
+  font-size: 12px;
 }
 .stat-label {
-  font-size: 11px;
+  font-size: 12.5px;
 }
 .card-header p {
-  font-size: 11px;
+  font-size: 13.5px;
 }
 .nav-link {
-  font-size: 13px;
+  font-size: 13.5px;
 }
 .health-row,
 .health-row strong {
-  font-size: 11px;
+  font-size: 12.5px;
 }
 .health-bottom {
-  font-size: 10px;
+  font-size: 12px;
 }
 .dataset-label {
-  font-size: 11px;
+  font-size: 12px;
 }
 @media (max-width: 760px) {
   .stat-note {
-    font-size: 9px;
+    font-size: 11px;
   }
   .stat-label {
-    font-size: 10px;
+    font-size: 11.5px;
   }
   .dataset-label {
-    font-size: 10px;
+    font-size: 11.5px;
   }
 }
 @media (max-width: 420px) {
   .stat-note {
-    font-size: 8px;
+    font-size: 11px;
   }
   .stat-label {
-    font-size: 9px;
+    font-size: 11px;
   }
 }
 
@@ -2548,7 +2680,7 @@
   height: 40px;
 }
 .file-cell .user-email {
-  color: #7b8376;
-  font-size: 10px;
+  color: #6a7764;
+  font-size: 12px;
   margin-top: 5px;
 }

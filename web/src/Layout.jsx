@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import {
   BarChart3,
-  ChevronDown,
   CircleHelp,
   ClipboardList,
   FlaskConical,
@@ -70,14 +69,6 @@ export default function Layout() {
         >
           <X size={20} />
         </button>
-        <div className="shop-switch">
-          <span className="shop-avatar">LS</span>
-          <div>
-            <strong>My little shop</strong>
-            <small>Single shop workspace</small>
-          </div>
-          <ChevronDown size={14} />
-        </div>
         <p className="nav-label">WORKSPACE</p>
         <nav aria-label="Main navigation">
           {navigation
@@ -151,7 +142,9 @@ export default function Layout() {
           </div>
         </header>
         <main id="main-content" className="main-content">
-          <Outlet />
+          <div key={location.pathname} className="page-transition">
+            <Outlet />
+          </div>
         </main>
         <footer className="app-footer">
           <span>Made for your next small step.</span>
