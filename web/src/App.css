@@ -900,6 +900,45 @@
 .dashboard-grid > .card {
   margin-bottom: 0;
 }
+.dashboard-orders-card {
+  margin-top: 24px;
+}
+.orders-header-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.order-id {
+  font-family: monospace;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #496344;
+  background: #f1f5eb;
+  padding: 3px 8px;
+  border-radius: 6px;
+  border: 1px solid #dce8d5;
+  letter-spacing: 0.04em;
+}
+.order-product-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.order-product-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  background: #f1f5ec;
+  color: #4b6643;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  border: 1px solid #e2ebd9;
+}
+.order-total {
+  color: #17331d;
+  font-weight: 700;
+}
 .chart-legend {
   display: flex;
   align-items: center;

@@ -8,6 +8,7 @@ import {
   DollarSign,
   Layers3,
   Plus,
+  ShoppingBag,
   Sparkles,
   Sprout,
   TrendingUp,
@@ -359,6 +360,77 @@ export default function Dashboard() {
           </div>
         </section>
       </div>
+      <section className="card table-card dashboard-orders-card">
+        <div className="card-header">
+          <div>
+            <div className="orders-header-title">
+              <h2>Recent Orders & Transactions</h2>
+              <Badge tone="green">
+                <span className="status-dot" /> Live feed
+              </Badge>
+            </div>
+            <p>The latest customer transactions recorded in your shop.</p>
+          </div>
+          <CardLink to="/sales">View all sales records</CardLink>
+        </div>
+        {data.recent_sales && data.recent_sales.length > 0 ? (
+          <div className="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>TRANSACTION</th>
+                  <th>DATE</th>
+                  <th>PRODUCT</th>
+                  <th>QUANTITY</th>
+                  <th>UNIT PRICE</th>
+                  <th>TOTAL</th>
+                  <th>STATUS</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.recent_sales.map((item) => (
+                  <tr key={item.id}>
+                    <td>
+                      <span className="order-id">
+                        #TX-{item.id.replace(/-/g, "").slice(0, 6).toUpperCase()}
+                      </span>
+                    </td>
+                    <td>{day(item.sale_date, { year: "numeric" })}</td>
+                    <td>
+                      <div className="order-product-cell">
+                        <span className="order-product-icon">
+                          <ShoppingBag size={14} />
+                        </span>
+                        <strong>{item.product_name}</strong>
+                      </div>
+                    </td>
+                    <td className="tabular">{number(item.quantity)}</td>
+                    <td className="muted tabular">{money(item.unit_price)}</td>
+                    <td className="tabular">
+                      <strong className="order-total">{money(item.total_amount)}</strong>
+                    </td>
+                    <td>
+                      <Badge tone="green">
+                        <span className="status-dot" /> Completed
+                      </Badge>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <Empty
+            icon={ShoppingBag}
+            title="No orders yet"
+            description="Recorded customer sales will appear here automatically."
+          >
+            <Link className="button primary" to="/sales?new=1">
+              <Plus size={16} /> Record first sale
+            </Link>
+          </Empty>
+        )}
+      </section>
       {data.model?.stale && (
         <Notice>
           Sales changed after the latest model was trained. Retrain to use your

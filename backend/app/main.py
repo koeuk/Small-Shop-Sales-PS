@@ -560,6 +560,29 @@ def dashboard(owner_id: str = Depends(current_user)):
         forecast = next(iter(forecast_runs(session, owner_id, limit=1)), None)
         if forecast and forecast["predictions"][0]["date"] != today + timedelta(days=1):
             forecast = None
+        recent_sales_records = session.scalars(
+            select(Sale)
+            .where(Sale.owner_id == owner_id)
+            .order_by(Sale.sale_date.desc(), Sale.created_at.desc(), Sale.id)
+            .limit(8)
+        ).all()
+        product_names = dict(
+            session.execute(
+                select(Product.id, Product.name).where(Product.owner_id == owner_id)
+            ).all()
+        )
+        recent_sales = [
+            {
+                "id": sale.id,
+                "sale_date": sale.sale_date,
+                "product_name": product_names.get(sale.product_id, "Archived product"),
+                "quantity": sale.quantity,
+                "unit_price": float(sale.unit_price),
+                "total_amount": float(sale.total_amount),
+                "import_id": sale.import_id,
+            }
+            for sale in recent_sales_records
+        ]
         return {
             "revenue_30d": revenue,
             "previous_revenue_30d": previous,
@@ -585,4 +608,5 @@ def dashboard(owner_id: str = Depends(current_user)):
             "quality": {key: value for key, value in quality.items() if key != "daily"},
             "model": public_model(latest_model, quality["fingerprint"]) if latest_model else None,
             "forecast": forecast,
+            "recent_sales": recent_sales,
         }
