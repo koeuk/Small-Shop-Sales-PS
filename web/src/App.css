@@ -17,9 +17,10 @@
   display: flex;
   gap: 10px;
   align-items: center;
-  font-family: "Newsreader", Georgia, serif;
-  font-size: 29px;
-  letter-spacing: -1px;
+  font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
   line-height: 1;
   white-space: nowrap;
   color: var(--forest-dark);
@@ -38,10 +39,12 @@
 .brand small {
   display: block;
   font-family: "DM Sans", sans-serif;
-  font-size: 6.8px;
-  letter-spacing: 1.35px;
-  margin-top: 7px;
-  font-weight: 500;
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-top: 5px;
+  font-weight: 700;
+  color: #55694b;
 }
 .shop-switch {
   margin: 34px 0 26px;
@@ -69,56 +72,63 @@
 }
 .shop-switch strong {
   display: block;
-  font-size: 11px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1b2f1f;
 }
 .shop-switch small {
   display: block;
-  font-size: 9px;
+  font-size: 11.5px;
   margin-top: 2px;
-  color: var(--muted);
+  color: #5c6c55;
 }
 .shop-switch > svg {
   margin-left: auto;
   color: #8d9681;
 }
 .nav-label {
-  font-size: 9px;
-  letter-spacing: 1.5px;
-  color: #9ba18e;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #617359;
   padding: 0 13px 12px;
 }
 .nav-link {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 12px 14px;
-  border-radius: 7px;
-  font-size: 12px;
+  padding: 11px 14px;
+  border-radius: 8px;
+  font-size: 13.5px;
   margin-bottom: 5px;
-  color: #75806c;
+  color: #4a5c43;
   font-weight: 500;
 }
 .nav-link:hover {
   background: #f1f4ea;
+  color: #1e3b24;
 }
 .nav-link.active {
   background: #e9efdf;
-  color: #2c5237;
+  color: #1e4627;
+  font-weight: 600;
 }
 .nav-link.active svg {
-  stroke-width: 2;
+  stroke-width: 2.2;
 }
 .nav-separated {
   margin-top: 21px;
 }
 .nav-pill {
-  font-size: 9px;
+  font-size: 10.5px;
+  font-weight: 600;
   background: #e9eddf;
   border: 1px solid #dce3cc;
   margin-left: auto;
-  padding: 1px 6px;
+  padding: 2px 7px;
   border-radius: 4px;
-  color: #657c4a;
+  color: #42612e;
 }
 .sidebar-bottom {
   margin-top: auto;
@@ -166,24 +176,26 @@
 }
 .account strong {
   display: block;
-  font-size: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1b2f1f;
 }
 .account small {
   display: block;
-  font-size: 9px;
-  color: #939a89;
+  font-size: 11.5px;
+  color: #6a7762;
   margin-top: 3px;
 }
 .account > svg {
   margin-left: auto;
-  color: #939a89;
+  color: #8f9b84;
 }
 .user-avatar {
   border-radius: 50%;
   height: 34px;
   width: 34px;
   background: #e6eadb;
-  color: #668052;
+  color: #557241;
   border-color: #dce2d0;
 }
 .user-avatar.small {
@@ -214,20 +226,22 @@
   gap: 18px;
 }
 .breadcrumb {
-  font-size: 11px;
-  color: #9aa18e;
+  font-size: 13px;
+  font-weight: 500;
+  color: #728169;
 }
 .breadcrumb > span {
-  margin: 0 12px;
-  color: #b6bcac;
+  margin: 0 10px;
+  color: #afb8a4;
 }
 .breadcrumb strong {
-  font-weight: 400;
-  color: #536148;
+  font-weight: 600;
+  color: #21351c;
 }
 .today-label {
-  font-size: 10px;
-  color: #8a937d;
+  font-size: 12px;
+  font-weight: 500;
+  color: #5c6b53;
 }
 .main-content {
   padding: 36px;
@@ -240,9 +254,9 @@
   display: flex;
   justify-content: space-between;
   gap: 12px;
-  font-size: 9px;
-  color: #9ba28f;
-  padding: 10px 36px 25px;
+  font-size: 12px;
+  color: #6b7a63;
+  padding: 12px 36px 25px;
   max-width: 1550px;
   width: 100%;
   margin: 0 auto;
@@ -252,19 +266,24 @@
   justify-content: space-between;
   align-items: center;
   gap: 22px;
-  margin-bottom: 29px;
+  margin-bottom: 28px;
 }
 .eyebrow {
-  font-size: 8px;
-  letter-spacing: 1.8px;
-  font-weight: 500;
-  color: #8b997b;
-  margin-bottom: 10px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #39684b;
+  margin-bottom: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 .page-description {
-  font-size: 12px;
-  color: #8a927e;
-  margin-top: 10px;
+  font-size: 14.5px;
+  color: #51624a;
+  margin-top: 8px;
+  line-height: 1.5;
 }
 .heading-actions {
   display: flex;
@@ -278,14 +297,14 @@
   justify-content: center;
   gap: 8px;
   border: 1px solid transparent;
-  border-radius: 7px;
-  padding: 10px 15px;
+  border-radius: 8px;
+  padding: 10px 16px;
   min-height: 40px;
-  font-size: 11px;
+  font-size: 13px;
   line-height: 1.3;
-  font-weight: 500;
+  font-weight: 600;
   white-space: nowrap;
-  transition: background 0.15s;
+  transition: background 0.15s, box-shadow 0.15s;
 }
 .button.primary {
   background: var(--forest);
@@ -347,47 +366,49 @@
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  font-size: 10px;
-  color: #688352;
-  font-weight: 500;
+  font-size: 13px;
+  color: #3f6844;
+  font-weight: 600;
   white-space: nowrap;
 }
 .text-link:hover {
-  color: #284f31;
+  color: #1f4528;
 }
 .badge {
   display: inline-flex;
   align-items: center;
   gap: 5px;
   white-space: nowrap;
-  font-size: 9px;
-  font-weight: 500;
-  border-radius: 5px;
-  padding: 4px 8px;
+  font-size: 11.5px;
+  font-weight: 600;
+  border-radius: 6px;
+  padding: 4px 9px;
   line-height: 1.3;
 }
 .badge.green {
-  color: #52703c;
+  color: #3b5c2a;
   background: #edf3e4;
 }
 .badge.amber {
-  color: #9c813b;
-  background: #f6f0de;
+  color: #8c6e26;
+  background: #f8f1dc;
 }
 .badge.neutral {
-  color: #838b76;
+  color: #636e57;
   background: #f0f2ea;
 }
 .badge.red {
-  color: #a44d46;
+  color: #9c3f36;
   background: #f9eae6;
 }
 .badge.light {
-  color: #cbddbd;
-  background: #ffffff0a;
-  border: 1px solid #ffffff1c;
-  font-size: 7px;
-  letter-spacing: 1.5px;
+  color: #d2e4c4;
+  background: #ffffff14;
+  border: 1px solid #ffffff24;
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 .card {
   border: 1px solid var(--border);
@@ -404,11 +425,15 @@
   padding: 24px 24px 20px;
 }
 .card-header h2 {
-  font-size: 23px;
+  font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: #14271a;
 }
 .card-header p {
-  font-size: 10px;
-  color: #8c957d;
+  font-size: 13.5px;
+  color: #55664d;
   margin-top: 5px;
 }
 .notice {
@@ -418,11 +443,11 @@
   padding: 14px 17px;
   border: 1px solid #eadfc3;
   border-radius: 8px;
-  font-size: 11px;
+  font-size: 13px;
   background: #fbf7eb;
-  color: #8b7848;
+  color: #725e2d;
   margin-bottom: 18px;
-  line-height: 1.7;
+  line-height: 1.6;
 }
 .notice > svg {
   margin-top: 1px;
