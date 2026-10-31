@@ -16,6 +16,7 @@ import Products from "./pages/Products";
 import Sales from "./pages/Sales";
 import Training from "./pages/Training";
 import Users from "./pages/Users";
+import Settings from "./pages/Settings";
 import { Empty } from "./components";
 import "./App.css";
 
@@ -34,6 +35,7 @@ export default function App() {
               <Route path="/training" element={<Training />} />
               <Route path="/predictions" element={<Predictions />} />
               <Route path="/users" element={<Users />} />
+              <Route path="/settings" element={<Settings />} />
               <Route
                 path="*"
                 element={

@@ -4,10 +4,7 @@ import {
   ChevronsUpDown,
   CircleHelp,
   ClipboardList,
-  Eye,
-  EyeOff,
   FlaskConical,
-  KeyRound,
   LayoutDashboard,
   LogOut,
   Menu,
@@ -19,11 +16,10 @@ import {
   UsersRound,
   X,
 } from "lucide-react";
-import { NavLink, Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { useAuth, useToast } from "./hooks";
-import { Badge, Button, Loading, Modal } from "./components";
+import { NavLink, Navigate, Outlet, useLocation } from "react-router-dom";
+import { useAuth } from "./hooks";
+import { Badge, Loading } from "./components";
 import { day, today } from "./utils";
-import { api } from "./api";
 
 const navigation = [
   ["/", "Overview", LayoutDashboard],
@@ -35,180 +31,10 @@ const navigation = [
   ["/users", "Users", UsersRound],
 ];
 
-function SettingsModal({ user, config, onClose, onLogout }) {
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState("");
-  const notify = useToast();
-  const navigate = useNavigate();
-
-  const handlePasswordReset = async (e) => {
-    e.preventDefault();
-    if (password.length < 8) {
-      setError("Password must be at least 8 characters long.");
-      return;
-    }
-    if (password !== confirmPassword) {
-      setError("Passwords do not match.");
-      return;
-    }
-    setBusy(true);
-    setError("");
-    try {
-      await api(`/users/${user.id}/password`, {
-        method: "POST",
-        body: { password },
-      });
-      notify("Password updated! Please sign in again with your new password.");
-      onClose();
-      onLogout();
-    } catch (err) {
-      setError(err.message || "Failed to update password.");
-    } finally {
-      setBusy(false);
-    }
-  };
-
-  return (
-    <Modal
-      title="Settings"
-      description="Manage your account profile, security, and workspace preferences."
-      onClose={onClose}
-    >
-      <div className="settings-modal-body">
-        <section className="settings-section">
-          <h3>Account Profile</h3>
-          <div className="settings-profile-card">
-            <span className="user-avatar large">
-              {user.name?.[0]?.toUpperCase() || "A"}
-            </span>
-            <div className="settings-profile-info">
-              <strong>{user.name || "Shop administrator"}</strong>
-              <small>{user.email}</small>
-              <div className="settings-badge-row">
-                <Badge tone={user.role === "administrator" ? "green" : "amber"}>
-                  {user.role}
-                </Badge>
-                {config?.mode === "demo" && <Badge tone="amber">Demo</Badge>}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {user.role === "administrator" && (
-          <section className="settings-section">
-            <div className="settings-section-header">
-              <div>
-                <h3>Team & Users</h3>
-                <p>Manage accounts, assign roles, and control shop access.</p>
-              </div>
-              <Button
-                type="button"
-                variant="secondary"
-                onClick={() => {
-                  onClose();
-                  navigate("/users");
-                }}
-              >
-                <UsersRound size={15} />
-                Open Users
-              </Button>
-            </div>
-          </section>
-        )}
-
-        <section className="settings-section">
-          <h3>Change Password</h3>
-          <form onSubmit={handlePasswordReset} className="settings-form">
-            {error && <div className="form-error">{error}</div>}
-            <div className="password-field">
-              <label htmlFor="settings-new-password">New password</label>
-              <div className="password-input">
-                <input
-                  id="settings-new-password"
-                  type={showPassword ? "text" : "password"}
-                  required
-                  minLength={8}
-                  maxLength={256}
-                  autoComplete="new-password"
-                  placeholder="At least 8 characters"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                <button
-                  type="button"
-                  className="icon-button password-toggle"
-                  aria-label={showPassword ? "Hide password" : "Show password"}
-                  onClick={() => setShowPassword((s) => !s)}
-                >
-                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                </button>
-              </div>
-            </div>
-            <div className="password-field">
-              <label htmlFor="settings-confirm-password">Confirm new password</label>
-              <div className="password-input">
-                <input
-                  id="settings-confirm-password"
-                  type={showPassword ? "text" : "password"}
-                  required
-                  minLength={8}
-                  maxLength={256}
-                  autoComplete="new-password"
-                  placeholder="Repeat new password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                />
-              </div>
-            </div>
-            <p className="form-hint">
-              Resetting your password will require you to sign in again.
-            </p>
-            <div className="modal-actions">
-              <Button type="button" variant="secondary" onClick={onClose}>
-                Cancel
-              </Button>
-              <Button type="submit" busy={busy}>
-                <KeyRound size={15} />
-                Update password
-              </Button>
-            </div>
-          </form>
-        </section>
-
-        <section className="settings-section">
-          <h3>Workspace Information</h3>
-          <div className="settings-info-grid">
-            <div>
-              <small>Shop Name</small>
-              <strong>little shop.</strong>
-            </div>
-            <div>
-              <small>System Mode</small>
-              <strong>{config?.mode || "production"}</strong>
-            </div>
-            <div>
-              <small>Timezone</small>
-              <strong>Asia/Phnom Penh (UTC+7)</strong>
-            </div>
-            <div>
-              <small>Currency</small>
-              <strong>USD ($)</strong>
-            </div>
-          </div>
-        </section>
-      </div>
-    </Modal>
-  );
-}
-
 export default function Layout() {
   const { user, ready, logout, config } = useAuth();
   const [open, setOpen] = useState(false);
   const [accountMenuOpen, setAccountMenuOpen] = useState(false);
-  const [settingsOpen, setSettingsOpen] = useState(false);
   const accountMenuRef = useRef(null);
   const location = useLocation();
 
@@ -237,7 +63,8 @@ export default function Layout() {
   if (!ready) return <Loading />;
   if (!user) return <Navigate to="/login" replace />;
   const title =
-    navigation.find(([path]) => path === location.pathname)?.[1] || "Workspace";
+    navigation.find(([path]) => path === location.pathname)?.[1] ||
+    (location.pathname === "/settings" ? "Settings" : "Workspace");
   const userInitial = user.name?.[0]?.toUpperCase() || "A";
 
   return (
@@ -323,18 +150,18 @@ export default function Layout() {
                   </div>
                 </div>
                 <div className="account-popover-divider" />
-                <button
-                  type="button"
+                <NavLink
+                  to="/settings"
                   className="account-popover-item"
                   role="menuitem"
                   onClick={() => {
                     setAccountMenuOpen(false);
-                    setSettingsOpen(true);
+                    setOpen(false);
                   }}
                 >
                   <Settings size={16} />
                   <span>Setting</span>
-                </button>
+                </NavLink>
                 <div className="account-popover-divider" />
                 <button
                   type="button"
@@ -401,14 +228,6 @@ export default function Layout() {
           <span>USD · Asia/Phnom Penh</span>
         </footer>
       </div>
-      {settingsOpen && (
-        <SettingsModal
-          user={user}
-          config={config}
-          onClose={() => setSettingsOpen(false)}
-          onLogout={logout}
-        />
-      )}
     </div>
   );
 }
